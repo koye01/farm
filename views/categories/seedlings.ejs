@@ -13,7 +13,7 @@
     <%seedlings.forEach(function(crops){%>
         <div class="content">
             <a href="/<%=crops._id%>">
-                <img height="auto" width="100%" src="<%= crops.image[0]%>" alt="<%=crops.name%>"/>
+                <img height="auto" width="100%" src="<%= crops.image[0].url%>" alt="<%=crops.name%>"/>
                 <div class="content-desc">
                     <h1><%=crops.name%></h1>
                     <p><%=crops.description%></p>

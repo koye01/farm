@@ -13,7 +13,7 @@
     <%others.forEach(function(aside){%>
         <div class="content">
             <a href="/<%=aside._id%>">
-                <img height="auto" width="100%" src="<%= aside.image[0]%>" alt="<%=aside.name%>"/>
+                <img height="auto" width="100%" src="<%= aside.image[0].url%>" alt="<%=aside.name%>"/>
                 <div class="content-desc">
                     <h1><%=aside.name%></h1>
                     <p><%=aside.description%></p>

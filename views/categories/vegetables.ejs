@@ -1,27 +1,29 @@
 <%- include("../partials/header")%>
-
-    <p>
-        We are open for business all across the nation, 
-        if you have any farm product to display for sales, 
-        kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
-    </p>
-    <div class="add-new">
-        <button><a href="/addnew">Add to vegetables</a></button>
-        <p>List of the available agrocommodities for sales</p>
-    </div>
-    <div class="general-content">
-    <%veggies.forEach(function(veg){%>
-        <div class="content">
-            <a href="/<%=veg._id%>">
-                <img height="auto" width="100%" src="<%= veg.image[0]%>" alt="<%=veg.name%>"/>
-                <div class="content-desc">
-                    <h1><%=veg.name%></h1>
-                    <p><%=veg.description%></p>
+<div>
+            <p>
+                We are open for business all across the nation, 
+                if you have any farm product to display for sales, 
+                kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
+            </p>
+            <div class="add-new">
+                <button><a href="/addnew">Add to vegetables</a></button>
+                <p>List of the available agrocommodities for sales</p>
+            </div>
+            <div class="general-content">
+            <%veggies.forEach(function(veg){%>
+                <div class="content">
+                    <a href="/<%=veg._id%>">
+                        <img height="auto" width="100%" src="<%= veg.image[0].url%>" alt="<%=veg.name%>"/>
+                        <div class="content-desc">
+                            <h1><%=veg.name%></h1>
+                            <p><%=veg.description%></p>
+                        </div>
+                        <button class="frontBtn">See more</button>
+                    </a>
+                    
                 </div>
-                <button class="frontBtn">See more</button>
-            </a>
-            
+                
+            <%})%>
         </div>
-        
-    <%})%>
 </div>
+    

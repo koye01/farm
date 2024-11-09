@@ -5,83 +5,87 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
 </head>
+<div class="container">
     <div class="nav1">
-        <div class="homepage">
-            <h2 class="navbar"><a href="/">Home</a></h2>
-        </div>
-        <input type="checkbox" id="check">
-        <label for="check" class="check-btn">
-            <i class="fa-solid fa-bars"></i>
-        </label>
-        <div class="para">
-                    <p class="navbar right"><a href="/">About</a></p>
-                <p class="navbar right"><a href="/">Contact us</a></p>
-
-                <% if(!currentUser){%>
-                    <p class="navbar right"><a href="/register">sign up</a></p>
-                    <p class="navbar right"><a href="/login">login</a></p>
-                <% }else if(currentUser){ %>
-                    <div class="navbar right dropdown">
-                        <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Notification <span><%=notifications.length%></span></a>
-                        <div class="dropdown-content">
-                        <ul>
-                            <li>
-                                <a href="/notifications">View past notifications</a>
-                            </li>
-                            
-                            <%notifications.forEach(function(notif){%>
-                                <%if(notif.post.username){%>
-                                    <li>
-                                        <a href="/<%=notif.post.productId%>"><%=notif.post.username%> Uploaded new items</a>
-                                    </li> 
-                                <% }%>
-                            <%})%>
-                            
-                            <%notifications.forEach(function(notif){%>
-                                <%if(notif.comment.username){%>
-                                    <li>
-                                        <a href="/<%=notif.comment.productId%>"><%=notif.comment.username%> commented on your post</a>
-                                    </li>
-                                <% }%>
-                                
-                            <%})%>
-                            
-                        </ul>    
-                               
-                            
-                        </div>
-                    </div>
-                    <!-- <p class="navbar right"><a href="">Notification</a><span>10</span></p> -->
-                    <p class="navbar right"><a href="/user/<%=currentUser.id%>"><%=currentUser.username%>'s profile</a> </p>
-                        <p class="navbar right"><a href="/logout">logout</a></p>
-                <% }%>
-        </div>
-        
-    </div>
-<body>
-    
-    <div class="header-page">
-            <li></li>
-            <div class="logo">
-                <a href="/"><img src="/pics/logo.png" alt="company logo" width="120px" height="120px"/></a>
+            <div class="homepage">
+                <h2 class="navbar"><a href="/">Home</a></h2>
             </div>
-        <div class="front-page">
-                <h1>Welcome to koye Agrostore</h1>
-                <p>Your non-stop access to all sort of farm gadgets that you may desire to buy</p>
+            <input type="checkbox" id="check">
+            <label for="check" class="check-btn">
+                <i class="fa-solid fa-bars"></i>
+            </label>
+            <div class="para">
+                        <p class="navbar right"><a href="/">About</a></p>
+                    <p class="navbar right"><a href="/">Contact us</a></p>
+
+                    <% if(!currentUser){%>
+                        <p class="navbar right"><a href="/register">sign up</a></p>
+                        <p class="navbar right"><a href="/login">login</a></p>
+                    <% }else if(currentUser){ %>
+                        <div class="navbar right dropdown">
+                            <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Notification <span><%=notifications.length%></span>
+                            </a>
+                            <div class="dropdown-content">
+                            <ul>
+                                <li>
+                                    <a href="/notifications">View past notifications</a>
+                                </li>
+                                
+                                <%notifications.forEach(function(notif){%>
+                                    <%if(notif.post.username){%>
+                                        <li>
+                                            <a href="/<%=notif.post.productId%>"><%=notif.post.username%> Uploaded new items</a>
+                                        </li> 
+                                    <% }%>
+                                <%})%>
+                                
+                                <%notifications.forEach(function(notif){%>
+                                    <%if(notif.comment.username){%>
+                                        <li>
+                                            <a href="/<%=notif.comment.productId%>"><%=notif.comment.username%> commented on your post</a>
+                                        </li>
+                                    <% }%>
+                                    
+                                <%})%>
+                                
+                            </ul>    
+                                
+                                
+                            </div>
+                        </div>
+                        <!-- <p class="navbar right"><a href="">Notification</a><span>10</span></p> -->
+                        <p class="navbar right"><a href="/user/<%=currentUser.id%>"><%=currentUser.username%>'s profile</a> </p>
+                            <p class="navbar right"><a href="/logout">logout</a></p>
+                    <% }%>
+            </div>
+            
         </div>
+    <body>
         
-    </div>
-    <% if(success && success.length > 0){ %>
-        <div class="success">
-            <%=success%>
+        <div class="header-page">
+                <li></li>
+                <div class="logo">
+                    <a href="/"><img src="/pics/logo.png" alt="company logo" width="120px" height="120px"/></a>
+                </div>
+            <div class="front-page">
+                    <h1>Welcome to koye Agrostore</h1>
+                    <p>Your non-stop access to all sort of farm gadgets that you may desire to buy</p>
+            </div>
+            
         </div>
-    <% }else if(error && error.length > 0){%>
-        <div class="error">
-           <%=error%> 
-        </div>
-        
-    <%}%>
+        <% if(success && success.length > 0){ %>
+            <div class="success">
+                <%=success%>
+            </div>
+        <% }else if(error && error.length > 0){%>
+            <div class="error">
+            <%=error%> 
+            </div>
+            
+        <%}%>
+</div>
+    
     
         
         

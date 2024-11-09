@@ -4,138 +4,45 @@ var Product = require("../models/produce");
 var Comment = require("../models/comment");
 var User    = require("../models/user");
 var Notification = require("../models/notification");
+require('dotenv').config();
 var multer = require("multer");
 var path = require("path");
 middleware = require("../middleware/index");
+// var storage = multer.diskStorage({
+//     destination: function(req, file, cb){
+//         cb(null)
+//     },
+//     filename: function(req, file, cb){
+//         // console.log(file),
+//         cb(null, Date.now() + path.extname(file.originalname));
+//     }
+// });
+// var upload = multer({storage: storage});
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+
+
+
+
+cloudinary.config({ 
+    cloud_name: "djt5dffbq", 
+    api_key: process.env.cloudinary_api_key, 
+    api_secret: process.env.cloudinary_api_secret 
+  });
+
 var storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, "public/pics")
-    },
-    filename: function(req, file, cb){
-        // console.log(file),
-        cb(null, Date.now() + path.extname(file.originalname));
+    filename: function(req, file, callback){
+     callback(null, Date.now() + file.originalname);
     }
-});
-var upload = multer({storage: storage});
-var multiUpload = upload.fields([{ name: "image", maxCount: 5}]);
-
-
-// //livestock page
-// router.get("/livestocks", async function(req, res){
-//     try{
-//         var livestocks = await Product.find({"category": "Livestocks", "adminpost": "true"});
-//         res.render("categories/livestocks", {livestocks});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-// //vegetable page
-// router.get("/vegetables", async function(req, res){
-//     try{
-//         var veggies = await Product.find({"category": "Vegetables", "adminpost": "true"});
-//         res.render("categories/vegetables", {veggies});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-// //seedling page
-// router.get("/seedlings", async function(req, res){
-//     try{
-//         var seedlings = await Product.find({"category": "Seedlings", "adminpost": "true"});
-//         res.render("categories/seedlings", {seedlings});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-// //food page
-// router.get("/food", async function(req, res){
-//     try{
-//         var food = await Product.find({"category": "Food", "adminpost": "true"});
-//         res.render("categories/food", {food});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-// //farmequipment page
-// router.get("/farmequips", async function(req, res){
-//     try{
-//         var farmequips = await Product.find({"category": "Farm equipments", "adminpost": "true"});
-//         res.render("categories/farmequips", {farmequips});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-// //Others
-// router.get("/others", async function(req, res){
-//     try{
-//         var others = await Product.find({"category": "Others", "adminpost": "true"});
-//         res.render("categories/others", {others});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-
-// //admin page
-// router.get("/adminpost", async function(req, res){
-//     try{
-//         var post = await Product.find({"adminpost": "false"});
-//         res.render("categories/post", {post});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-
-// //delete post from the admin server
-// router.post("/adminpost", async function(req, res){
-//     try{
-//         var deletePost = await Product.findByIdAndRemove(req.params.id);
-//         res.redirect("/");
-//     }catch(err){
-//         res.redirect("/"+ req.params.id)
-//     }
-// });
-
-// router.get("/approvepost", async function(req, res){
-//     try{
-//         var approve = await Product.find({"adminpost": false});
-//         approve[0].adminpost = true;
-//         approve[0].save();
-//         res.redirect("/");
-//     }catch(err){
-//         res.redirect("/"+ req.params.id)
-//     }
-// });
-
-// //index page
-// router.get("/", async function(req, res){
-//     try{
-//         var product = await Product.find({});
-//         var user = await User.find({});
-//         res.render("index",{product, user});
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
-// router.post("/search", async function(req, res){
-//     try{
-//         var regex = new RegExp(["", req.body.productSearch, "$"].join(""), "i");
-//         var product = await Product.find({name: regex});
-//         res.render("productsearch", {product});
-//     }catch(err){
-//         res.redirect("/");
-//     }
-// });
-
-// router.post("/usersearch", async function(req, res){
-//     try{
-//         var regex = new RegExp(["", req.body.userSearch, "$"].join(""), "i");
-//         var findUser = await User.find({username: regex});
-//         res.render("usersearch", {findUser});
-//     }catch(err){
-//         res.redirect("/");
-//     }
-// });
-
+ });
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+const multiUpload = multer({ storage: storage });
 //listing of all product page
 router.get("/allproduct", async function(req, res){
     try{
@@ -153,41 +60,77 @@ router.get("/addnew", middleware.isLoggedIn, async function(req, res){
         console.log(err)
     }
 });
+
+// Function to upload images to Cloudinary
+function uploadImages(req, res) {
+    const images = [];
+    let completed = 0;
+    let hasError = false;
+  
+    req.files.forEach(function(file, index) {
+      cloudinary.uploader.upload(file.path, async function(error, result) {
+        if (error) {
+            if(!hasError){
+                hasError = true;
+                //flag to prevent multiple responses
+          res.status(500).json({ message: 'Error uploading image', error });
+            }
+        }else{
+            images.push({
+                image: result.secure_url,
+                public_id: result.public_id,
+              });
+            completed += 1;
+        
+        }
+        
+        // Delete the file from local storage after upload
+        fs.unlinkSync(file.path);
+  
+        // Check if all files are uploaded
+        if (completed === req.files.length && !hasError) {
+            // Save the image set to MongoDB
+            try {
+                var category = req.body.category;
+                var name = req.body.name;
+                var price = req.body.price;
+                var image = images;
+                var description = req.body.description;
+                var author ={
+                    id: req.user._id,
+                    username: req.user.username,
+                    phone: req.user.phone
+                }
+                var allproduct = {category: category, name: name, price: price, image: images, description: description, author: author};
+                var newProduce = Product.create(allproduct);
+                var dataid = (await newProduce).id;
+                var user = await User.findById(req.user._id).populate('followers').exec();
+                var newNotification = {
+                    post: {
+                        username: req.user.username,
+                        productId: dataid
+                    }
+                }
+                    for(var follower of user.followers) {
+                        var notification = await Notification.create(newNotification);
+                        follower.notifications.push(notification);
+                        follower.save();
+                    }
+                    //redirect back to allproducts page
+            res.render("index", {success: "Your produce have been uploaded successfully!"}); // Redirect to the picture gallery URL
+          } catch (dbError) {
+            if (!hasError) {
+              hasError = true;
+              res.status(500).json({ message: 'Error saving images to MongoDB', error: dbError });
+            }
+          }
+        }
+      });
+    });
+}
+
 //Adding new post (post request)
-router.post("/", multiUpload, async function(req, res){
-    try{
-        var category = req.body.category;
-        var name = req.body.name;
-        var price = req.body.price;
-        var arr = req.files.image;
-        var image = ["/pics/" + arr[0].filename, "/pics/" + arr[1].filename, "/pics/" + arr[2].filename];
-        var description = req.body.description;
-        var author ={
-            id: req.user._id,
-            username: req.user.username,
-            phone: req.user.phone
-        }
-        var allproduct = {category: category, name: name, price: price, image: image, description: description, author: author};
-        var newProduce = Product.create(allproduct);
-        var dataid = (await newProduce).id;
-        var user = await User.findById(req.user._id).populate('followers').exec();
-        var newNotification = {
-            post: {
-                username: req.user.username,
-                productId: dataid
-            }
-        }
-            for(var follower of user.followers) {
-                var notification = await Notification.create(newNotification);
-                follower.notifications.push(notification);
-                follower.save();
-            }
-            //redirect back to allproducts page
-            res.render("index", {success: "Your produce have been uploaded successfully!"});
-    }catch(err){
-        console.log(err)
-    }
-})
+router.post("/", multiUpload.array('image', 10), uploadImages);
 
 // the show page
 router.get("/:id", async function(req, res){

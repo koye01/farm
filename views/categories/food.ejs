@@ -13,7 +13,7 @@
     <%food.forEach(function(eat){%>
         <div class="content">
             <a href="/<%=eat._id%>">
-                <img height="auto" width="100%" src="<%= eat.image[0]%>" alt="<%=eat.name%>"/>
+                <img height="auto" width="100%" src="<%= eat.image[0].url%>" alt="<%=eat.name%>"/>
                 <div class="content-desc">
                     <h1><%=eat.name%></h1>
                     <p><%=eat.description%></p>

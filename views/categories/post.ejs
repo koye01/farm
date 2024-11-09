@@ -13,7 +13,7 @@
         <div class="listType">
         <%post.forEach(function(adminpost){%>
             <div class="content">
-                    <img height="auto" width="100%" src="<%= adminpost.image[0]%>" alt="<%=adminpost.name%>"/>
+                    <img height="auto" width="100%" src="<%= adminpost.image[0].url%>" alt="<%=adminpost.name%>"/>
                     <div class="content-desc">
                         <h1><%=adminpost.name%></h1>
                         <p><%=adminpost.price%> naira</p>
