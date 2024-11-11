@@ -63,7 +63,7 @@ router.get("/addnew", middleware.isLoggedIn, async function(req, res){
 
 // Function to upload images to Cloudinary
 function uploadImages(req, res) {
-    const images = [];
+    var images = [];
     let completed = 0;
     let hasError = false;
   
@@ -77,7 +77,7 @@ function uploadImages(req, res) {
             }
         }else{
             images.push({
-                image: result.secure_url,
+                url: result.secure_url,
                 public_id: result.public_id,
               });
             completed += 1;
@@ -152,10 +152,45 @@ router.get("/:id/edit", middleware.isOwner, async function(req, res){
     }
 });
 
+
 //Post Update route
-router.put("/:id", middleware.isOwner, async function(req, res){
+router.put("/:id", middleware.isOwner, multiUpload.array('image', 10), async function(req, res){
     try{
-        var edit = await Product.findByIdAndUpdate(req.params.id, req.body.update);
+        const { id } = req.params;
+        // Find the existing image set in MongoDB
+        const newEdit = await Product.findById(id);
+        if (!newEdit) return res.status(404).json({ message: 'Image set not found' });
+
+        // Delete old images from Cloudinary
+        const deletePromises = newEdit.image.map(img => cloudinary.uploader.destroy(img.public_id));
+        await Promise.all(deletePromises);
+
+        // Upload new images to Cloudinary
+        const newImages = [];
+        let hasError = false;
+
+        for (const file of req.files) {
+        try {
+            const result = await cloudinary.uploader.upload(file.path);
+            newImages.push({ url: result.secure_url, public_id: result.public_id });
+
+            // Delete the file from local storage after upload
+            fs.unlinkSync(file.path);
+        } catch (error) {
+            hasError = true;
+            console.error('Error uploading image:', error);
+            res.status(500).json({ message: 'Error uploading image', error });
+            break;
+        }
+        }
+
+        if (hasError) return;
+
+        // Update MongoDB record with new data
+        var image = newImages;
+        var {name, price, description} = req.body.update;
+        var update = {image: image, name: name, price: price, description: description};
+        var edit = await Product.findByIdAndUpdate(req.params.id, update);
         res.redirect("/" + req.params.id, {edit});
     }catch(err){
         console.log(err)
