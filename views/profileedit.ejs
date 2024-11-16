@@ -4,7 +4,7 @@
     <div class="form-style">
         <div>
             <label>username</label>
-            <input type="text" name="update[username]" value="<%=editProf.username%>" disabled>
+            <input type="text" name="username" value="<%=editProf.username%>" disabled>
         </div>
         <div>
             <label>fullname</label>
@@ -18,10 +18,13 @@
             <label>Phone number</label>
             <input type="number" name="phone" value="<%=editProf.phone%>">
         </div>
-
+        <div>
+            <label>profile picture preview</label>
+            <img src="<%=editProf.image[0].url%>" name="image"  alt="<%=editProf.username%>">
+        </div>
         <div>
             <label>profile picture</label>
-            <input type="file" name="image" placeholder="profile image" alt="user.image">
+            <input type="file" name="image" placeholder="user.username" alt="<%=editProf.username%>">
         </div>
         
         <div>

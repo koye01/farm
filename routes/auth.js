@@ -17,6 +17,12 @@ var storage = multer.diskStorage({
     }
 });
 var upload = multer({storage: storage});
+var cloudinary = require("cloudinary");
+cloudinary.config({ 
+    cloud_name: "djt5dffbq", 
+    api_key: process.env.cloudinary_api_key, 
+    api_secret: process.env.cloudinary_api_secret 
+  });
 
 //essential route
 // Product.create({
@@ -29,27 +35,35 @@ var upload = multer({storage: storage});
 router.get("/register", async function(req, res){
     res.render("form/register");
 });
+
+
 router.post("/register", upload.single("image"), async function(req, res){
-        try{
-        var image = "/profile/" + req.file.filename;
-        var username = req.body.username;
-        var email = req.body.email;
-        phone = req.body.phone;
-        var description = req.body.description;
-        var fullname = req.body.fullname;
-        var newUser = {image: image, username: username, email: email, secretCode: secretCode, 
-            description: description, fullname: fullname, phone: phone};
-        var secretCode = req.body.secretCode;
-        if(secretCode === "1980"){
-            newUser.isAdmin = true;
+    var result = await cloudinary.v2.uploader.upload(req.file.path);
+        var image = {
+            url: result.secure_url,
+            imageId: result.public_id
         }
-        var user = await User.register(newUser, req.body.password);
-        req.flash("success", user.username, "! ", "Your registration was successful")
-            res.redirect("/login");
-        } catch(err){
-        req.flash("error", err.message);
-        res.render("form/register");
-    }
+            
+            try{
+            var username = req.body.username;
+            var email = req.body.email;
+            phone = req.body.phone;
+            var description = req.body.description;
+            var fullname = req.body.fullname;
+            var newUser = {image: image, username: username, email: email, secretCode: secretCode, 
+                description: description, fullname: fullname, phone: phone};
+            var secretCode = req.body.secretCode;
+            if(secretCode === "1980"){
+                newUser.isAdmin = true;
+            }
+            var user = await User.register(newUser, req.body.password);
+            req.flash("success", user.username, "! ", "Your registration was successful")
+                res.redirect("/login");
+            } catch(err){
+            req.flash("error", err.message);
+            res.render("form/register");
+        }
+    
 });
 
 router.get("/login", function(req, res){
@@ -94,21 +108,37 @@ router.get("/user/:id/edit", async function(req, res){
         console.log(err);
     }
 });
+
+
 //Profile post edit page
 router.put("/user/:id", upload.single("image"), async function(req, res){
     try{
-        var image = "/profile/" + req.file.filename;
-        var fullname = req.body.fullname;
-        var description = req.body.description;
-        var phone = req.body.phone
-        var update = {image: image, fullname: fullname, description: description, phone: phone}
-        var user = await User.findByIdAndUpdate(req.params.id, update);
-        req.flash('success', 'profile successfully updated');
-        res.redirect("/user/"+ req.params.id);
-    }catch(err){
-        console.log(err);
-    }
-});
+        var image =[];
+    var update = await User.findById(req.params.id);
+            if(req.file){
+                try{
+                    await cloudinary.v2.uploader.destroy(update.image[0].imageId);
+                    var result = await cloudinary.v2.uploader.upload(req.file.path);
+                    
+                    image.push({ url: result.secure_url, imageId: result.public_id });
+                }catch(err) {
+                    req.flash("error", err.message);
+                    return res.redirect("back");
+                }
+            }
+            var username = req.body.username;
+            var fullname = req.body.fullname;
+            var description = req.body.description;
+            var phone = req.body.phone;
+            var newUpdate = {username: username, image: image, fullname: fullname, description: description, phone: phone};
+            var user = await User.findByIdAndUpdate(req.params.id, newUpdate);
+            req.flash('success', 'profile successfully updated');
+            res.redirect("/user/"+ req.params.id);
+            }catch(err){
+                req.flash("error", err.message);
+            }
+        });
+    
 //follow user
 router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
     try {

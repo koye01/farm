@@ -191,36 +191,13 @@ router.put("/:id", middleware.isOwner, multiUpload.array('image', 10), async fun
         var {name, price, description} = req.body.update;
         var update = {image: image, name: name, price: price, description: description};
         var edit = await Product.findByIdAndUpdate(req.params.id, update);
-        res.redirect("/" + req.params.id, {edit});
+        res.redirect("/" + req.params.id);
     }catch(err){
         console.log(err)
     }
 });
 
 
-// router.delete('/delete-imageset/:id', async (req, res) => {
-//     const { id } = req.params;
-  
-//     try {
-//       // Find the image set in MongoDB by ID
-//       const deletePic = await Product.findById(id);
-//       if (!deletePic) {
-//         return res.status(404).json({ message: 'Image set not found' });
-//       }
-  
-//       // Delete each image from Cloudinary using its public_id
-//       const deletePromises = deletePic.image.map(img => cloudinary.uploader.destroy(img.public_id));
-//       await Promise.all(deletePromises);
-  
-//       // Delete the image set from MongoDB
-//       await ImageSet.findByIdAndDelete(id);
-  
-//       res.status(200).json({ message: 'Image set successfully deleted from Cloudinary and MongoDB' });
-//     } catch (error) {
-//       console.error('Error deleting image set:', error);
-//       res.status(500).json({ message: 'Error deleting image set', error });
-//     }
-//   });
 //Post delete route
 router.post("/:id", middleware.isOwner, async function(req, res){
     const { id } = req.params;

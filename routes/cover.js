@@ -73,7 +73,15 @@ router.get("/adminpost", async function(req, res){
 //delete post from the admin server
 router.post("/adminpost", async function(req, res){
     try{
-        var deletePost = await Product.findByIdAndRemove(req.params.id);
+         const deletePic = await Product.findById(id);
+                if (!deletePic) {
+                    return res.status(404).json({ message: 'Image set not found' });
+                }
+            
+                // Delete each image from Cloudinary using its public_id
+                const deletePromises = deletePic.image.map(img => cloudinary.uploader.destroy(img.public_id));
+                await Promise.all(deletePromises);
+                await Product.findByIdAndRemove(req.params.id);
         res.redirect("/");
     }catch(err){
         res.redirect("/"+ req.params.id)
