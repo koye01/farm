@@ -5,14 +5,13 @@ body{
     background-color: rgb(207, 183, 183);
     color: blue;
     text-align: center;
-    align-content: center;
     max-width: 800px;
     margin: 0px auto;
 }
 /* .container{
-    height: 50%;
+    margin: 0px 0px;
+    padding: 0px 0px;
     width: 100%;
-    margin-top: 0px;
 } */
 
 /* Navigation bar */
@@ -202,12 +201,14 @@ body{
 .form-style{
     color: blue;
     border: thin solid rgb(107, 82, 82);
-    width: 100%;
+    width: 90%;
+    margin: 0px auto;
     text-align: center;
+    background-color: #131212;
 }
-/* .form-style label{
-    color: green;
-} */
+.form-style label{
+    color: white;
+}
 .form-set{
     background-image: url("/pics/insect.jpg");
     padding: 40px 20px;
@@ -224,6 +225,7 @@ input[type=password],input[type=text] {
 }
 .show button{
     margin: 10px auto;
+    display: inline;
 }
 input[type=checkbox]{
     height: 30px;

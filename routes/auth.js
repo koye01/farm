@@ -5,8 +5,17 @@ var Product = require("../models/produce");
 var User = require("../models/user");
 var passport = require("passport");
 var Notification = require("../models/notification");
+var middleware = require("../middleware/index");
 var path = require("path");
 var multer = require("multer");
+
+require('dotenv').config();
+var async = require("async");
+var nodemailer = require("nodemailer");
+var crypto = require("crypto");
+require('dotenv').config();
+var google = require("googleapis");
+
 var storage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, "public/profile")
@@ -84,6 +93,148 @@ router.get("/logout", function(req, res){
     });
 });
 
+
+//forgot password
+router.get("/forgot", function(req, res){
+    res.render("users/forgot", {title: 'password reset'});
+});
+
+router.post("/forgot", async function(req, res, next) {
+    try {
+        // Step 1: Generate a token using crypto.randomBytes
+        const token = await new Promise((resolve, reject) => {
+            crypto.randomBytes(20, (err, buf) => {
+                if (err) reject(err);
+                resolve(buf.toString('hex'));
+            });
+        });
+
+        // Step 2: Find user and update password reset fields
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            req.flash("error", "No account with that email address exists");
+            return res.redirect("/forget");
+        }
+
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 6600000; // 1 hour
+
+        await user.save();
+
+        // Step 3: Send the password reset email
+        const smtpTransport = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: "koyegarden@gmail.com",
+                pass: process.env.password
+            }
+        });
+
+        const mailOptions = {
+            to: user.email,
+            from: "koyegarden@gmail.com",
+            subject: "Producer's market password reset",
+            text: `You are receiving this because you or someone else have requested a password reset.\n\n` +
+                  `Please click on this link or copy the code to your browser to complete the process:\n\n` +
+                  `http://${req.headers.host}/reset/${token}\n\n` +
+                  `If you did not request this, please ignore this email and your password will remain unchanged.`
+        };
+
+        await smtpTransport.sendMail(mailOptions);
+
+        console.log("Mail sent");
+        req.flash("success", `An e-mail has been sent to ${user.email} with further instructions.`);
+
+        res.redirect("/forgot");
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+router.get("/reset/:token", async function(req, res){
+    var user = await User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
+
+    if(!user) {
+        req.flash("error", "password reset token has been expired.");
+        return res.redirect("/forgot");
+    }
+    res.render("users/reset", {token: req.params.token, title: 'reset token'});
+});
+
+router.post("/reset/:token", async function(req, res) {
+    try {
+        // Step 1: Find user by reset token and check token expiration
+        const user = await User.findOne({
+            resetPasswordToken: req.params.token,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            req.flash("error", "Password reset token is invalid or has expired");
+            return res.redirect("/back");
+        }
+
+        // Step 2: Check if passwords match
+        if (req.body.password === req.body.confirm) {
+            // Set new password
+            await new Promise((resolve, reject) => {
+                user.setPassword(req.body.password, (err) => {
+                    if (err) reject(err);
+                    resolve();
+                });
+            });
+
+            // Clear reset token and expiration
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpires = undefined;
+
+            // Save the user with the new password
+            await user.save();
+
+            // Step 3: Log in the user after password change
+            await new Promise((resolve, reject) => {
+                req.logIn(user, (err) => {
+                    if (err) reject(err);
+                    resolve();
+                });
+            });
+
+        } else {
+            req.flash("error", "Passwords do not match");
+            return res.redirect("/back");
+        }
+
+        // Step 4: Send confirmation email
+        const smtpTransport = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: "koyegarden@gmail.com",
+                pass: process.env.password
+            }
+        });
+
+        const mailOptions = {
+            to: user.email,
+            from: "oyelekejubril@gmail.com",
+            subject: "Your password has been changed",
+            text: `Hello,\n\nThis is a confirmation message that the password for your account ${user.email} has just been changed`
+        };
+
+        await smtpTransport.sendMail(mailOptions);
+
+        console.log("Mail sent");
+        req.flash("success", "Your password has been changed.");
+        res.redirect("/");
+
+    } catch (err) {
+        console.error(err);
+        next(err);  // Pass the error to the next middleware for handling
+    }
+});
+
+
+
 //Profile page
 router.get("/user/:id", async function(req, res){
    
@@ -100,7 +251,7 @@ router.get("/user/:id", async function(req, res){
     }
 });
 //Profile edit page
-router.get("/user/:id/edit", async function(req, res){
+router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){
     try{
         var editProf = await User.findById(req.params.id);
         res.render("profileedit", {editProf})
@@ -111,7 +262,7 @@ router.get("/user/:id/edit", async function(req, res){
 
 
 //Profile post edit page
-router.put("/user/:id", upload.single("image"), async function(req, res){
+router.put("/user/:id", upload.single("image"), middlewareObj.userAuthor, async function(req, res){
     try{
         var image =[];
     var update = await User.findById(req.params.id);

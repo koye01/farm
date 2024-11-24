@@ -16,13 +16,10 @@
     <div class="success">
          logged in as <%= currentUser.username %>
     </div>
-    
-<%}else if(error && error.length > 0){%>
-    <div class="error">
-        <% error %>
-    </div>
-    
-<% } %>
+    <div class="success">
+        <%= user.length%> users
+   </div>
+<%}%>
 <div>
     <div class="rectangle">
         <div class="welcome">

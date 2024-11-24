@@ -117,7 +117,7 @@ function uploadImages(req, res) {
                         follower.save();
                     }
                     //redirect back to allproducts page
-            res.render("index", {success: "Your produce have been uploaded successfully!"}); // Redirect to the picture gallery URL
+            res.render("index", {user}); // Redirect to the picture gallery URL
           } catch (dbError) {
             if (!hasError) {
               hasError = true;
@@ -213,6 +213,7 @@ router.post("/:id", middleware.isOwner, async function(req, res){
             await Product.findByIdAndRemove(req.params.id);
         res.redirect("/allproduct");
     }catch(err){
+        req.flash("error", err.message);
         res.redirect("/"+ req.params.id)
     }
 });
