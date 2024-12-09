@@ -7,6 +7,9 @@ var commentSchema = mongoose.Schema({
         },
       username: String
     },
-  post: String
+  post: String,
+  product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+  replies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }], // Array to store replies
+  createdAt: { type: Date, default: Date.now }
 });
 module.exports = mongoose.model("Comment", commentSchema);

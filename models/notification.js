@@ -9,6 +9,11 @@ var notificationSchema = new mongoose.Schema({
         username: String,
         productId: String,
     },
+    reply: {
+        username: String,
+        parentCommentId: String,
+        productId: String
+    },
     
     isRead: {
         type: Boolean, default: false

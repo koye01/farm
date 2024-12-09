@@ -318,34 +318,42 @@ a {
 .comment-block p{
     padding: 10px 10px;
 }
+.reply-block{
+    background-color:rgb(243, 238, 238);
+    margin: 5px 20px;
+    padding: 5px 10px;
+    border-radius: 20%;
+}
+.comment-block .reply a{
+    color: black;
+}
 
 .slider {
     width: 100%;
-    /* height: 610px; */
     height: 510px;
     position: relative;
     margin-left: 0%;
 }
 
 .slider img {
-    margin-left: 0%;
     width: 100%;
     max-height: 500px;
     position: absolute;
     top: 0;
     left: 0;
+    display: none; /* Hide all images by default */
 }
-.slider img:first-child {
-    z-index: 1;
+
+.slider img.active {
+    display: block; /* Only the active image will be shown */
 }
-.slider img:nth-child(2) {
-    z-index: 0;
-}
+
 .navigation-button {
     text-align: center;
     position: relative;
     z-index: 1;
 }
+
 .dot {
     cursor: pointer;
     height: 15px;
@@ -355,10 +363,12 @@ a {
     border-radius: 50%;
     display: inline-block;
 }
+
 .active,
 .dot:hover {
     background-color: #717171;
 }
+
 .descp {
     border: thin solid white;
  padding: 5px 10px;
@@ -445,6 +455,7 @@ a {
     height: 250px;
     width: 200px;
 }
+
 .comment-link a{
     color: blue;
 }
@@ -481,19 +492,19 @@ a {
 .dropdown:hover .dropdown-content{
     display: block;
 }
-.listType{
+/* .listType{
     width: 250px;
     height: 500px;
     text-align: center;
     margin: auto 5px;
-   /* border: thin solid #555; */
-    /* box-shadow: 10px 10px 10px rgba(0,0,0,0.1); */
+   border: thin solid #555;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.1);
     padding: 0px 0px;
 
 }
 .listType img{
     height: 200px;
-}
+} */
 
 #approve a, p a{
     color: white;

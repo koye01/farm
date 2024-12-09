@@ -135,7 +135,11 @@ router.post("/", multiUpload.array('image', 10), uploadImages);
 // the show page
 router.get("/:id", async function(req, res){
     try{
-        var detailed = await Product.findById(req.params.id).populate("comments").exec();
+        var detailed =  await Product.findById(req.params.id).populate({
+            path: 'comments',
+            populate: { path: 'replies' }
+          });
+          
         res.render("details", {detailed});
     }catch(err){
         console.log(err)

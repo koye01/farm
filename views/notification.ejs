@@ -7,7 +7,9 @@
                 <li><a href="/notifications/<%=newUpload.id%>"><%=newUpload.post.username%> Uploaded new product for sales</a></li>
             <%}else if(newUpload.comment.username){%>
                 <li><a href="/notifications/com/<%=newUpload._id%>"><%=newUpload.comment.username%> commented on your post</a></li>
-        <%}%>
-            </ul>
+            <%}else if(newUpload.reply.username){%>
+                <li><a href="/notifications/reply/<%=newUpload._id%>"><%=newUpload.reply.username%> replied to your comment</a> </li>
+            <%}%>
+        </ul>
         
     <%})%>

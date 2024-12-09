@@ -1,5 +1,5 @@
 var express = require("express");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 var Product = require("../models/produce");
 var Comment = require("../models/comment");
 var User    = require("../models/user");
@@ -76,6 +76,59 @@ router.delete("/:id/comment/:comment_id", middleware.commentOwner, async functio
     }
 });
 
+// Reply to a comment GET route
+router.get("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async function(req, res) {
+    try {
+        var product = await Product.findById(req.params.id); // Get the product
+        var parentComment = await Comment.findById(req.params.comment_id); // Get the comment that will have the reply
+        res.render("comment_sub/new", { product, parentComment }); // Render the reply form
+    } catch (err) {
+        console.log(err);
+        req.flash("error", err.message);
+    }
+});
+
+// Reply to a comment POST route
+router.post("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async function(req, res) {
+    try {
+        var product = await Product.findById(req.params.id); // Get the product
+        var parentComment = await Comment.findById(req.params.comment_id); // Get the parent comment
+        var replyData = req.body.comment; // Get the reply text from the form
+
+        // Create a new comment for the reply
+        var reply = await Comment.create(replyData);
+        reply.author.username = req.user.username;
+        reply.author.id = req.user._id;
+        reply.product = product._id; // Associate the reply with the product
+        reply.save(); // Save the reply
+
+        // Add the reply to the parent comment's 'replies' array
+        parentComment.replies.push(reply._id); // Add the reply to the parent comment's replies
+        await parentComment.save(); // Save the updated parent comment
+
+        // Optionally, send a notification (like in the original comment POST route)
+        var notification = {
+            reply: {
+                username: req.user.username,
+                parentCommentId: parentComment.id,
+                productId: product._id
+            }
+        };
+
+        var commentOwner = parentComment.author.username;
+        var userfinder = await User.find({username: commentOwner});
+        for(var userReply of userfinder){
+            var notification = await Notification.create(notification);
+            userReply.notifications.push(notification);
+            userReply.save();
+        }
+
+               req.flash("success", "You successfully replied to the comment"); // Flash success message
+        res.redirect("/" + product._id); // Redirect to the product page
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 
 module.exports = router;

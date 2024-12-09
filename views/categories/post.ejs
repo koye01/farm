@@ -10,7 +10,7 @@
             <button><a href="/addnew">Available admin posts</a></button>
             <p>List of the available agrocommodities for sales</p>
         </div>
-        <div class="listType">
+        <div class="general-content">
         <%post.forEach(function(adminpost){%>
             <div class="content">
                     <img height="auto" width="100%" src="<%= adminpost.image[0].url%>" alt="<%=adminpost.name%>"/>
@@ -18,6 +18,7 @@
                         <h1><%=adminpost.name%></h1>
                         <p><%=adminpost.price%> naira</p>
                         <p>submitted by <a href="/user/<%=adminpost.author.id%>"><%=adminpost.author.username%></a></p>
+                        <p><%=adminpost.category%></p>
                     </div>
                     <a href="/<%=adminpost._id%>"><button class="frontBtn">See more</button></a>
                 

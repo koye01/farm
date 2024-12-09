@@ -39,7 +39,7 @@
                                         </li> 
                                     <% }%>
                                 <%})%>
-                                
+                                <!-- comment notifications -->
                                 <%notifications.forEach(function(notif){%>
                                     <%if(notif.comment.username){%>
                                         <li>
@@ -48,7 +48,15 @@
                                     <% }%>
                                     
                                 <%})%>
-                                
+                                <!-- Replies notifications -->
+                                <%notifications.forEach(function(notif){%>
+                                    <%if(notif.reply.username){%>
+                                        <li>
+                                            <a href="/<%=notif.reply.productId%>"><%=notif.reply.username%> replied to your post</a>
+                                        </li>
+                                    <% }%>
+                                    
+                                <%})%>
                             </ul>    
                                 
                                 
@@ -85,18 +93,6 @@
             
         <%}%>
 </div>
-    
-    
-        
         
     
-    <script>
-        var collapse = document.getElementsByClassName("para");
-        var info = collapse[0];
-        var parallelBar = document.getElementsByClassName("fa-solid fa-bars")[0];
-        info.classList.add("hideContent"); 
-        parallelBar.addEventListener("click", function(){ 
-            info.classList.toggle("hideContent");
-        });
-    </script>
-
+    <script src="myjs.js"></script>

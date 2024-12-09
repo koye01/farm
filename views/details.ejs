@@ -11,18 +11,16 @@
 <div class="koye">
     <div class="showpage">
         <div class="slider">
-                <div>
-                    <img src="<%= detailed.image[0].url %>" alt="<%= detailed.name %> 1" height="auto" width="100%"/>
-                    <img src="<%= detailed.image[1].url %>" alt="<%= detailed.name %> 2" height="auto" width="100%"/>
-                    <img src="<%= detailed.image[2].url %>" alt="<%= detailed.name %> 3" height="auto" width="100%"/>
-                </div>
-                <div class="navigation-button">
-                    <span class="dot active" onclick="changeSlide(0)"></span>
-                    <span class="dot" onclick="changeSlide(1)"></span>
-                    <span class="dot" onclick="changeSlide(2)"></span>
-
-                </div>
-                <script src="myjs.js"> </script>
+            <div>
+                <img src="<%= detailed.image[0].url %>" alt="<%= detailed.name %> 1" class="active" />
+                <img src="<%= detailed.image[1].url %>" alt="<%= detailed.name %> 2" />
+                <img src="<%= detailed.image[2].url %>" alt="<%= detailed.name %> 3" />
+            </div>
+            <div class="navigation-button">
+                <span class="dot active" onclick="changeSlide(0)"></span>
+                <span class="dot" onclick="changeSlide(1)"></span>
+                <span class="dot" onclick="changeSlide(2)"></span>
+            </div>
         </div>
             
         <div class="descp">
@@ -45,31 +43,53 @@
     </div>
     
     <div class="comment-session">
-        <button class="frontBtn"><a href="/<%=detailed.id%>/comment/new">Add comment</a></button>
+        <button class="frontBtn">
+            <a href="/<%=detailed.id%>/comment/new">Add comment</a>
+        </button>
     
-       <%detailed.comments.forEach(function(comment){%>
-        <div class="comment-block">
-            <b><p class="comment-link">
-                <a href="/user/<%=comment.author.id%>"><%=comment.author.username%>:</a>
-            </p></b>
-            <p><%=comment.post%></p>
-
-            <div class="control-button">
-                <%if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){%>
-                    <a href="/<%=detailed.id%>/comment/<%=comment._id%>/edit"><button class="edit-button">Edit</button></a>
-
-                        <form action="/<%=detailed.id%>/comment/<%=comment._id%>?_method=delete" method="POST">
+        <% detailed.comments.forEach(function(comment){ %>
+            <div class="comment-block">
+                <p class="comment-link">
+                    <b>
+                        <a href="/user/<%= comment.author.id %>"><%= comment.author.username %>:</a>
+                    </b>
+                </p>
+                <p><%= comment.post %></p>
+    
+                <!-- Loop through replies for the current comment -->
+                <% if(comment.replies && comment.replies.length > 0){ %>
+                    <div class="replies">
+                        <% comment.replies.forEach(function(reply){ %>
+                            <div class="reply-block">
+                                <p class="comment-link">
+                                    <b>
+                                        <a href="/user/<%= reply.author.id %>"><%= reply.author.username %>:</a>
+                                    </b>
+                                </p>
+                                <p><%= reply.post %></p>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+    
+                <!-- Reply Button -->
+                <div class="reply">
+                    <button><a href="/<%= detailed.id %>/comment/<%= comment._id %>/reply">
+                        reply comment</a></button>
+                </div>
+    
+                <!-- Comment Control (Edit/Delete) -->
+                <div class="control-button">
+                    <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                        <a href="/<%= detailed.id %>/comment/<%= comment._id %>/edit"><button class="edit-button">Edit</button></a>
+                        <form action="/<%= detailed.id %>/comment/<%= comment._id %>?_method=delete" method="POST">
                             <button class="delete-button">Delete</button>
                         </form>
-                <%}%>
-                
+                    <% } %>
+                </div>
             </div>
-        </div>
-
-        
-            
-        <%});%>
-    
+        <% }); %>
     </div>
+   <script src="myjs.js" ></script>
     
 </div>

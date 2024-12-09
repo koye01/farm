@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var middleware = require("../middleware/index");
 var Product = require("../models/produce");
+var Comment = require("../models/comment");
 var User = require("../models/user");
 var passport = require("passport");
 var Notification = require("../models/notification");
@@ -360,8 +361,18 @@ router.get('/notifications/com/:id', middleware.isLoggedIn, async function(req, 
     }
 });
 
-
-
+//reply notification address
+router.get('/notifications/reply/:id', middleware.isLoggedIn, async function(req, res) {
+    try {
+        var user = await User.findById(req.params.id);
+        var notification = await Notification.findById(req.params.id);
+        notification.isRead = true;
+        notification.save();
+        res.redirect("/" +notification.reply.productId);
+    } catch(err) {
+        console.log(err);
+    }
+});
 
 
 module.exports = router;
