@@ -11,7 +11,7 @@ var middleware = require("../middleware/index");
 router.get("/:id/comment/new", middleware.isLoggedIn, async function(req, res){
     try{
         var product = await Product.findById(req.params.id);
-       res.render("comment/new", {product});
+       res.render("comment/new", {product, title: 'new comment'});
     }catch(err){
         console.log(err)
     }
@@ -51,7 +51,7 @@ router.post("/:id/comment", middleware.isLoggedIn, async function(req, res){
 });
 router.get("/:id/comment/:comment_id/edit", middleware.commentOwner, async function(req, res){
     var edit = await Comment.findById(req.params.comment_id);
- res.render("comment/edit", {product_id:req.params.id, edit})
+ res.render("comment/edit", {product_id:req.params.id, edit, title: 'comment edit mode'});
 });
 
 //comment update route
@@ -81,7 +81,7 @@ router.get("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async functi
     try {
         var product = await Product.findById(req.params.id); // Get the product
         var parentComment = await Comment.findById(req.params.comment_id); // Get the comment that will have the reply
-        res.render("comment_sub/new", { product, parentComment }); // Render the reply form
+        res.render("comment_sub/new", { product, parentComment, title: 'comment reply' }); // Render the reply form
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);

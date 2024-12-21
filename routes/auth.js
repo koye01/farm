@@ -43,7 +43,7 @@ cloudinary.config({
 
 
 router.get("/register", async function(req, res){
-    res.render("form/register");
+    res.render("form/register", {title: 'register new user'});
 });
 
 
@@ -77,7 +77,7 @@ router.post("/register", upload.single("image"), async function(req, res){
 });
 
 router.get("/login", function(req, res){
-    res.render("form/login")
+    res.render("form/login", {title: 'user login'});
 });
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/",
@@ -236,26 +236,27 @@ router.post("/reset/:token", async function(req, res) {
 
 
 
-//Profile page
+// Profile page route
 router.get("/user/:id", async function(req, res){
-   
     try {
         var product = await Product.find({});
-        var user = await User.findById(req.params.id).populate('followers').exec();
-        var unique = user.followers.filter((value, index)=>{
+        var user = await User.findById(req.params.id).populate('followers following').exec();  // Populate 'following' field as well
+        var unique = user.followers.filter((value, index) => {
             return user.followers.indexOf(value) === index;
         });
-        res.render('profile', {user, product, unique, title: user.username  + ' profile'});
-    } catch(err) {
+
+        res.render('profile', { user, product, unique, title: user.username + ' profile' });
+    } catch (err) {
         console.log(err);
         return res.redirect('back');
     }
 });
+
 //Profile edit page
 router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){
     try{
         var editProf = await User.findById(req.params.id);
-        res.render("profileedit", {editProf})
+        res.render("profileedit", {editProf, title: 'edit profile'});
     }catch(err){
         console.log(err);
     }
@@ -294,13 +295,16 @@ router.put("/user/:id", upload.single("image"), middlewareObj.userAuthor, async 
 //follow user
 router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
     try {
-        var user = await User.findById(req.params.id);
+        var user = await User.findById(req.params.id)
+        var follow = await User.findById(req.user._id);
         user.followers.push(req.user._id);
+        follow.following.push(user);
         var unique = user.followers.filter((value, index)=>{
             return user.followers.indexOf(value) === index;
         });
         user.followers = unique;
         user.save();
+        follow.save();
         req.flash("success", unique.username, "started following you");
         res.redirect('/user/' + req.params.id);
     } catch(err) {
@@ -331,7 +335,7 @@ router.get("/notifications", middleware.isLoggedIn, async function(req, res){
             options: {sort: {"_id": -1}}
         }).exec();
         var allNotification = user.notifications;
-        res.render("notification", {allNotification});
+        res.render("notification", {allNotification, title: 'notification page'});
     }catch(error){
         console.log(error);
     }

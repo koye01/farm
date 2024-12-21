@@ -307,6 +307,7 @@ a {
 } */
 .comment-block{
     margin: 5px 5px;
+    padding: 10px 5px;
     display: block;
     background-color: white;
     border-radius: 20%;

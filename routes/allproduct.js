@@ -47,7 +47,7 @@ const multiUpload = multer({ storage: storage });
 router.get("/allproduct", async function(req, res){
     try{
         var product = await Product.find({});
-        res.render("homepage", {product});
+        res.render("homepage", {product, title: 'overall database'});
     }catch(err){
         console.log(err)
     }
@@ -55,7 +55,7 @@ router.get("/allproduct", async function(req, res){
 
 router.get("/addnew", middleware.isLoggedIn, async function(req, res){
     try{
-        res.render("addnew");
+        res.render("addnew", {title: 'add new product'});
     }catch(err){
         console.log(err)
     }
@@ -117,7 +117,9 @@ function uploadImages(req, res) {
                         follower.save();
                     }
                     //redirect back to allproducts page
-            res.render("index", {user}); // Redirect to the picture gallery URL
+                    req.flash("success", "your request was succesful and is being processed")
+                    res.redirect("/back");
+            // res.redirect("/allproduct", {user}); // Redirect to the picture gallery URL
           } catch (dbError) {
             if (!hasError) {
               hasError = true;
@@ -140,7 +142,7 @@ router.get("/:id", async function(req, res){
             populate: { path: 'replies' }
           });
           
-        res.render("details", {detailed});
+        res.render("details", {detailed, title: 'product detailed page'});
     }catch(err){
         console.log(err)
     }
@@ -150,7 +152,7 @@ router.get("/:id", async function(req, res){
 router.get("/:id/edit", middleware.isOwner, async function(req, res){
     try{
         var edit = await Product.findById(req.params.id);
-        res.render("edit", {edit});
+        res.render("edit", {edit, title: 'edit page'});
     }catch(err){
         console.log(err)
     }
@@ -195,6 +197,7 @@ router.put("/:id", middleware.isOwner, multiUpload.array('image', 10), async fun
         var {name, price, description} = req.body.update;
         var update = {image: image, name: name, price: price, description: description};
         var edit = await Product.findByIdAndUpdate(req.params.id, update);
+        req.flash("success", "your status was successfully updated")
         res.redirect("/" + req.params.id);
     }catch(err){
         console.log(err)
@@ -215,7 +218,7 @@ router.post("/:id", middleware.isOwner, async function(req, res){
             const deletePromises = deletePic.image.map(img => cloudinary.uploader.destroy(img.public_id));
             await Promise.all(deletePromises);
             await Product.findByIdAndRemove(req.params.id);
-        res.redirect("/allproduct");
+        res.redirect("/");
     }catch(err){
         req.flash("error", err.message);
         res.redirect("/"+ req.params.id)

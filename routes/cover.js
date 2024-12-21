@@ -9,7 +9,7 @@ var Notification = require("../models/notification");
 router.get("/livestocks", async function(req, res){
     try{
         var livestocks = await Product.find({"category": "Livestocks", "adminpost": "true"});
-        res.render("categories/livestocks", {livestocks});
+        res.render("categories/livestocks", {livestocks, title: 'Livestock session'});
     }catch(err){
         console.log(err)
     }
@@ -18,7 +18,7 @@ router.get("/livestocks", async function(req, res){
 router.get("/vegetables", async function(req, res){
     try{
         var veggies = await Product.find({"category": "Vegetables", "adminpost": "true"});
-        res.render("categories/vegetables", {veggies});
+        res.render("categories/vegetables", {veggies, title: 'vegetables'});
     }catch(err){
         console.log(err)
     }
@@ -27,7 +27,7 @@ router.get("/vegetables", async function(req, res){
 router.get("/seedlings", async function(req, res){
     try{
         var seedlings = await Product.find({"category": "Seedlings", "adminpost": "true"});
-        res.render("categories/seedlings", {seedlings});
+        res.render("categories/seedlings", {seedlings, title: 'Floricultural and Environment'});
     }catch(err){
         console.log(err)
     }
@@ -36,7 +36,7 @@ router.get("/seedlings", async function(req, res){
 router.get("/food", async function(req, res){
     try{
         var food = await Product.find({"category": "Food", "adminpost": "true"});
-        res.render("categories/food", {food});
+        res.render("categories/food", {food, title: 'feed ingredients'});
     }catch(err){
         console.log(err)
     }
@@ -45,7 +45,25 @@ router.get("/food", async function(req, res){
 router.get("/farmequips", async function(req, res){
     try{
         var farmequips = await Product.find({"category": "Farm equipments", "adminpost": "true"});
-        res.render("categories/farmequips", {farmequips});
+        res.render("categories/farmequips", {farmequips, title: 'farm equipments'});
+    }catch(err){
+        console.log(err)
+    }
+});
+//chef page
+router.get("/chef", async function(req, res){
+    try{
+        var chef = await Product.find({"category": "chef", "adminpost": "true"});
+        res.render("categories/chef", {chef, title: 'chef'});
+    }catch(err){
+        console.log(err)
+    }
+});
+//bakery page
+router.get("/bakeries", async function(req, res){
+    try{
+        var bakeries = await Product.find({"category": "bakeries", "adminpost": "true"});
+        res.render("categories/bakeries", {bakeries, title: 'baked products'});
     }catch(err){
         console.log(err)
     }
@@ -54,7 +72,17 @@ router.get("/farmequips", async function(req, res){
 router.get("/others", async function(req, res){
     try{
         var others = await Product.find({"category": "Others", "adminpost": "true"});
-        res.render("categories/others", {others});
+        res.render("categories/others", {others, title: 'Other commodity'});
+    }catch(err){
+        console.log(err)
+    }
+});
+
+//Agricultural talk
+router.get("/talk", async function(req, res){
+    try{
+        var Agricultural_talk = await Product.find({"category": "Agricultural talk", "adminpost": "true"});
+        res.render("categories/talk", {Agricultural_talk, title: 'Agricultural talk'});
     }catch(err){
         console.log(err)
     }
@@ -64,7 +92,7 @@ router.get("/others", async function(req, res){
 router.get("/adminpost", async function(req, res){
     try{
         var post = await Product.find({"adminpost": "false"});
-        res.render("categories/post", {post});
+        res.render("categories/post", {post, title: 'Administrative post'});
     }catch(err){
         console.log(err)
     }
@@ -104,7 +132,7 @@ router.get("/", async function(req, res){
     try{
         var product = await Product.find({});
         var user = await User.find({});
-        res.render("index",{product, user});
+        res.render("index",{product, user, title: 'homepage'});
     }catch(err){
         console.log(err)
     }
@@ -113,7 +141,7 @@ router.post("/search", async function(req, res){
     try{
         var regex = new RegExp(["", req.body.productSearch, "$"].join(""), "i");
         var product = await Product.find({name: regex});
-        res.render("productsearch", {product});
+        res.render("productsearch", {product, title: "find product"});
     }catch(err){
         res.redirect("/");
     }
@@ -123,7 +151,7 @@ router.post("/usersearch", async function(req, res){
     try{
         var regex = new RegExp(["", req.body.userSearch, "$"].join(""), "i");
         var findUser = await User.find({username: regex});
-        res.render("usersearch", {findUser});
+        res.render("usersearch", {findUser, title: "find user"});
     }catch(err){
         res.redirect("/");
     }

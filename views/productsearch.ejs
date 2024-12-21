@@ -3,7 +3,7 @@
         <%if(product.length > 0){%>
             <% product.forEach(function(search){%>
                 <a href="/<%=search.id%>">
-                    <img height="auto" width="100%" src="<%= search.image[0]%>" alt="<%=search.name%>"/>
+                    <img height="auto" width="100%" src="<%= search.image[0].url%>" alt="<%=search.name%>"/>
                     <div class="content-desc">
                         <h1><%=search.name%></h1>
                         <p><%=search.description%></p>

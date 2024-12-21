@@ -25,6 +25,12 @@ var userSchema = new mongoose.Schema({
             ref: 'User'
         }
     ],
+    following: [
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'User' 
+        }
+    ], // Add following field
 resetPasswordToken: String,
 resetPasswordExpires: Date,
 });
