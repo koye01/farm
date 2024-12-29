@@ -11,7 +11,9 @@ var middleware = require("../middleware/index");
 router.get("/:id/comment/new", middleware.isLoggedIn, async function(req, res){
     try{
         var product = await Product.findById(req.params.id);
-       res.render("comment/new", {product, title: 'new comment'});
+       res.render("comment/new", {product, title: 'new comment', description: "add new comment", 
+        keywords: product.name,
+        image: product.image});
     }catch(err){
         console.log(err)
     }
@@ -81,7 +83,10 @@ router.get("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async functi
     try {
         var product = await Product.findById(req.params.id); // Get the product
         var parentComment = await Comment.findById(req.params.comment_id); // Get the comment that will have the reply
-        res.render("comment_sub/new", { product, parentComment, title: 'comment reply' }); // Render the reply form
+        res.render("comment_sub/new", { product, parentComment, title: product.name,
+            description: parentComment.post, 
+            keywords: product.name,
+            image: product.image }); // Render the reply form
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);

@@ -7,7 +7,12 @@
 
 
 </style>
-<h2><%= detailed.name %> for sales</h2>
+<% if(detailed.category != 'Agricultural talk'){ %>
+    <h2><%= detailed.name %> for sales</h2>
+<% }else{ %>
+ <h2><%= detailed.name %></h2>
+<% }%>
+
 <div class="koye">
     <div class="showpage">
         <div class="slider">

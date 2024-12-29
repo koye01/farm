@@ -44,6 +44,7 @@
                 <div class="profile-details">
                     <p>Phone number: <%= user.phone%></p>
                     <p>Email: <%=user.email%></p>
+                    <p>Fullname: <%=user.fullname%></p>
                     <p>Brief description: <%=user.description%></p>
                 </div>
             </div>
@@ -52,29 +53,38 @@
 
             <div>
                 <%product.forEach(function(pro){%>
-                    <%if(user.username === pro.author.username){%>
-                        <div class="profile">
-                            <h2>
-                                    <%=pro.name%> for sales
-                            </h2>
-                            <img src="<%=pro.image[0].url%>" alt="<%=pro.name%>">
-                            
-                                <div>
-                                    <%=pro.fullnames%>
-                                </div>
+                    <% if(pro.adminpost === true){ %>
+                        <%if(user.username === pro.author.username){%>
+                                <div class="profile">
+                                    <h2>
+                                        <% if(pro.category == "Agricultural talk"){ %>
+                                            <%=pro.name%>
+                                        <%}else{ %>
+                                            <%=pro.name%> for sales
+                                        <%}%>
+                                    </h2>
+                                    <img src="<%=pro.image[0].url%>" alt="<%=pro.name%>">
 
-                                <div class="descLink">
-                                    <p>
-                                        <%=pro.description%>
-                                    </p> 
-                                   
-                                    <h3><a href="/<%=pro._id%>"> click to view more</a></h3>
+                                        <div class="descLink">
+                                            <p>
+                                                <%=pro.description%>
+                                            </p> 
+                                        
+                                            <h3><a href="/<%=pro._id%>"> click to view more</a></h3>
+                                        </div>
+                                        
                                 </div>
-                                
+                                    
+                            <%}%>
+                    <% } else if(pro.adminpost === false && user.username === pro.author.username){ %>
+                        <div class="profile">
+                            <h3>Your <%=pro.name%>'s post is under review</h3>
                         </div>
-                                
-                            
+                        
                     <%}%>
+                    
+
+
                     
                 <%}) %>
             </div>

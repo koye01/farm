@@ -47,7 +47,9 @@ const multiUpload = multer({ storage: storage });
 router.get("/allproduct", async function(req, res){
     try{
         var product = await Product.find({});
-        res.render("homepage", {product, title: 'overall database'});
+        res.render("homepage", {product, title: 'overall database', description: "farm produce gallery", 
+            keywords: product.name,
+            image: "/pics/logo.png"});
     }catch(err){
         console.log(err)
     }
@@ -55,7 +57,9 @@ router.get("/allproduct", async function(req, res){
 
 router.get("/addnew", middleware.isLoggedIn, async function(req, res){
     try{
-        res.render("addnew", {title: 'add new product'});
+        res.render("addnew", {title: 'add new product', description: "add new product", 
+            keywords: "add new product",
+            image: "/pics/logo.png"});
     }catch(err){
         console.log(err)
     }
@@ -117,8 +121,7 @@ function uploadImages(req, res) {
                         follower.save();
                     }
                     //redirect back to allproducts page
-                    req.flash("success", "your request was succesful and is being processed")
-                    res.redirect("/back");
+                    req.flash("success", "your request was succesful and is being processed");
             // res.redirect("/allproduct", {user}); // Redirect to the picture gallery URL
           } catch (dbError) {
             if (!hasError) {
@@ -142,7 +145,9 @@ router.get("/:id", async function(req, res){
             populate: { path: 'replies' }
           });
           
-        res.render("details", {detailed, title: 'product detailed page'});
+        res.render("details", {detailed, title: detailed.name, description: detailed.description, 
+            keywords: detailed.name,
+            image: detailed.image});
     }catch(err){
         console.log(err)
     }
@@ -152,7 +157,9 @@ router.get("/:id", async function(req, res){
 router.get("/:id/edit", middleware.isOwner, async function(req, res){
     try{
         var edit = await Product.findById(req.params.id);
-        res.render("edit", {edit, title: 'edit page'});
+        res.render("edit", {edit, title: 'edit page', description: edit.description, 
+            keywords: edit.name,
+            image: "/pics/logo.png"});
     }catch(err){
         console.log(err)
     }

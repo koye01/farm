@@ -43,7 +43,9 @@ cloudinary.config({
 
 
 router.get("/register", async function(req, res){
-    res.render("form/register", {title: 'register new user'});
+    res.render("form/register", {title: 'register new user', description: "user sign-up page", 
+        keywords: 'sign-up page',
+        image: "/pics/logo.png"});
 });
 
 
@@ -77,7 +79,8 @@ router.post("/register", upload.single("image"), async function(req, res){
 });
 
 router.get("/login", function(req, res){
-    res.render("form/login", {title: 'user login'});
+    res.render("form/login", {title: 'user login',description: "user login page", keywords: 'login page',
+        image: "/pics/logo.png"});
 });
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/",
@@ -97,8 +100,13 @@ router.get("/logout", function(req, res){
 
 //forgot password
 router.get("/forgot", function(req, res){
-    res.render("users/forgot", {title: 'password reset'});
-});
+    res.render("users/forgot", {
+        title: 'password reset',
+        description: "password reset link", 
+        keywords: 'forgot password',
+        image: "/pics/logo.png"
+    })
+    });
 
 router.post("/forgot", async function(req, res, next) {
     try {
@@ -160,7 +168,12 @@ router.get("/reset/:token", async function(req, res){
         req.flash("error", "password reset token has been expired.");
         return res.redirect("/forgot");
     }
-    res.render("users/reset", {token: req.params.token, title: 'reset token'});
+    res.render("users/reset", {
+        token: req.params.token, title: 'reset token',
+        description: "password reset link", 
+        keywords: 'forgot password',
+        image: "/pics/logo.png"
+    });
 });
 
 router.post("/reset/:token", async function(req, res) {
@@ -244,8 +257,15 @@ router.get("/user/:id", async function(req, res){
         var unique = user.followers.filter((value, index) => {
             return user.followers.indexOf(value) === index;
         });
-
-        res.render('profile', { user, product, unique, title: user.username + ' profile' });
+        res.render('profile', {
+            user, product, unique, title: user.username + ' profile',
+            description: user.description, 
+            keywords: 
+            product.forEach(function(each){
+                each.name;
+            }),
+            image: user.image
+            });
     } catch (err) {
         console.log(err);
         return res.redirect('back');
@@ -256,7 +276,12 @@ router.get("/user/:id", async function(req, res){
 router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){
     try{
         var editProf = await User.findById(req.params.id);
-        res.render("profileedit", {editProf, title: 'edit profile'});
+        res.render("profileedit", {
+            editProf, title: 'edit profile',
+            description: "edit profile", 
+            keywords: "edit profile",
+            image: editProf.image
+        });
     }catch(err){
         console.log(err);
     }
@@ -335,7 +360,12 @@ router.get("/notifications", middleware.isLoggedIn, async function(req, res){
             options: {sort: {"_id": -1}}
         }).exec();
         var allNotification = user.notifications;
-        res.render("notification", {allNotification, title: 'notification page'});
+        res.render("notification", {
+            allNotification, title: 'notification page',
+            description: "Notification page", 
+            keywords: "notifications",
+            image: user.image
+        });
     }catch(error){
         console.log(error);
     }
