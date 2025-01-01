@@ -257,13 +257,11 @@ router.get("/user/:id", async function(req, res){
         var unique = user.followers.filter((value, index) => {
             return user.followers.indexOf(value) === index;
         });
+        const keywords = product.map(pro => pro.name).join(", ");
         res.render('profile', {
             user, product, unique, title: user.username + ' profile',
             description: user.description, 
-            keywords: 
-            product.forEach(function(each){
-                each.name;
-            }),
+            keywords,
             image: user.image
             });
     } catch (err) {

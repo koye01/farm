@@ -1,3 +1,5 @@
+// const user = require("../models/user");
+
 var imgs = document.querySelectorAll(".slider img");
 var dots = document.querySelectorAll(".dot");
 var currentImg = 0;
@@ -64,3 +66,11 @@ parallelBar.addEventListener("click", function(){
 }
 
 );
+
+var listItems = document.getElementById('listfollowers');
+
+listItems.addEventListener("click", function(){
+    user.followers.forEach(function(list){
+        list.username
+    });
+});

@@ -47,8 +47,9 @@ const multiUpload = multer({ storage: storage });
 router.get("/allproduct", async function(req, res){
     try{
         var product = await Product.find({});
+        const keywords = product.map(pro => pro.name).join(", ");
         res.render("homepage", {product, title: 'overall database', description: "farm produce gallery", 
-            keywords: product.name,
+            keywords,
             image: "/pics/logo.png"});
     }catch(err){
         console.log(err)

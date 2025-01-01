@@ -9,8 +9,8 @@
             following <%=user.following.length%>
             <%} else if(!currentUser) {%>
                 <a  href="/follow/<%=user.id%>"> <button class="edit-button">follow <%=user.username%></button></a>
-                        <%=user.followers.length%> followers
-                        following <%=user.following.length%>
+                        <button id="listfollowers"><%=user.followers.length%> followers</button>
+                        <button id="listfollowing">following <%=user.following.length%></button>
                 <%}else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){%>
                     <a  href="/follow/<%=user.id%>"><button>follow <%=user.username%></button> </a>
                     <%=user.followers.length%> followers
@@ -89,6 +89,7 @@
                 <%}) %>
             </div>
 </div>
+<script src="myjs.js" ></script>
 
       
              

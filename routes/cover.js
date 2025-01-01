@@ -9,10 +9,10 @@ var Notification = require("../models/notification");
 router.get("/livestocks", async function(req, res){
     try{
         var livestocks = await Product.find({"category": "Livestocks", "adminpost": "true"});
-        res.render("categories/livestocks", {livestocks, title: 'Livestock session', description: "Animals and animal products", 
-            keywords: livestocks.forEach(function(each){
-            each.name;
-        }),
+        const keywords = livestocks.map(animals => animals.name).join(", ");
+        res.render("categories/livestocks", {livestocks, title: 'Livestock session', 
+            description: "Animals and animal products", 
+            keywords,
             image: "/pics/logo.png"});
     }catch(err){
         console.log(err)
@@ -22,10 +22,9 @@ router.get("/livestocks", async function(req, res){
 router.get("/vegetables", async function(req, res){
     try{
         var veggies = await Product.find({"category": "Vegetables", "adminpost": "true"});
+        const keywords = veggies.map(veg => veg.name).join(", ");
         res.render("categories/vegetables", {veggies, title: 'vegetables', description: "both leafy and fruit vegetables", 
-            keywords: veggies.forEach(function(veg){
-                veg.name;
-            }),
+            keywords,
             image: "/pics/logo.png"});
     }catch(err){
         console.log(err)
@@ -35,11 +34,12 @@ router.get("/vegetables", async function(req, res){
 router.get("/seedlings", async function(req, res){
     try{
         var seedlings = await Product.find({"category": "Seedlings", "adminpost": "true"});
-        res.render("categories/seedlings", {seedlings, title: 'Floricultural and Environment', description: food.description, 
-            keywords: seedlings.forEach(function(each){
-                each.name;
-            }),
-            image: "/pics/logo.png"});
+        const keywords = seedlings.map(plant => plant.name).join(", ");
+        res.render("categories/seedlings", {
+            seedlings, title: 'Floricultural and Environment', description: food.description, 
+            keywords,
+            image: "/pics/logo.png"
+        });
     }catch(err){
         console.log(err)
     }
@@ -48,11 +48,10 @@ router.get("/seedlings", async function(req, res){
 router.get("/food", async function(req, res){
     try{
         var food = await Product.find({"category": "Food", "adminpost": "true"});
+        const keywords = food.map(eat => eat.name).join(", ");
         res.render("categories/food", {
             food, title: 'feed ingredients', description: food.description, 
-            keywords: food.forEach(function(each){
-                each.name;
-            }),
+            keywords,
             image: "/pics/logo.png"
         });
     }catch(err){
@@ -63,11 +62,10 @@ router.get("/food", async function(req, res){
 router.get("/farmequips", async function(req, res){
     try{
         var farmequips = await Product.find({"category": "Farm equipments", "adminpost": "true"});
+        const keywords = farmequips.map(equips => equips.name).join(", ");
         res.render("categories/farmequips", {
             farmequips, title: 'farm equipments', description: farmequips.description, 
-            keywords: farmequips.forEach(function(each){
-                each.name;
-            }),
+            keywords,
             image: "/pics/logo.png"
         });
     }catch(err){
@@ -78,10 +76,9 @@ router.get("/farmequips", async function(req, res){
 router.get("/chef", async function(req, res){
     try{
         var chef = await Product.find({"category": "chef", "adminpost": "true"});
+        const keywords = chef.map(ch => ch.name).join(", ");
         res.render("categories/chef", {chef, title: 'chef', description: chef.description, 
-            keywords: chef.forEach(function(each){
-                each.name;
-            }),
+            keywords,
             image: "/pics/logo.png"});
     }catch(err){
         console.log(err)
@@ -91,11 +88,10 @@ router.get("/chef", async function(req, res){
 router.get("/bakeries", async function(req, res){
     try{
         var bakeries = await Product.find({"category": "bakeries", "adminpost": "true"});
+        const keywords = bakeries.map(bake => bake.name).join(", ");
         res.render("categories/bakeries", {
             bakeries, title: 'baked products',description: "All baked items such as; cake, bread and small chops", 
-            keywords: bakeries.forEach(function(each){
-                each.name;
-            }),
+            keywords,
             image: "/pics/logo.png"
         });
     }catch(err){
@@ -106,10 +102,10 @@ router.get("/bakeries", async function(req, res){
 router.get("/others", async function(req, res){
     try{
         var others = await Product.find({"category": "Others", "adminpost": "true"});
+        const keywords = others.map(other => other.name).join(", ");
         res.render("categories/others", {
-            others, title: 'Other commodity', description: "other goods and services for sales", keywords: others.forEach(function(each){
-                each.name;
-            }),
+            others, title: 'Other commodity', description: "other goods and services for sales", 
+            keywords,
             image: "/pics/logo.png"
         });
     }catch(err){
@@ -121,11 +117,10 @@ router.get("/others", async function(req, res){
 router.get("/talk", async function(req, res){
     try{
         var Agricultural_talk = await Product.find({"category": "Agricultural talk", "adminpost": "true"});
+        const keywords = Agricultural_talk.map(blog => blog.name).join(", ");
         res.render("categories/talk", {
             Agricultural_talk, title: 'Agricultural talk', description: 'matters arrising in the field of agricultural sciences', 
-            keywords: Agricultural_talk.forEach(function(each){
-                each.name;
-            }),
+            keywords,
             image: "/pics/logo.png"
         });
     }catch(err){
