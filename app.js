@@ -1,5 +1,6 @@
 var express = require("express"),
     app = express(),
+    cors = require("cors"),
     Product = require("./models/produce"),
     Comment = require("./models/comment"),
     User = require("./models/user"),
@@ -21,8 +22,16 @@ var express = require("express"),
     var flash = require("connect-flash");
 const { default: helmet } = require("helmet");
 
+var corsConfig = {
+    origin: "*",
+    Credential: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+};
+app.options("", (corsConfig));
+app.use(cors());
 // mongoose.connect("mongodb://localhost/Product");
 mongoose.connect(process.env.database);
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static( __dirname +"/public"));
