@@ -19,8 +19,11 @@ var express = require("express"),
     var dynamicRoute = require("./routes/allproduct");
     var commentRoute = require("./routes/comment");
     var flash = require("connect-flash");
+const { default: helmet } = require("helmet");
 
-mongoose.connect("mongodb://localhost/Product");
+// mongoose.connect("mongodb://localhost/Product");
+mongoose.connect(process.env.database);
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static( __dirname +"/public"));
 app.set("view engine", "ejs");
@@ -33,6 +36,7 @@ app.use(expressSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(helmet());
 app.use(flash());
 
 passport.use(new localStrategy(User.authenticate()));
@@ -52,7 +56,39 @@ app.use(async function(req, res, next){
     res.locals.error = req.flash("error");
     res.locals.currentUser = req.user;
     next();
-})
+});
+
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // Allow self
+      imgSrc: [
+        "'self'", // Allow images from the same domain
+        'https://res.cloudinary.com', // Allow Cloudinary images
+        'data:', // Allow data URIs (for inline images)
+      ],
+      // Include other directives as needed
+    },
+  })
+);
+
+app.use(
+    helmet({
+        contentSecurityPolicy: false, //Disable if using third party scripts
+        frameguard: {
+            action: "deny"
+        }, //prevent clickjacking
+        referrerPolicy: {
+            policy: 'no-referrer'
+        }, // manage referer info
+        xssFilter: true, //Prevent xss attacks
+        hsts: {
+            maxAge: 31536000,
+            includeSubDomains: true
+        }, //Enforce HTTPS
+    })
+);
 
 var storage = multer.diskStorage({
     destination: function(req, file, cb){

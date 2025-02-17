@@ -158,6 +158,7 @@ body{
 .general-content{
     width: 100%;
     margin: auto;
+    margin-bottom: 50px;
     display: block;
     text-align: center;
     display: flex;
@@ -298,6 +299,7 @@ a {
 .comment-session{
     background-color: #131212;
     padding: 20px 10px;
+    margin-bottom: 50px;
 }
 .comment-session a{
     color: #f1ecec;
@@ -547,14 +549,27 @@ a {
     color: white;
     border: white;
 }
+.footerInfo{
+    height: 40px;
+    width: 50%;
+    position: fixed;
+    padding: 5px;
+    bottom: 0;
+    background-color: #cfcece;
+    margin: 5px 0px auto;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+}
+.float {
+    background-color: #363636;
+    padding: 3px 5px;
+    color: white;
+}
 @media(max-width: 600px){
-    /* .homepage {
-        display: block;
-        text-transform: uppercase;
-        text-align: left;
-        margin-right: 10%;
-        float: left;
-    } */
+   .footerInfo{
+    width: 90%;
+   }
     .navbar a:hover{
         background-color: rgba(243, 116, 116, 0.808);
         padding: auto;
