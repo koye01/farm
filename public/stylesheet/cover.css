@@ -50,6 +50,7 @@ h3{
     /* border: thin solid white; */
 }
 input {
+    color: rgb(243, 111, 111);
     height: 40px;
     width: 70%;
 }
@@ -58,6 +59,7 @@ button{
     width: 55px;
 }
 .productUser {
+    /* color: white; */
     margin-top: 20px;
 }
 ul {
