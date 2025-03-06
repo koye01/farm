@@ -140,6 +140,12 @@ server.listen(PORT, IP, () => {
     console.log(`Application is now running on ${IP}:${PORT}`);
 });
 
+
+// app.listen("3000", function(){
+//     console.log("Your app is loading")
+// });
+
+
 // User socket tracking
 const userSockets = new Map();
 
