@@ -4,9 +4,8 @@
   "description": "A page where users could upload multiple images",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo 'No build step required'"
+    "start": "node app.js"
   },
   "author": "Jubril",
   "license": "ISC",
