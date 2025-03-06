@@ -398,6 +398,7 @@ a {
     padding: 10px 0px;
     background-color: rgb(99, 150, 23);
 }
+
 .descLink p{
     background-color: greenyellow;
     padding: 10px 5px;
@@ -409,6 +410,11 @@ a {
 .profile-body{
     width: 90%;
     margin: 0px 10px;
+  
+}
+
+.profile-body .profile{
+      margin-bottom: 60px;
 }
 .profilePicture{
     background-image: url("/pics/kitten.jpg");
@@ -556,7 +562,7 @@ a {
     padding: 5px;
     bottom: 0;
     background-color: #cfcece;
-    margin: 5px 0px auto;
+    margin: 0px auto;
     align-content: center;
     display: flex;
     justify-content: center;
