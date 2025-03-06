@@ -118,9 +118,11 @@ app.use(commentRoute);
 
 
 
-app.listen("3000", function(){
-    console.log("Your app is loading")
-});
+// app.listen("3000", function(){
+//     console.log("Your app is loading")
+// });
+app.listen(process.env.PORT, process.env.IP);
+console.log("application is now running");
 
 
   
