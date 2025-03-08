@@ -422,7 +422,16 @@ a {
   
 }
 
-
+.profilePicture{
+    background-image: url("/pics/kitten.jpg");
+    width: 100%;
+    height: 300px;
+    border: thin solid white;
+    /* border-radius: 50%; */
+    margin: 10px 1%;
+    padding: 15px 5px;
+    text-align: center;
+}
 
 .edit-profile{
     float: left;
@@ -530,6 +539,7 @@ a {
     /* background-size: cover; */
     height: 40px;
     width: 800px;
+    width: 700px;
     position: fixed;
     padding: 5px;
     bottom: 0;
