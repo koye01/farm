@@ -21,8 +21,8 @@ var express = require("express"),
     var flash = require("connect-flash");
 const { default: helmet } = require("helmet");
 
-mongoose.connect("mongodb://localhost/Product");
-// mongoose.connect(process.env.database);
+// mongoose.connect("mongodb://localhost/Product");
+mongoose.connect(process.env.database);
 
 
 app.use(bodyParser.urlencoded({extended: true}));
