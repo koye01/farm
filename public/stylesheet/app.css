@@ -571,6 +571,23 @@ a {
     padding: 3px 5px;
     color: white;
 }
+.follow-followers{
+    float: inline-start;
+    margin-left: 20%;
+}
+.follow-followers ul li, .follow-following ul li{
+    list-style: none;
+}
+.follow-following{
+    float: inline-end;
+    margin-right: 20%;
+}
+.follow-followers a, .follow-following a{
+    padding: 3px 8px;
+    color: white;
+    background-color: black;
+}
+
 @media(max-width: 600px){
    .footerInfo{
     width: 100%;

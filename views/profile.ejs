@@ -1,6 +1,6 @@
 <%- include("./partials/header") %>
 <div class="profile-body">
-    <h1>welcome to <%= user.username%>'s page </h1>
+    <h1>welcome to <%= user.username %>'s page </h1>
 
     <p>
         <%if(currentUser && user.username == currentUser.username){%>
@@ -9,15 +9,32 @@
             following <%=user.following.length%>
             <%} else if(!currentUser) {%>
                 <a  href="/follow/<%=user.id%>"> <button class="edit-button">follow <%=user.username%></button></a>
-                        <button id="listfollowers"><%=user.followers.length%> followers</button>
+                        <button id="listfollowers"><%=user.followers.length%> followers</a></button>
                         <button id="listfollowing">following <%=user.following.length%></button>
                 <%}else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){%>
                     <a  href="/follow/<%=user.id%>"><button>follow <%=user.username%></button> </a>
                     <%=user.followers.length%> followers
-                <%}%>
-                
-                
+                <%}%> 
         </p>
+
+    <!-- Hidden list of followers -->
+    <div class="follow-followers" id="followersList" style="display: none;">
+        <ul>
+            <% user.followers.forEach(function(follower) { %>
+                <li><a href="/user/<%=follower.id%>"><%= follower.username %></a></li>
+            <% }); %>
+        </ul>
+    </div>
+
+    <!-- hedden list of following -->
+    <div class="follow-following" id="followingList" style="display: none;">
+        <ul>
+            <% user.following.forEach(function(follow) { %>
+                <li><a href="/user/<%=follow.id%>"><%= follow.username %></a></li>
+            <% }); %>
+        </ul>
+    </div>
+
 
             <% for(var checkFollower of unique){%>
                 <%if(currentUser && checkFollower.username == currentUser.username){%>
@@ -89,7 +106,8 @@
                 <%}) %>
             </div>
 </div>
-<script type="text/javascript" src="myjs.js" ></script>
+<script src="/js/myjs.js" ></script>
+
 <%- include("./partials/footer") %>
 
       

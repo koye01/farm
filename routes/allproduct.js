@@ -123,7 +123,7 @@ function uploadImages(req, res) {
                     }
                     //redirect back to allproducts page
                     req.flash("success", "your request was succesful and is being processed");
-            // res.redirect("/allproduct", {user}); // Redirect to the picture gallery URL
+            res.redirect("/"); // Redirect to the picture gallery URL
           } catch (dbError) {
             if (!hasError) {
               hasError = true;

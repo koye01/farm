@@ -67,10 +67,27 @@ parallelBar.addEventListener("click", function(){
 
 );
 
-var listItems = document.getElementById('listfollowers');
+// Add a click event listener for the "listfollowers" button
+document.getElementById('listfollowers')?.addEventListener('click', function() {
+    const followersList = document.getElementById('followersList');
+    
+    // Toggle the visibility of the followers list
+    if (followersList.style.display === 'none') {
+        followersList.style.display = 'block'; // Show followers
+    } else {
+        followersList.style.display = 'none'; // Hide followers
+    }
+});
 
-listItems.addEventListener("click", function(){
-    user.followers.forEach(function(list){
-        list.username
-    });
+
+// Add a click event listener for the "listfollowing" button
+document.getElementById('listfollowing')?.addEventListener('click', function() {
+    const followingList = document.getElementById('followingList');
+    
+    // Toggle the visibility of the following list
+    if (followingList.style.display === 'none') {
+        followingList.style.display = 'block'; // Show followers
+    } else {
+        followingList.style.display = 'none'; // Hide followers
+    }
 });
