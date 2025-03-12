@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // function Toggle() {
 //     var showpassword = document.getElementById("tog");
 //     if (showpassword.type === "password") {
@@ -82,3 +83,13 @@ document.getElementById('form').addEventListener('submit', function(event) {
     // alert('Form is valid! Submitting...');
     document.getElementById('form').submit();
 });
+=======
+function Toggle() {
+    var showpassword = document.getElementById("tog");
+    if (showpassword.type === "password") {
+        showpassword.type = "text";
+    } else {
+        showpassword.type = "password";
+    }
+}
+>>>>>>> 98e4cdf (form javascript shown)

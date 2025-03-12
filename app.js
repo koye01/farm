@@ -15,11 +15,17 @@ var express = require("express"),
     passportLocalMongoose = require("passport-local-mongoose"),
     expressSession = require("express-session");
 
+
 var coverRoute   = require("./routes/cover");
 var productRoute = require("./routes/auth");
 var dynamicRoute = require("./routes/allproduct");
 var commentRoute = require("./routes/comment");
 var flash = require("connect-flash");
+    var coverRoute   = require("./routes/cover");
+    var productRoute = require("./routes/auth");
+    var dynamicRoute = require("./routes/allproduct");
+    var commentRoute = require("./routes/comment");
+    var flash = require("connect-flash");
 const helmet = require("helmet");
 
 // mongoose.connect("mongodb://localhost/Product");
@@ -71,6 +77,7 @@ app.use((req, res, next) => {
 });
 
 app.use(
+
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
@@ -102,6 +109,41 @@ Disallow: /api/
 Allow: /`
   );
 });
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"], // Allow self
+        imgSrc: [
+          "'self'", // Allow images from the same domain
+          'https://res.cloudinary.com', // Allow Cloudinary images
+          'data:', // Allow data URIs (for inline images)
+        ],
+        scriptSrc: [
+           "'self'" , //Allow script from the same domain
+           "'unsafe-inline'", //allow inline script (be careful)
+        ]
+        // Include other directives as needed
+      },
+    })
+  
+  
+  app.use(
+      helmet({
+          contentSecurityPolicy: false, //Disable if using third party scripts
+          frameguard: {
+              action: "deny"
+          }, //prevent clickjacking
+          referrerPolicy: {
+              policy: 'no-referrer'
+          }, // manage referer info
+          xssFilter: true, //Prevent xss attacks
+          hsts: {
+              maxAge: 31536000,
+              includeSubDomains: true
+          }, //Enforce HTTPS
+      })
+  );
+
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
