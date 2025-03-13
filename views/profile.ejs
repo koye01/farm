@@ -13,8 +13,13 @@
             
             <%} else if(!currentUser) {%>
                 <a  href="/follow/<%=user.id%>"> <button class="edit-button">follow <%=user.username%></button></a>
-                        <button id="listfollowers"><%=user.followers.length%> followers</a></button>
+                <div class="follow-followers">
+                    <button id="listfollowers"><%=user.followers.length%> followers</button>
+                </div>
+                   <div class="follow-following">
                         <button id="listfollowing">following <%=user.following.length%></button>
+                   </div>     
+                        
                 <%}else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){%>
                     <a  href="/follow/<%=user.id%>"><button>follow <%=user.username%></button> </a>
 
@@ -24,7 +29,7 @@
         </p>
 
     <!-- Hidden list of followers -->
-    <div class="follow-followers" id="followersList" style="display: none;">
+    <div id="followersList" style="display: none;">
         <ul>
             <% user.followers.forEach(function(follower) { %>
                 <li><a href="/user/<%=follower.id%>"><%= follower.username %></a></li>
@@ -33,7 +38,7 @@
     </div>
 
     <!-- hedden list of following -->
-    <div class="follow-following" id="followingList" style="display: none;">
+    <div id="followingList" style="display: none;">
         <ul>
             <% user.following.forEach(function(follow) { %>
                 <li><a href="/user/<%=follow.id%>"><%= follow.username %></a></li>
