@@ -21,8 +21,8 @@ var express = require("express"),
     var flash = require("connect-flash");
 const helmet = require("helmet");
 
-// mongoose.connect("mongodb://localhost/Product");
-mongoose.connect(process.env.database);
+mongoose.connect("mongodb://localhost/Product");
+// mongoose.connect(process.env.database);
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -66,13 +66,12 @@ app.use(
         imgSrc: [
           "'self'", // Allow images from the same domain
           'https://res.cloudinary.com', // Allow Cloudinary images
+          'https://www.facebook.com', // Allow Facebook's scraper bot
+          'https://platform.twitter.com', // Allow Twitter's scraper bot
+          'https://www.linkedin.com', // Allow LinkedIn's scraper bot
           'data:', // Allow data URIs (for inline images)
         ],
-        scriptSrc: [
-           "'self'" , //Allow script from the same domain
-           "'unsafe-inline'", //allow inline script (be careful)
-        ]
-        // Include other directives as needed
+        // Allow other directives for social media bots, adjust as needed
       },
     })
   );
