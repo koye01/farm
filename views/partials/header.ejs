@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Koye farm produce and raw materials | <%=title %></title>
-    <meta name="description" content="<%= description %>">
-    <meta name="keywords" content="<%= keywords %>">
-    <meta property="og:title" content="<%= title %>">
-    <meta property="og:description" content="<%= description %>">
-    <meta property="og:image" content="<%= image[0].url %>">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Koye farm produce and raw materials | <%=title %></title>
+        
+        <!-- Standard Meta Tags -->
+        <meta name="description" content="<%= description %>">
+        <meta name="keywords" content="<%= keywords %>">
+        
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="<%= title %>">
+        <meta property="og:description" content="<%= description %>">
+        <meta property="og:image" content="<%= image[0].url %>">
     
-    <link rel="icon" type="image/svg+xml" href="pics/logo.png">
-    <link rel="stylesheet" href="/stylesheet/app.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <!-- Twitter Card Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image"> <!-- This defines the card type -->
+        <meta name="twitter:title" content="<%= title %>">
+        <meta name="twitter:description" content="<%= description %>">
+        <meta name="twitter:image" content="<%= image[0].url %>">
+        
+        <link rel="icon" type="image/svg+xml" href="pics/logo.png">
+        <link rel="stylesheet" href="/stylesheet/app.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
     
-</head>
 <body>
 <div class="container">
     <div class="nav1">

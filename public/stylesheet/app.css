@@ -576,6 +576,13 @@ a {
     margin-left: 20%;
     display: flex;
 }
+ul li{
+    list-style: none;
+}
+#followersList li a, #followingList li a{
+    margin: 3px 5px;
+}
+
 #followersList{
     list-style: none;
     text-align: left;
