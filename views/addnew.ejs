@@ -1,6 +1,6 @@
-<%-include("./partials/header")%>
+<%- include("./partials/header") %>
 <h2>Add a new product here</h2>
-<form action="/" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+<form id="form" action="/" method="post" enctype="multipart/form-data">
     <div class="form-style">
         <div class="form-set">
             <label>Product's category</label>
@@ -20,12 +20,12 @@
             <input type="text" name="name" placeholder="Product's name">
             <label>Price</label>
             <input type="text" name="price" placeholder="Product's price">
-            <label>Image</label>
+            <label>Images</label>
             <input type="file" name="image" id="imageInput" multiple accept="image/*">
             <label>Product's description</label>
             <textarea name="description" placeholder="Brief description about product"></textarea> 
             <div class="show">
-                <button>Submit</button>
+                <button type="submit">Submit</button>
             </div>
         </div>
     </div>
@@ -34,3 +34,5 @@
 
 <!-- Link to the external JavaScript file -->
 <script src="/js/addnew.js"></script>
+
+

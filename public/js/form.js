@@ -79,6 +79,6 @@ document.getElementById('form').addEventListener('submit', function(event) {
     }
 
     // If all validations pass, submit the form
-    alert('Form is valid! Submitting...');
-    document.getElementById('form').submit();
+    // alert('Form is valid! Submitting...');
+    // document.getElementById('form').submit();
 });
