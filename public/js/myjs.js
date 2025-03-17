@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --------------- not more than 3 images ----------------
+<<<<<<< HEAD
     // function Toggle() {
     //     var showpassword = document.getElementById("tog");
     //     if (showpassword.type === "password") {
@@ -135,6 +136,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --------------- Password Toggle ----------------
+=======
+>>>>>>> 19a0e54 (form validation 1)
     // function Toggle() {
     //     var showpassword = document.getElementById("tog");
     //     if (showpassword.type === "password") {
@@ -143,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //         showpassword.type = "password";
     //     }
     // }
+
 
     // --------------- Navbar Toggle ----------------
     var show = true;
