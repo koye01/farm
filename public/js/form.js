@@ -152,6 +152,6 @@ function Toggle() {
 
     // If all validations pass, submit the form
     // alert('Form is valid! Submitting...');
-    // document.getElementById('form').submit();
+    document.getElementById('form').submit();
 });
 >>>>>>> 19a0e54 (form validation 1)
