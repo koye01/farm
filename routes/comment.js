@@ -52,8 +52,11 @@ router.post("/:id/comment", middleware.isLoggedIn, async function(req, res){
     }
 });
 router.get("/:id/comment/:comment_id/edit", middleware.commentOwner, async function(req, res){
+    var product = await Product.findById(req.params.id);
     var edit = await Comment.findById(req.params.comment_id);
- res.render("comment/edit", {product_id:req.params.id, edit, title: 'comment edit mode'});
+ res.render("comment/edit", {product_id:req.params.id, edit, title: 'comment edit mode', description: edit.post, 
+    keywords: product.name,
+    image: product.image});
 });
 
 //comment update route

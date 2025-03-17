@@ -1,6 +1,6 @@
 <%-include("./partials/header")%>
 <h2>Add a new product here</h2>
-<form action="/" method="post" enctype="multipart/form-data">
+<form action="/" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
     <div class="form-style">
         <div class="form-set">
             <label>Product's category</label>
@@ -21,9 +21,9 @@
             <label>Price</label>
             <input type="text" name="price" placeholder="Product's price">
             <label>Image</label>
-            <input type="file" name="image" multiple accept="image/*">
-            <label>product's description</label>
-            <textarea name="description" placeholder="brief description about product"></textarea> 
+            <input type="file" name="image" id="imageInput" multiple accept="image/*">
+            <label>Product's description</label>
+            <textarea name="description" placeholder="Brief description about product"></textarea> 
             <div class="show">
                 <button>Submit</button>
             </div>
@@ -31,3 +31,6 @@
     </div>
 </form>
 <%- include("./partials/footer") %>
+
+<!-- Link to the external JavaScript file -->
+<script src="/js/addnew.js"></script>

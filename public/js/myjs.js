@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dots[n].classList.add("active");
     }
 
-    // --------------- Password Toggle ----------------
+    // --------------- not more than 3 images ----------------
     // function Toggle() {
     //     var showpassword = document.getElementById("tog");
     //     if (showpassword.type === "password") {
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //         showpassword.type = "password";
     //     }
     // }
+
 
     // --------------- Navbar Toggle ----------------
     var show = true;
