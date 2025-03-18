@@ -293,4 +293,27 @@ router.get("/chat/:id", async (req, res) => {
   
 
 
+router.get("/about", async function(req, res){
+    try{
+        res.render("about", {title: "about farm-gate", 
+            description: "Farm-Gate is a dynamic and innovative platform dedicated to connecting farmers with their target audience",
+            keywords: "farmgate",
+            image: "/pics/logo.png"
+        });
+    }catch(err){
+        res.redirect("/")
+    }
+})
+
+router.get("/contact", async function(req, res){
+    try{
+        res.render("contact", {title: "contact information", 
+            description: "Farm-Gate is a dynamic and innovative platform dedicated to connecting farmers with their target audience",
+            keywords: "farm-gate contact information",
+            image: "/pics/logo.png"
+        });
+    }catch(err){
+        res.redirect("/")
+    }
+})
 module.exports = router;
