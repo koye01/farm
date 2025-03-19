@@ -122,7 +122,7 @@ router.post("/forgot", async function(req, res, next) {
         const user = await User.findOne({ email: req.body.email });
         if (!user) {
             req.flash("error", "No account with that email address exists");
-            return res.redirect("/forget");
+            return res.redirect("/forgot");
         }
 
         user.resetPasswordToken = token;
@@ -142,7 +142,7 @@ router.post("/forgot", async function(req, res, next) {
         const mailOptions = {
             to: user.email,
             from: "koyegarden@gmail.com",
-            subject: "Producer's market password reset",
+            subject: "Farmgate Nigerian mobile App's password reset",
             text: `You are receiving this because you or someone else have requested a password reset.\n\n` +
                   `Please click on this link or copy the code to your browser to complete the process:\n\n` +
                   `http://${req.headers.host}/reset/${token}\n\n` +
@@ -325,7 +325,11 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
         var unique = user.followers.filter((value, index)=>{
             return user.followers.indexOf(value) === index;
         });
+        var followingUnique =follow.following.filter((value, index)=>{
+            return follow.following.indexOf(value) === index;
+        })
         user.followers = unique;
+        follow.following = followingUnique;
         user.save();
         follow.save();
         req.flash("success", unique.username, "started following you");
