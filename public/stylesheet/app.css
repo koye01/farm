@@ -459,6 +459,20 @@ a {
     /* background-color: rgb(15, 15, 15); */
 }
 
+.profilePicture i {
+    /* background-color: white;
+    margin: 5px auto;
+    padding: 5px 15px; */
+    color: red;
+}
+.profilePicture img{
+    border: 10px solid rgb(46, 32, 32);
+    border-radius: 50%;
+    height: 250px;
+    width: 200px;
+    z-index: 0;
+}
+
 .comment-link a{
     color: blue;
 }
@@ -731,11 +745,14 @@ ul li{
     list-style: none;
     text-align: right;
     margin: 3px 3px;
-    position: absolute;
+    z-index: 1;
+    position: fixed;
     /* top: 100px;   */
-    right: 50px;  
+    /* right: 50px;   */
 }
-
+#followingList li{
+    margin: 5px auto;
+}
 .follow-followers ul li, .follow-following ul li{
     list-style: none;
 }
