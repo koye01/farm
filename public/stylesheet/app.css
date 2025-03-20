@@ -471,6 +471,7 @@ a {
     border-radius: 50%;
     height: 250px;
     width: 200px;
+    z-index: 0;
 }
 
 .comment-link a{
@@ -608,11 +609,14 @@ ul li{
     list-style: none;
     text-align: right;
     margin: 3px 3px;
-    position: absolute;
+    z-index: 1;
+    position: fixed;
     /* top: 100px;   */
-    right: 50px;  
+    /* right: 50px;   */
 }
-
+#followingList li{
+    margin: 5px auto;
+}
 .follow-followers ul li, .follow-following ul li{
     list-style: none;
 }

@@ -8,32 +8,33 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     methodOverride = require("method-override"),
     mongoose = require("mongoose"),
-    path = require("path")
+    path = require("path"),
     passport = require("passport"),
     localStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-    expressSession = require("express-session")
+    expressSession = require("express-session");
 
-    var coverRoute   = require("./routes/cover");
-    var productRoute = require("./routes/auth");
-    var dynamicRoute = require("./routes/allproduct");
-    var commentRoute = require("./routes/comment");
-    var flash = require("connect-flash");
+var coverRoute   = require("./routes/cover");
+var productRoute = require("./routes/auth");
+var dynamicRoute = require("./routes/allproduct");
+var commentRoute = require("./routes/comment");
+var flash = require("connect-flash");
 const helmet = require("helmet");
 
-// mongoose.connect("mongodb://localhost/Product");
-mongoose.connect(process.env.database);
+mongoose.connect("mongodb://localhost/Product");
+// mongoose.connect(process.env.database);
 
-
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static( __dirname +"/public"));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/public"));  // Serving static files from the "public" directory
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
-app.use(expressSession({
+app.use(
+  expressSession({
     secret: "Rusty is my best dog",
     resave: false,
-    saveUninitialized: false
-}));
+    saveUninitialized: false,
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,70 +44,80 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(async function(req, res, next){
-    if(req.user) {
-        try {
-            var user = await User.findById(req.user._id).populate('notifications', null, {isRead: false}).exec();
-            res.locals.notifications = user.notifications.reverse();
-        } catch(err) {
-            console.log(err.message);
-        }
+app.use(async function (req, res, next) {
+  if (req.user) {
+    try {
+      var user = await User.findById(req.user._id)
+        .populate("notifications", null, { isRead: false })
+        .exec();
+      res.locals.notifications = user.notifications.reverse();
+    } catch (err) {
+      console.log(err.message);
     }
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    res.locals.currentUser = req.user;
-    next();
+  }
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
+  next();
 });
-
 
 app.use(
-    helmet.contentSecurityPolicy({
-      directives: {
-        defaultSrc: ["'self'"], // Allow self
-        imgSrc: [
-          "'self'", // Allow images from the same domain
-          'https://res.cloudinary.com', // Allow Cloudinary images
-          'https://www.facebook.com', // Allow Facebook's scraper bot
-          'https://platform.twitter.com', // Allow Twitter's scraper bot
-          'https://www.linkedin.com', // Allow LinkedIn's scraper bot
-          'data:', // Allow data URIs (for inline images)
-        ],
-        // Allow other directives for social media bots, adjust as needed
-      },
-    })
-  );
-  
-  app.use(
-      helmet({
-          contentSecurityPolicy: false, //Disable if using third party scripts
-          frameguard: {
-              action: "deny"
-          }, //prevent clickjacking
-          referrerPolicy: {
-              policy: 'no-referrer'
-          }, // manage referer info
-          xssFilter: true, //Prevent xss attacks
-          hsts: {
-              maxAge: 31536000,
-              includeSubDomains: true
-          }, //Enforce HTTPS
-      })
-  );
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // Allow self
+      imgSrc: [
+        "'self'", // Allow images from the same domain
+        "https://res.cloudinary.com", // Allow Cloudinary images
+        "https://www.facebook.com", // Allow Facebook's scraper bot
+        "https://platform.twitter.com", // Allow Twitter's scraper bot
+        "https://www.linkedin.com", // Allow LinkedIn's scraper bot
+        "data:", // Allow data URIs (for inline images)
+      ],
+      // Allow other directives for social media bots, adjust as needed
+    },
+  })
+);
 
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // Disable if using third-party scripts
+    frameguard: {
+      action: "deny",
+    }, // Prevent clickjacking
+    referrerPolicy: {
+      policy: "no-referrer",
+    }, // Manage referrer info
+    xssFilter: true, // Prevent XSS attacks
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+    }, // Enforce HTTPS
+  })
+);
 
+// Serve robots.txt
+app.get("/robots.txt", function (req, res) {
+  res.type("text/plain");
+  res.send(
+    `User-agent: *
+Allow: /admin/
+Allow: /`
+  );
+});
 
 var storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, "public/pics")
-    },
-    filename: function(req, file, cb){
-        // console.log(file),
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
+  destination: function (req, file, cb) {
+    cb(null, "public/pics");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
 });
-var upload = multer({storage: storage});
-var multiUpload = upload.fields([{ name: "image", maxCount: 5}]);
-//essential route
+
+var upload = multer({ storage: storage });
+var multiUpload = upload.fields([{ name: "image", maxCount: 5 }]);
+
+// essential route
 // Product.create({
 //     name: "Obasanjo chicks",
 //     image: "pics\chicks.jpg",
@@ -117,16 +128,5 @@ app.use(productRoute);
 app.use(dynamicRoute);
 app.use(commentRoute);
 
-
-
-
-
-
-// app.listen("3000", function(){
-//     console.log("Your app is loading")
-// });
 app.listen(process.env.PORT, process.env.IP);
 console.log("application is now running");
-
-
-  
