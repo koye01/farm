@@ -422,17 +422,7 @@ a {
   
 }
 
-/* .profilePicture{
-    background-image: url("/pics/kitten.jpg");
-    width: 100%;
-    height: 300px;
-    border: thin solid white;
-    /* border-radius: 50%; */
-    /* margin: 10px 1%;
-    padding: 15px 5px;
-    text-align: center;
-    z-index: 0; */
-} */
+
 
 .edit-profile{
     float: left;
@@ -722,7 +712,6 @@ a {
 .follow-followers{
 
 /* .follow-followers{
->>>>>>> ba24203 (profile follower)
     float: inline-start;
     margin-left: 20%;
     display: flex;
@@ -732,18 +721,19 @@ a {
 } */
 /* #followersList li a, #followingList li a{
     padding: 3px 3px;
-    color: white;
-    background-color: #717171;
-} */
+    color: red;
+    /* background-color: green; */
+}
 
 
 #followersList {
     list-style: none;
     text-align: left;
-    margin: 3px 3px;
+    /* padding: 3px 3px; */
+    /* margin: 5px 3px; */
     position: absolute;
-    /* top: 100px;   */
-    /* left: 20%   */
+    color: red;
+    left: 35%  
 }
 
 #followingList {
@@ -752,23 +742,9 @@ a {
     margin: 3px 3px;
     position: absolute;
     /* top: 100px;   */
-    /* right: 50px;   */
+    color: red;
+    left: 50%;  
 }
-/* #followingList li{
-    margin: 5px auto;
-} */
-/* .follow-followers ul li, .follow-following ul li{
-    list-style: none;
-} */
-/* .follow-following{
-    float: inline-end;
-    margin-right: 20%;
-} */
-/* .follow-followers a, .follow-following a{
-    padding: 3px 8px;
-    color: white;
-    background-color: black;
-} */
 
 .profile-body {
     text-align: center;
@@ -795,7 +771,7 @@ a {
 
 .profilePicture {
     background-image: url("/pics/kitten.jpg");
-    width: 100%;
+    width: auto;
     height: 300px;
     border: thin solid white;
     margin: 10px 1%;
@@ -808,29 +784,19 @@ a {
     border: 10px solid rgb(46, 32, 32);
     border-radius: 50%;
     height: 250px;
-    width: 200px;
+    width: auto;
     z-index: 0;
-}
-
-.profile-info {
-    margin-top: 20px;
 }
 
 .profile-details p {
     font-size: 1.1em;
 }
 
-/* .edit-profile a {
-    color: white;
-    text-decoration: none;
-} */
-
-
 .edit-button:hover, .delete-button:hover {
     background-color: #555;
 }
 
-.profile-bottom .profile {
+.profile-bottom {
     margin: 20px;
 }
 

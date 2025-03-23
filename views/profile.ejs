@@ -26,25 +26,6 @@
         <% } %> 
     </p>
 
-    <div class="profilePicture">
-        <!-- Hidden list of followers -->
-        <div id="followersList" style="display: none;">
-            <ol>
-                <% user.followers.forEach(function(follower) { %>
-                    <li><a href="/user/<%= follower.id %>"><%= follower.username %></a></li>
-                <% }); %>
-            </ol>
-        </div>
-
-        <!-- Hidden list of following -->
-        <div id="followingList" style="display: none;">
-            <ol>
-                <% user.following.forEach(function(follow) { %>
-                    <li><a href="/user/<%= follow.id %>"><%= follow.username %></a></li>
-                <% }); %>
-            </ol>
-        </div>
-
         <% for(var checkFollower of unique){ %>
             <% if(currentUser && checkFollower.username == currentUser.username){ %>
                 <a disabled="disabled"><button disabled class="edit-button">Following <%= user.username %></button></a>
@@ -54,6 +35,25 @@
             <% } %>
         <% } %>
 
+    
+        <!-- Hidden list of followers -->
+        <div id="followersList" style="display: none;">
+            <ol>
+                <% user.followers.forEach(function(follower) { %>
+                    <li><a href="/user/<%= follower.id %>"><b><%= follower.username.toUpperCase() %></b></a></li>
+                <% }); %>
+            </ol>
+        </div>
+
+        <!-- Hidden list of following -->
+        <div id="followingList" style="display: none;">
+            <ol>
+                <% user.following.forEach(function(follow) { %>
+                    <li><a href="/user/<%= follow.id %>"><b><%= follow.username.toUpperCase() %></b></a></li>
+                <% }); %>
+            </ol>
+        </div>
+    <div class="profilePicture">
         <img src="<%= user.image[0].url %>" alt="<%= user.username %>'s picture">
         <h3><i>Profile Picture</i></h3>
     </div>
@@ -79,7 +79,7 @@
                     <div class="profile">
                         <h2>
                             <% if(pro.category == "Agricultural talk"){ %>
-                                <%= pro.name %>
+                                matters arising on<%= pro.name %>
                             <% } else { %>
                                 <%= pro.name %> for sales
                             <% } %>
