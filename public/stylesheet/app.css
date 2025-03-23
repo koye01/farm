@@ -422,29 +422,17 @@ a {
   
 }
 
-/* .profilePicture{
-    background-image: url("/pics/kitten.jpg");
-    width: 100%;
-    height: 300px;
-    border: thin solid white;
-    /* border-radius: 50%; */
-    /* margin: 10px 1%;
-    padding: 15px 5px;
-    text-align: center;
-    z-index: 0; */
-} */
+
 
 .edit-profile{
     float: left;
     margin-bottom: 0px;
-    width: auto;
     height: 40px;
     border: thin solid rgb(212, 191, 127);
-    /* box-shadow: 5px 5px 10px#444; */
-    font-size: medium;
-    padding: 2px 5px;
-    background-color: rgb(37, 25, 25);
+    box-shadow: 5px 5px 10px#444;
+    background-color: rgb(99, 150, 23)
 }
+
 .edit-profile a{
     color: black;
 }
@@ -461,19 +449,6 @@ a {
     box-shadow: 5px 5px 5px brown;
     /* background-color: rgb(15, 15, 15); */
 }
-/* .profilePicture i {
-    /* background-color: white;
-    margin: 5px auto;
-    padding: 5px 15px; */
-    /* color: red; */
-} */
-/* .profilePicture img{
-    border: 10px solid rgb(46, 32, 32);
-    border-radius: 50%;
-    height: 250px;
-    width: 200px;
-    z-index: 0;
-} */
 
 .comment-link a{
     color: blue;
@@ -511,19 +486,6 @@ a {
 .dropdown:hover .dropdown-content{
     display: block;
 }
-/* .listType{
-    width: 250px;
-    height: 500px;
-    text-align: center;
-    margin: auto 5px;
-   border: thin solid #555;
-    box-shadow: 10px 10px 10px rgba(0,0,0,0.1);
-    padding: 0px 0px;
-
-}
-.listType img{
-    height: 200px;
-} */
 
 #approve a, p a{
     color: white;
@@ -567,7 +529,7 @@ a {
 .footerInfo{
     /* background-size: cover; */
     height: 40px;
-    width: 700px;
+    width: 800px;
     position: fixed;
     padding: 5px;
     bottom: 0;
@@ -589,20 +551,21 @@ a {
 /* ul li{
     list-style: none;
 } */
-/* #followersList li a, #followingList li a{
+#followersList li a, #followingList li a{
     padding: 3px 3px;
-    color: white;
-    background-color: #717171;
-} */
+    color: red;
+    /* background-color: green; */
+}
 
 
 #followersList {
     list-style: none;
     text-align: left;
-    margin: 3px 3px;
+    /* padding: 3px 3px; */
+    /* margin: 5px 3px; */
     position: absolute;
-    /* top: 100px;   */
-    /* left: 20%   */
+    color: red;
+    left: 35%  
 }
 
 #followingList {
@@ -611,23 +574,9 @@ a {
     margin: 3px 3px;
     position: absolute;
     /* top: 100px;   */
-    /* right: 50px;   */
+    color: red;
+    left: 50%;  
 }
-/* #followingList li{
-    margin: 5px auto;
-} */
-/* .follow-followers ul li, .follow-following ul li{
-    list-style: none;
-} */
-/* .follow-following{
-    float: inline-end;
-    margin-right: 20%;
-} */
-/* .follow-followers a, .follow-following a{
-    padding: 3px 8px;
-    color: white;
-    background-color: black;
-} */
 
 .profile-body {
     text-align: center;
@@ -654,7 +603,7 @@ a {
 
 .profilePicture {
     background-image: url("/pics/kitten.jpg");
-    width: 100%;
+    width: auto;
     height: 300px;
     border: thin solid white;
     margin: 10px 1%;
@@ -667,29 +616,19 @@ a {
     border: 10px solid rgb(46, 32, 32);
     border-radius: 50%;
     height: 250px;
-    width: 200px;
+    width: auto;
     z-index: 0;
-}
-
-.profile-info {
-    margin-top: 20px;
 }
 
 .profile-details p {
     font-size: 1.1em;
 }
 
-/* .edit-profile a {
-    color: white;
-    text-decoration: none;
-} */
-
-
 .edit-button:hover, .delete-button:hover {
     background-color: #555;
 }
 
-.profile-bottom .profile {
+.profile-bottom {
     margin: 20px;
 }
 
