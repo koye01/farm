@@ -458,6 +458,7 @@ a {
     padding: 5px 15px; */
     /* color: red; */
 } */
+
 /* .profilePicture img{
     border: 10px solid rgb(46, 32, 32);
     border-radius: 50%;
@@ -816,6 +817,11 @@ a {
     background-color: #0e0d0d;
     color: white;
     border: thin solid #0e0d0d;
+}
+.category {
+    padding: 20px 20px;
+    margin: auto;
+    text-align: left;
 }
 
 
