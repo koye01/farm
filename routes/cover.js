@@ -36,7 +36,7 @@ router.get("/seedlings", async function(req, res){
         var seedlings = await Product.find({"category": "Seedlings", "adminpost": "true"});
         const keywords = seedlings.map(plant => plant.name).join(", ");
         res.render("categories/seedlings", {
-            seedlings, title: 'Floricultural and Environment', description: food.description, 
+            seedlings, title: 'Floricultural and Environment', description: "We beautifies the nature", 
             keywords,
             image: "/pics/logo.png"
         });
@@ -85,19 +85,19 @@ router.get("/chef", async function(req, res){
     }
 });
 //bakery page
-router.get("/bakeries", async function(req, res){
-    try{
-        var bakeries = await Product.find({"category": "bakeries", "adminpost": "true"});
-        const keywords = bakeries.map(bake => bake.name).join(", ");
-        res.render("categories/bakeries", {
-            bakeries, title: 'baked products',description: "All baked items such as; cake, bread and small chops", 
-            keywords,
-            image: "/pics/logo.png"
-        });
-    }catch(err){
-        console.log(err)
-    }
-});
+// router.get("/bakeries", async function(req, res){
+//     try{
+//         var bakeries = await Product.find({"category": "bakeries", "adminpost": "true"});
+//         const keywords = bakeries.map(bake => bake.name).join(", ");
+//         res.render("categories/bakeries", {
+//             bakeries, title: 'baked products',description: "All baked items such as; cake, bread and small chops", 
+//             keywords,
+//             image: "/pics/logo.png"
+//         });
+//     }catch(err){
+//         console.log(err)
+//     }
+// });
 //Others
 router.get("/others", async function(req, res){
     try{

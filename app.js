@@ -21,8 +21,8 @@ var commentRoute = require("./routes/comment");
 var flash = require("connect-flash");
 const helmet = require("helmet");
 
-// mongoose.connect("mongodb://localhost/Product");
-mongoose.connect(process.env.database);
+mongoose.connect("mongodb://localhost/Product");
+// mongoose.connect(process.env.database);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));  // Serving static files from the "public" directory
