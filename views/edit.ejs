@@ -6,6 +6,13 @@
         <input type="text" name="update[name]" value="<%= edit.name%>">
         <label>Price</label>
         <input type="text" name="update[price]" value="<%= edit.price%>">
+        <div class="clusterImage">
+            <label>Image preview</label>
+            <img src="<%=edit.image[0].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+            <img src="<%=edit.image[1].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+            <img src="<%=edit.image[2].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+        </div>
+        
         <label>Image</label>
         <input type="file" name="image" required multiple accept="image/*">
         <label>product's description</label>

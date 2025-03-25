@@ -18,14 +18,20 @@ require('dotenv').config();
 var google = require("googleapis");
 
 var storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, "public/profile")
-    },
-    filename: function(req, file, cb){
-        //console.log(file),
-        cb(null, Date.now() + path.extname(file.originalname))
+    filename: function(req, file, callback){
+     callback(null, Date.now() + file.originalname);
     }
-});
+ });
+
+//  var storage = multer.diskStorage({
+//     destination: function(req, file, cb){
+//         cb(null, "public/profile")
+//     },
+//     filename: function(req, file, cb){
+//         //console.log(file),
+//         cb(null, Date.now() + path.extname(file.originalname))
+//     }
+// });
 var upload = multer({storage: storage});
 var cloudinary = require("cloudinary");
 cloudinary.config({ 
@@ -42,7 +48,7 @@ cloudinary.config({
 // });
 
 
-router.get("/register", async function(req, res){
+router.get("/register", function(req, res){
     res.render("form/register", {title: 'register new user', description: "user sign-up page", 
         keywords: 'sign-up page',
         image: "/pics/logo.png"});
@@ -59,9 +65,10 @@ router.post("/register", upload.single("image"), async function(req, res){
             try{
             var username = req.body.username;
             var email = req.body.email;
-            phone = req.body.phone;
+            var phone = req.body.phone;
             var description = req.body.description;
             var fullname = req.body.fullname;
+            var secretCode = req.body.secretCode;
             var newUser = {image: image, username: username, email: email, secretCode: secretCode, 
                 description: description, fullname: fullname, phone: phone};
             var secretCode = req.body.secretCode;
@@ -69,11 +76,11 @@ router.post("/register", upload.single("image"), async function(req, res){
                 newUser.isAdmin = true;
             }
             var user = await User.register(newUser, req.body.password);
-            req.flash("success", user.username, "! ", "Your registration was successful")
+            req.flash("success", user.username + "! "+ " Your registration was successful")
                 res.redirect("/login");
             } catch(err){
             req.flash("error", err.message);
-            res.render("form/register");
+            res.redirect("back");
         }
     
 });
@@ -339,6 +346,33 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
         res.redirect('back');
     }
 });
+
+// loading followers list in a separate file
+router.get('/user/:id/followers', async function(req, res) {
+    try{
+       const userId = req.params.id; 
+       var user = await User.findById(userId).populate('followers').exec();
+       var listfollowers = user.followers;
+       res.render("followerspage", {listfollowers});
+    }catch(err){
+        console.log(err);
+    }
+    
+});
+
+// loading following list in a separate file
+router.get('/user/:id/following', async function(req, res) {
+    try{
+       const userId = req.params.id; 
+       var user = await User.findById(userId).populate('following').exec();
+       var listfollowing = user.following;
+       res.render("followingpage", {listfollowing});
+    }catch(err){
+        console.log(err);
+    }
+    
+});
+
 
 //Unfollow user
 router.get('/unfollow/:id', middleware.isLoggedIn, async function(req, res) {

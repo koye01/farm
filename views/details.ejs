@@ -1,16 +1,9 @@
 <%-include("./partials/header")%>
-<style>
-   .koye  {
-        color: black;
-    }
- 
 
-
-</style>
 <% if(detailed.category != 'Agricultural talk'){ %>
     <h2><%= detailed.name %> for sales</h2>
 <% }else{ %>
- <h2><%= detailed.name %></h2>
+ <h2>open discussion on <%= detailed.name %></h2>
 <% }%>
 
 <div class="koye">

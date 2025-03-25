@@ -145,10 +145,16 @@ router.get("/:id", async function(req, res){
             path: 'comments',
             populate: { path: 'replies' }
           });
-          
-        res.render("details", {detailed, title: detailed.name, description: detailed.description, 
+         if(detailed.category == 'Agricultural talk') {
+            res.render("details", {detailed, title: 'Open discussion on ' + detailed.name, description: detailed.description, 
             keywords: detailed.name,
             image: detailed.image});
+         }else{
+            res.render("details", {detailed, title: detailed.name + 'for sales ', description: detailed.description, 
+                keywords: detailed.name,
+                image: detailed.image});
+         }
+        
     }catch(err){
         console.log(err)
     }
