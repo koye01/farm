@@ -141,12 +141,34 @@ function uploadImages(req, res) {
 //Adding new post (post request)
 router.post("/", multiUpload.array('image', 10), uploadImages);
 
+<<<<<<< HEAD
 // Set up the email transport using the default SMTP transport
 const transporter = nodemailer.createTransport({
     service: 'gmail',  // Example: using Gmail as the email service
     auth: {
         user: 'koyegarden@gmail.com',   // Replace with your email
         pass: process.env.password     // Replace with your email password
+=======
+// the show page
+router.get("/:id", async function(req, res){
+    try{
+        var detailed =  await Product.findById(req.params.id).populate({
+            path: 'comments',
+            populate: { path: 'replies' }
+          });
+         if(detailed.category == 'Agricultural talk') {
+            res.render("details", {detailed, title: 'Open discussion on ' + detailed.name, description: detailed.description, 
+            keywords: detailed.name,
+            image: detailed.image});
+         }else{
+            res.render("details", {detailed, title: detailed.name + 'for sales ', description: detailed.description, 
+                keywords: detailed.name,
+                image: detailed.image});
+         }
+        
+    }catch(err){
+        console.log(err)
+>>>>>>> cd3ca97 (seperate list for followers)
     }
 });
 

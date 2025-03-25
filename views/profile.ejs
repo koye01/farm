@@ -5,6 +5,16 @@
 <div class="profile-body">
     <h1>Welcome to <%= user.username %>'s page </h1>
 
+    <div>
+        <% for(var checkFollower of unique){ %>
+            <% if(currentUser && checkFollower.username == currentUser.username){ %>
+                <a disabled="disabled">already following <%= user.username %></a>
+                <p id="danger">
+                    <a href="/unfollow/<%= user.id %>"><button class="delete-button">Unfollow <%= user.username %></button></a>
+                </p>
+            <% } %>
+        <% } %>
+    </div>
     <p>
         <% if(currentUser && user.username == currentUser.username){ %>
             <a disabled="disabled"><button disabled class="edit-button">Follow <%= user.username %></button></a>
@@ -19,28 +29,21 @@
                 <button id="listfollowing">Following <%= user.following.length %></button>
             </div>
         <% } else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){ %>
-            <a href="/follow/<%= user.id %>"><button>Follow <%= user.username %></button></a>
+            <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
             <div class="follow-info">
                 <button id="listfollowers"><%= user.followers.length %> followers</button>
+                <button id="listfollowing">Following <%= user.following.length %></button>
             </div>
         <% } %> 
     </p>
 
-        <% for(var checkFollower of unique){ %>
-            <% if(currentUser && checkFollower.username == currentUser.username){ %>
-                <a disabled="disabled"><button disabled class="edit-button">Following <%= user.username %></button></a>
-                <p id="danger">
-                    <a href="/unfollow/<%= user.id %>"><button class="delete-button">Unfollow <%= user.username %></button></a>
-                </p>
-            <% } %>
-        <% } %>
 
     
         <!-- Hidden list of followers -->
         <div id="followersList" style="display: none;">
             <ol>
                 <% user.followers.forEach(function(follower) { %>
-                    <li><a href="/user/<%= follower.id %>"><b><%= follower.username.toUpperCase() %></b></a></li>
+                    <li><a href="/user/<%= follower.id %>"><b><%= follower.username %></b></a></li>
                 <% }); %>
             </ol>
         </div>
@@ -49,7 +52,7 @@
         <div id="followingList" style="display: none;">
             <ol>
                 <% user.following.forEach(function(follow) { %>
-                    <li><a href="/user/<%= follow.id %>"><b><%= follow.username.toUpperCase() %></b></a></li>
+                    <li><a href="/user/<%= follow.id %>"><b><%= follow.username %></b></a></li>
                 <% }); %>
             </ol>
         </div>
