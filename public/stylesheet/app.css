@@ -793,6 +793,10 @@ a {
     z-index: 0;
 }
 
+.profilePicture h3{
+    color: red;
+}
+
 .profile-details p {
     font-size: 1.1em;
 }
@@ -825,7 +829,7 @@ a {
 .category {
     padding: 20px 20px;
     margin: auto;
-    text-align: left;
+    text-align: justify;
 }
 .clusterImage{
     background-color: #131212;

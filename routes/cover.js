@@ -99,6 +99,7 @@ router.get("/chef", async function(req, res){
         console.log(err)
     }
 });
+<<<<<<< HEAD
 // real estate page
 router.get("/estate", async function(req, res){
     try{
@@ -113,6 +114,22 @@ router.get("/estate", async function(req, res){
         console.log(err)
     }
 });
+=======
+//bakery page
+// router.get("/bakeries", async function(req, res){
+//     try{
+//         var bakeries = await Product.find({"category": "bakeries", "adminpost": "true"});
+//         const keywords = bakeries.map(bake => bake.name).join(", ");
+//         res.render("categories/bakeries", {
+//             bakeries, title: 'baked products',description: "All baked items such as; cake, bread and small chops", 
+//             keywords,
+//             image: "/pics/logo.png"
+//         });
+//     }catch(err){
+//         console.log(err)
+//     }
+// });
+>>>>>>> 3082890 (florist)
 //Others
 router.get("/others", async function(req, res){
     try{
