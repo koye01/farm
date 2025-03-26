@@ -64,7 +64,7 @@ router.get("/farmequips", async function(req, res){
         var farmequips = await Product.find({"category": "Farm equipments", "adminpost": "true"});
         const keywords = farmequips.map(equips => equips.name).join(", ");
         res.render("categories/farmequips", {
-            farmequips, title: 'farm equipments', description: farmequips.description, 
+            farmequips, title: 'farm equipments', description: "21st-century farming now incorporates sophisticated tools, including surveillance cameras", 
             keywords,
             image: "/pics/logo.png"
         });
@@ -77,27 +77,27 @@ router.get("/chef", async function(req, res){
     try{
         var chef = await Product.find({"category": "chef", "adminpost": "true"});
         const keywords = chef.map(ch => ch.name).join(", ");
-        res.render("categories/chef", {chef, title: 'chef', description: chef.description, 
+        res.render("categories/chef", {chef, title: 'chef', description: "chefs specializing in both local and international cuisines", 
             keywords,
             image: "/pics/logo.png"});
     }catch(err){
         console.log(err)
     }
 });
-//bakery page
-// router.get("/bakeries", async function(req, res){
-//     try{
-//         var bakeries = await Product.find({"category": "bakeries", "adminpost": "true"});
-//         const keywords = bakeries.map(bake => bake.name).join(", ");
-//         res.render("categories/bakeries", {
-//             bakeries, title: 'baked products',description: "All baked items such as; cake, bread and small chops", 
-//             keywords,
-//             image: "/pics/logo.png"
-//         });
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
+// bakery page
+router.get("/estate", async function(req, res){
+    try{
+        var estate = await Product.find({"category": "Farm Real Estate", "adminpost": "true"});
+        const keywords = estate.map(bake => bake.name).join(", ");
+        res.render("categories/estate", {
+            estate, title: 'farm real estate',description: "available farm properties, farm settlement with establishments", 
+            keywords,
+            image: "/pics/logo.png"
+        });
+    }catch(err){
+        console.log(err)
+    }
+});
 //Others
 router.get("/others", async function(req, res){
     try{
