@@ -100,7 +100,11 @@ router.get("/chef", async function(req, res){
     }
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 // real estate page
+=======
+// bakery page
+>>>>>>> c395678 (real estate)
 router.get("/estate", async function(req, res){
     try{
         var estate = await Product.find({"category": "Farm Real Estate", "adminpost": "true"});
@@ -114,6 +118,7 @@ router.get("/estate", async function(req, res){
         console.log(err)
     }
 });
+<<<<<<< HEAD
 =======
 //bakery page
 // router.get("/bakeries", async function(req, res){
@@ -130,6 +135,8 @@ router.get("/estate", async function(req, res){
 //     }
 // });
 >>>>>>> 3082890 (florist)
+=======
+>>>>>>> c395678 (real estate)
 //Others
 router.get("/others", async function(req, res){
     try{

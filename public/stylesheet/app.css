@@ -579,14 +579,13 @@ a {
 
 #followersList {
     background-color: black;
-<<<<<<< HEAD
     list-style: none;
     text-align: left;
     /* padding: 3px 3px; */
     /* margin: 5px 3px; */
     position: absolute;
     color: red;
-    left: 35%  
+    left: 35%;
 }
 
 #followingList {
@@ -729,8 +728,6 @@ a {
 
 
 #followersList {
-=======
->>>>>>> cd3ca97 (seperate list for followers)
     list-style: none;
     text-align: left;
     /* padding: 3px 3px; */
