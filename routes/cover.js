@@ -25,7 +25,8 @@ router.get("/pets", async function(req, res){
         var pets = await Product.find({"category": "Pets", "adminpost": "true"});
         const keywords = pets.map(other => other.name).join(", ");
         res.render("categories/pets", {
-            pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors", 
+            pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors",
+            pets, title: 'Other commodity', description: "other goods and services for sales", 
             keywords,
             image: "/pics/logo.png"
         });
@@ -99,12 +100,10 @@ router.get("/chef", async function(req, res){
         console.log(err)
     }
 });
-<<<<<<< HEAD
-<<<<<<< HEAD
 // real estate page
-=======
 // bakery page
->>>>>>> c395678 (real estate)
+
+// real estate page
 router.get("/estate", async function(req, res){
     try{
         var estate = await Product.find({"category": "Farm Real Estate", "adminpost": "true"});
@@ -118,8 +117,7 @@ router.get("/estate", async function(req, res){
         console.log(err)
     }
 });
-<<<<<<< HEAD
-=======
+
 //bakery page
 // router.get("/bakeries", async function(req, res){
 //     try{
@@ -134,9 +132,6 @@ router.get("/estate", async function(req, res){
 //         console.log(err)
 //     }
 // });
->>>>>>> 3082890 (florist)
-=======
->>>>>>> c395678 (real estate)
 //Others
 router.get("/others", async function(req, res){
     try{
