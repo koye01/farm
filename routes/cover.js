@@ -18,6 +18,20 @@ router.get("/livestocks", async function(req, res){
         console.log(err)
     }
 });
+//pets
+router.get("/pets", async function(req, res){
+    try{
+        var pets = await Product.find({"category": "Pets", "adminpost": "true"});
+        const keywords = pets.map(other => other.name).join(", ");
+        res.render("categories/pets", {
+            pets, title: 'Other commodity', description: "other goods and services for sales", 
+            keywords,
+            image: "/pics/logo.png"
+        });
+    }catch(err){
+        console.log(err)
+    }
+});
 //vegetable page
 router.get("/vegetables", async function(req, res){
     try{
@@ -84,7 +98,7 @@ router.get("/chef", async function(req, res){
         console.log(err)
     }
 });
-// bakery page
+// real estate page
 router.get("/estate", async function(req, res){
     try{
         var estate = await Product.find({"category": "Farm Real Estate", "adminpost": "true"});
