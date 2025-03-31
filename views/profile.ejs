@@ -78,13 +78,13 @@
             <% if(pro.adminpost === true){ %>
                 <% if(user.username === pro.author.username){ %>
                     <div class="profile">
-                        <h2>
+                        <h3>
                             <% if(pro.category == "Agricultural talk"){ %>
                                 matters arising on<%= pro.name %>
                             <% } else { %>
                                 <%= pro.name %> for sales
                             <% } %>
-                        </h2>
+                        </h3>
                         <img src="<%= pro.image[0].url %>" alt="<%= pro.name %>">
                         <div class="descLink">
                             <p><%= pro.description %></p>
