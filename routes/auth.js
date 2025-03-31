@@ -257,20 +257,46 @@ router.post("/reset/:token", async function(req, res) {
 
 
 // Profile page route
-router.get("/user/:id", async function(req, res){
+// router.get("/user/:id", async function(req, res){
+//     try {
+//         var product = await Product.find({});
+//         var user = await User.findById(req.params.id).populate('followers following').exec();  // Populate 'following' field as well
+//         var unique = user.followers.filter((value, index) => {
+//             return user.followers.indexOf(value) === index;
+//         });
+//         const keywords = product.map(pro => pro.name).join(", ");
+//         res.render('profile', {
+//             user, product, unique, title: user.username + ' profile',
+//             description: user.description, 
+//             keywords,
+//             image: user.image
+//             });
+//     } catch (err) {
+//         console.log(err);
+//         return res.redirect('back');
+//     }
+// });
+
+router.get("/user/:id", async function(req, res) {
     try {
         var product = await Product.find({});
         var user = await User.findById(req.params.id).populate('followers following').exec();  // Populate 'following' field as well
         var unique = user.followers.filter((value, index) => {
             return user.followers.indexOf(value) === index;
         });
+        
+        // Create a comma-separated list of product names
         const keywords = product.map(pro => pro.name).join(", ");
+        
+        // Include 'user.username' in the keywords
+        const allKeywords = `${keywords}, ${user.username}`;
+
         res.render('profile', {
             user, product, unique, title: user.username + ' profile',
             description: user.description, 
-            keywords,
+            keywords: allKeywords,  // Use the updated 'allKeywords' here
             image: user.image
-            });
+        });
     } catch (err) {
         console.log(err);
         return res.redirect('back');

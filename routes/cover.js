@@ -89,7 +89,7 @@ router.get("/farmequips", async function(req, res){
 //chef page
 router.get("/chef", async function(req, res){
     try{
-        var chef = await Product.find({"category": "chef", "adminpost": "true"});
+        var chef = await Product.find({"category": "Chef", "adminpost": "true"});
         const keywords = chef.map(ch => ch.name).join(", ");
         res.render("categories/chef", {chef, title: 'chef', description: "chefs specializing in both local and international cuisines", 
             keywords,
