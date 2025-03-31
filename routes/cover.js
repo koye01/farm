@@ -24,7 +24,7 @@ router.get("/pets", async function(req, res){
         var pets = await Product.find({"category": "Pets", "adminpost": "true"});
         const keywords = pets.map(other => other.name).join(", ");
         res.render("categories/pets", {
-            pets, title: 'Other commodity', description: "other goods and services for sales", 
+            pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors", 
             keywords,
             image: "/pics/logo.png"
         });
