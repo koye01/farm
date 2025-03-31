@@ -27,6 +27,7 @@ router.get("/pets", async function(req, res){
         res.render("categories/pets", {
             pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors",
             pets, title: 'Other commodity', description: "other goods and services for sales", 
+            pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors", 
             keywords,
             image: "/pics/logo.png"
         });
