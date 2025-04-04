@@ -23,7 +23,8 @@ var productSchema = new mongoose.Schema({
                 ref: "User"
             },
             username: String,
-            phone: String
+            phone: String,
+            email: String
         },
     
 });
