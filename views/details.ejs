@@ -27,6 +27,7 @@
                 <em>submitted by </em><a href="/user/<%=detailed.author.id%>"><strong> <%=detailed.author.username.toUpperCase()%> </strong></a>
                 <%=detailed.author.phone%>
                 <!-- <%=detailed.author.email%> -->
+                <%=detailed.author.email%>
             <div class="control-button">
                 <%if(currentUser && detailed.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){%>
                     <a href="/<%= detailed.id%>/edit"><button id="button-float" class="edit-button">Edit</button></a>
@@ -56,6 +57,13 @@
 
                         <label for="enquiry">Enquiry:</label>
                         <textarea placeholder="write your message..." id="enquiry" name="enquiry" rows="4" required></textarea>
+                        <input type="text" id="name" name="name" required>
+
+                        <label for="telephone">Telephone:</label>
+                        <input type="tel" id="telephone" name="telephone" required>
+
+                        <label for="enquiry">Enquiry:</label>
+                        <textarea id="enquiry" name="enquiry" rows="4" required></textarea>
 
                         <button type="submit">Send Inquiry</button>
                    </div>
@@ -115,7 +123,7 @@
             </div>
         <% }); %>
     </div>
-   <!-- <script src="/js/myjs.js" ></script> -->
+   <script src="/js/myjs.js" ></script>
    
     
 </div>
