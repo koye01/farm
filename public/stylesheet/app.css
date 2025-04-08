@@ -677,12 +677,13 @@ a {
     padding: 3px 3px;
     background-color: whitesmoke;
    }
-    .inquiry-form input, .inquiry-form textarea, select {
+    .inquiry-form input, .inquiry-form textarea{
         border: thin solid rgb(107, 82, 82);
         width: 90%;
         margin: 4px auto;
         text-align: center;
-        background-color: #da86f3;
+        /* background-color: #da86f3; */
+        background-color: #f2eef3;
     }
     .inquiry-form label{
         margin-left: 5%;
