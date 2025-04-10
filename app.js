@@ -62,66 +62,40 @@ app.use(async function (req, res, next) {
 });
 
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'", // Required by GTM (optional if you use nonces)
-          "www.googletagmanager.com",
-          "www.google-analytics.com"
-        ],
-
-        styleSrc: [
-          "'self'",
-          "'unsafe-inline'"
-        ],
-
-        imgSrc: [
-          "'self'",
-          "data:",
-          "https://res.cloudinary.com",
-          "https://www.facebook.com",
-          "https://platform.twitter.com",
-          "https://www.linkedin.com",
-          "www.google-analytics.com",
-          "www.googletagmanager.com",
-          "stats.g.doubleclick.net"
-        ],
-
-        connectSrc: [
-          "'self'",
-          "www.google-analytics.com",
-          "www.googletagmanager.com",
-          "https://*.doubleclick.net"
-        ],
-
-        frameSrc: [
-          "www.googletagmanager.com",
-          "www.google.com"
-        ],
-
-        objectSrc: ["'none'"],
-        baseUri: ["'self'"]
-      }
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"], // Allow self
+      imgSrc: [
+        "'self'", // Allow images from the same domain
+        "https://res.cloudinary.com", // Allow Cloudinary images
+        "https://www.facebook.com", // Allow Facebook's scraper bot
+        "https://platform.twitter.com", // Allow Twitter's scraper bot
+        "https://www.linkedin.com", // Allow LinkedIn's scraper bot
+        "data:", // Allow data URIs (for inline images)
+      ],
+      // Allow other directives for social media bots, adjust as needed
     },
-    frameguard: {
-      action: "deny"
-    },
-    referrerPolicy: {
-      policy: "no-referrer"
-    },
-    xssFilter: true,
-    hsts: {
-      maxAge: 31536000,
-      includeSubDomains: true
-    }
   })
 );
 
-// robots.txt route
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // Disable if using third-party scripts
+    frameguard: {
+      action: "deny",
+    }, // Prevent clickjacking
+    referrerPolicy: {
+      policy: "no-referrer",
+    }, // Manage referrer info
+    xssFilter: true, // Prevent XSS attacks
+    hsts: {
+      maxAge: 31536000,
+      includeSubDomains: true,
+    }, // Enforce HTTPS
+  })
+);
+
+// Serve robots.txt
 app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
   res.send(
