@@ -150,14 +150,20 @@ app.use(
 
         scriptSrc: [
           "'self'",
-          "'unsafe-inline'", // Required by GTM (optional if you use nonces)
-          "www.googletagmanager.com",
-          "www.google-analytics.com"
+          "'unsafe-inline'", // Required for GA config block
+          "https://www.googletagmanager.com",
+          "https://www.google-analytics.com"
         ],
 
         styleSrc: [
           "'self'",
-          "'unsafe-inline'"
+          "'unsafe-inline'",
+          "https://cdnjs.cloudflare.com" // Font Awesome styles
+        ],
+
+        fontSrc: [
+          "'self'",
+          "https://cdnjs.cloudflare.com" // Font Awesome fonts
         ],
 
         imgSrc: [
@@ -167,21 +173,22 @@ app.use(
           "https://www.facebook.com",
           "https://platform.twitter.com",
           "https://www.linkedin.com",
-          "www.google-analytics.com",
-          "www.googletagmanager.com",
-          "stats.g.doubleclick.net"
+          "https://www.google-analytics.com",
+          "https://www.googletagmanager.com",
+          "https://stats.g.doubleclick.net"
         ],
 
         connectSrc: [
           "'self'",
-          "www.google-analytics.com",
-          "www.googletagmanager.com",
-          "https://*.doubleclick.net"
+          "https://www.google-analytics.com",
+          "https://www.googletagmanager.com",
+          "https://*.doubleclick.net",
+          "https://region1.google-analytics.com" // GA4 uses regional endpoints
         ],
 
         frameSrc: [
-          "www.googletagmanager.com",
-          "www.google.com"
+          "https://www.googletagmanager.com",
+          "https://www.google.com"
         ],
 
         objectSrc: ["'none'"],
@@ -201,17 +208,6 @@ app.use(
     }
   })
 );
-
-// robots.txt route
-app.get("/robots.txt", function (req, res) {
-  res.type("text/plain");
-  res.send(
-    `User-agent: *
-Disallow: /admin/
-Disallow: /redirect
-Allow: /`
-  );
-});
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
