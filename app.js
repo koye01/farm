@@ -62,61 +62,66 @@ app.use(async function (req, res, next) {
 });
 
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "https://www.googletagmanager.com",
-        "https://www.google-analytics.com",
-        "'unsafe-inline'", // Needed if you have inline scripts (use with caution)
-      ],
-      imgSrc: [
-        "'self'",
-        "data:",
-        "https://www.google-analytics.com",
-        "https://res.cloudinary.com",
-        "https://www.facebook.com",
-        "https://platform.twitter.com",
-        "https://www.linkedin.com",
-      ],
-      connectSrc: [
-        "'self'",
-        "https://www.google-analytics.com",
-      ],
-      frameSrc: [
-        "https://www.googletagmanager.com",
-      ],
-      styleSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "https://fonts.googleapis.com",
-      ],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-    },
-  })
-);
-
-
-
-app.use(
   helmet({
-    contentSecurityPolicy: false, // Disable if using third-party scripts
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'", // Required by GTM (optional if you use nonces)
+          "www.googletagmanager.com",
+          "www.google-analytics.com"
+        ],
+
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'"
+        ],
+
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://res.cloudinary.com",
+          "https://www.facebook.com",
+          "https://platform.twitter.com",
+          "https://www.linkedin.com",
+          "www.google-analytics.com",
+          "www.googletagmanager.com",
+          "stats.g.doubleclick.net"
+        ],
+
+        connectSrc: [
+          "'self'",
+          "www.google-analytics.com",
+          "www.googletagmanager.com",
+          "https://*.doubleclick.net"
+        ],
+
+        frameSrc: [
+          "www.googletagmanager.com",
+          "www.google.com"
+        ],
+
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"]
+      }
+    },
     frameguard: {
-      action: "deny",
-    }, // Prevent clickjacking
+      action: "deny"
+    },
     referrerPolicy: {
-      policy: "no-referrer",
-    }, // Manage referrer info
-    xssFilter: true, // Prevent XSS attacks
+      policy: "no-referrer"
+    },
+    xssFilter: true,
     hsts: {
       maxAge: 31536000,
-      includeSubDomains: true,
-    }, // Enforce HTTPS
+      includeSubDomains: true
+    }
   })
 );
 
-// Serve robots.txt
+// robots.txt route
 app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
   res.send(
