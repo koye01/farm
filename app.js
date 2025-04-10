@@ -145,19 +145,40 @@ Allow: /`
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"], // Allow self
-      imgSrc: [
-        "'self'", // Allow images from the same domain
-        "https://res.cloudinary.com", // Allow Cloudinary images
-        "https://www.facebook.com", // Allow Facebook's scraper bot
-        "https://platform.twitter.com", // Allow Twitter's scraper bot
-        "https://www.linkedin.com", // Allow LinkedIn's scraper bot
-        "data:", // Allow data URIs (for inline images)
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "https://www.googletagmanager.com",
+        "https://www.google-analytics.com",
+        "'unsafe-inline'", // Needed if you have inline scripts (use with caution)
       ],
-      // Allow other directives for social media bots, adjust as needed
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https://www.google-analytics.com",
+        "https://res.cloudinary.com",
+        "https://www.facebook.com",
+        "https://platform.twitter.com",
+        "https://www.linkedin.com",
+      ],
+      connectSrc: [
+        "'self'",
+        "https://www.google-analytics.com",
+      ],
+      frameSrc: [
+        "https://www.googletagmanager.com",
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+      ],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
     },
   })
 );
+
+
 
 app.use(
   helmet({
