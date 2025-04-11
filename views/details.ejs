@@ -26,7 +26,7 @@
                 <p><%= detailed.price %></p>
                 <em>submitted by </em><a href="/user/<%=detailed.author.id%>"><strong> <%=detailed.author.username.toUpperCase()%> </strong></a>
                 <%=detailed.author.phone%>
-                <%=detailed.author.email%>
+                <!-- <%=detailed.author.email%> -->
             <div class="control-button">
                 <%if(currentUser && detailed.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){%>
                     <a href="/<%= detailed.id%>/edit"><button id="button-float" class="edit-button">Edit</button></a>

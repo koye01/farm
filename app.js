@@ -64,37 +64,24 @@ app.use(async function (req, res, next) {
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"], // Allow self
-      imgSrc: [
-        "'self'", // Allow images from the same domain
-        "https://res.cloudinary.com", // Allow Cloudinary images
-        "https://www.facebook.com", // Allow Facebook's scraper bot
-        "https://platform.twitter.com", // Allow Twitter's scraper bot
-        "https://www.linkedin.com", // Allow LinkedIn's scraper bot
-        "data:", // Allow data URIs (for inline images)
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "https://www.googletagmanager.com", // Allow external GA script
+        "'unsafe-inline'", // Optional: Use this ONLY if needed; better to use nonce or hash
       ],
-      // Allow other directives for social media bots, adjust as needed
+      imgSrc: [
+        "'self'",
+        "https://res.cloudinary.com",
+        "https://www.facebook.com",
+        "https://platform.twitter.com",
+        "https://www.linkedin.com",
+        "data:",
+      ],
+      connectSrc: ["'self'", "https://www.google-analytics.com"], // For GA tracking requests
     },
   })
 );
-
-app.use(
-  helmet({
-    contentSecurityPolicy: false, // Disable if using third-party scripts
-    frameguard: {
-      action: "deny",
-    }, // Prevent clickjacking
-    referrerPolicy: {
-      policy: "no-referrer",
-    }, // Manage referrer info
-    xssFilter: true, // Prevent XSS attacks
-    hsts: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-    }, // Enforce HTTPS
-  })
-);
-
 // Serve robots.txt
 app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
