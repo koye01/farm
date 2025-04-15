@@ -194,36 +194,57 @@ router.get("/", async function(req, res){
         console.log(err)
     }
 });
-router.post("/search", async function(req, res){
-    try{
-        var regex = new RegExp(["", req.body.productSearch, "$"].join(""), "i");
-        var product = await Product.find({name: regex});
-        res.render("productsearch", {product, title: "find product", 
-            description: 'Product search bar', 
-            keywords: product.forEach(function(each){
-                each.name;
-            }),
-            image: "/pics/logo.png"});
-    }catch(err){
+// router.post("/search", async function(req, res){
+//     try{
+//         var regex = new RegExp(["", req.body.productSearch, "$"].join(""), "i");
+//         var product = await Product.find({name: regex});
+//         res.render("productsearch", {product, title: "find product", 
+//             description: 'Product search bar', 
+//             keywords: product.forEach(function(each){
+//                 each.name;
+//             }),
+//             image: "/pics/logo.png"});
+//     }catch(err){
+//         res.redirect("/");
+//     }
+// });
+router.post("/search", async function(req, res) {
+    try {
+        const regex = new RegExp(req.body.productSearch, "i");
+        const products = await Product.find({ name: regex });
+
+        res.render("productsearch", {
+            product: products,
+            title: "Find Product",
+            description: "Product search bar",
+            keywords: products.map(p => p.name).join(", "),
+            image: "/pics/logo.png"
+        });
+    } catch (err) {
+        console.error(err);
         res.redirect("/");
     }
 });
 
-router.post("/usersearch", async function(req, res){
-    try{
-        var regex = new RegExp(["", req.body.userSearch, "$"].join(""), "i");
-        var findUser = await User.find({username: regex});
-        res.render("usersearch", {findUser, title: "find user", 
-            description: 'User search bar', 
-            keywords: findUser.forEach(function(each){
-                each.name;
-            }),
+
+router.post("/usersearch", async function(req, res) {
+    try {
+        const regex = new RegExp(req.body.userSearch, "i");
+        const findUser = await User.find({ username: regex });
+
+        res.render("usersearch", {
+            findUser,
+            title: "Find User",
+            description: "User search bar",
+            keywords: findUser.map(user => user.username).join(", "),
             image: "/pics/logo.png"
         });
-    }catch(err){
+    } catch (err) {
+        console.error(err);
         res.redirect("/");
     }
 });
+
 
 router.get("/about", async function(req, res){
     try{
