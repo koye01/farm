@@ -313,6 +313,7 @@ router.get("/chat/:id", async (req, res) => {
   
 
 
+
 router.get("/about", async function(req, res){
     try{
         res.render("about", {title: "about farm-gate", 
