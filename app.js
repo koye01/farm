@@ -61,6 +61,14 @@ app.use(async function (req, res, next) {
   next();
 });
 
+//codes to disallow all my post pages from being indexed
+app.use((req, res, next) => {
+  if (req.method === 'POST') {
+    res.set('X-Robots-Tag', 'noindex, nofollow');
+  }
+  next();
+});
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -87,8 +95,9 @@ app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
   res.send(
     `User-agent: *
-Disallow: /admin/
+Disallow: /adminpost/
 Disallow: /redirect
+Disallow: /api/
 Allow: /`
   );
 });
