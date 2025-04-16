@@ -142,6 +142,7 @@ Allow: /`
       })
   );
 
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -168,8 +169,9 @@ app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
   res.send(
     `User-agent: *
-Disallow: /admin/
+Disallow: /adminpost/
 Disallow: /redirect
+Disallow: /api/
 Allow: /`
   );
 });
