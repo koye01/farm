@@ -313,6 +313,7 @@ router.get("/chat/:id", async (req, res) => {
   
 
 
+<<<<<<< HEAD
 
 router.get("/about", async function(req, res){
     try{
@@ -337,4 +338,6 @@ router.get("/contact", async function(req, res){
         res.redirect("/")
     }
 })
+=======
+>>>>>>> 80ba25f (socket integration)
 module.exports = router;

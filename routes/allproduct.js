@@ -325,6 +325,7 @@ router.post("/:id", middleware.isOwner, async function(req, res){
 
 
 
+
 // Route to handle the form submission for inquiries
 // router.post('/:id', async (req, res) => {
 //     const { name, telephone, enquiry } = req.body;

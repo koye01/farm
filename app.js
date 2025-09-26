@@ -28,8 +28,8 @@ var flash = require("connect-flash");
     var flash = require("connect-flash");
 const helmet = require("helmet");
 
-// mongoose.connect("mongodb://localhost/Product");
-mongoose.connect(process.env.database);
+mongoose.connect("mongodb://localhost/Product");
+// mongoose.connect(process.env.database);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));  // Serving static files from the "public" directory
@@ -213,12 +213,15 @@ server.listen(PORT, IP, () => {
     console.log(`Application is now running on ${IP}:${PORT}`);
 });
 
+<<<<<<< HEAD
 
 // app.listen("3000", function(){
 //     console.log("Your app is loading")
 // });
 
 
+=======
+>>>>>>> 80ba25f (socket integration)
 // User socket tracking
 const userSockets = new Map();
 
@@ -280,6 +283,9 @@ io.on("connection", (socket) => {
         console.log("User disconnected");
     });
 });
+<<<<<<< HEAD
 
 app.listen(process.env.PORT, process.env.IP);
 console.log("application is now running");
+=======
+>>>>>>> 80ba25f (socket integration)
