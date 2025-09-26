@@ -1,0 +1,70 @@
+<%- include("./partials/header") %>
+<div id="chat-container">
+    <h2>Private Chat with <%= recipient.username %></h2>
+    <ul id="messages"></ul>
+    <form id="chat-form">
+        You: <%= user.username %><br>
+        <input id="m" autocomplete="off" name="message" placeholder="Type a message..." />
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const senderId = "<%= user._id %>";
+    const senderUsername = "<%= user.username %>";
+    const recipientId = "<%= recipient._id %>";
+    const recipientUsername = "<%= recipient.username %>";
+
+    socket.emit("register user", senderId);
+
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("m");
+    const messages = document.getElementById("messages");
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const message = input.value.trim();
+
+        if (message) {
+            socket.emit("private message", {
+                from: senderId,
+                to: recipientId,
+                message: message
+            });
+            input.value = "";
+        }
+    });
+
+    socket.on("private message", function(msg) {
+        const item = document.createElement("li");
+        if (msg.from === senderId) {
+            item.textContent = `You: ${msg.message}`;
+        } else {
+            item.textContent = `${recipientUsername}: ${msg.message}`;
+        }
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+    });
+
+    socket.on("chat history", function(history) {
+        messages.innerHTML = "";
+        history.forEach((msg) => {
+            const item = document.createElement("li");
+            if (msg.from === senderId) {
+                item.textContent = `You: ${msg.message}`;
+            } else {
+                item.textContent = `${recipientUsername}: ${msg.message}`;
+            }
+            messages.appendChild(item);
+        });
+        messages.scrollTop = messages.scrollHeight;
+    });
+</script>
+
+<%- include("./partials/footer") %>
+
+
+

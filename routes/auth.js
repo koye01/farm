@@ -277,6 +277,7 @@ router.post("/reset/:token", async function(req, res) {
 //     }
 // });
 
+//Profile page
 router.get("/user/:id", async function(req, res) {
     try {
         var product = await Product.find({});
@@ -302,6 +303,9 @@ router.get("/user/:id", async function(req, res) {
         return res.redirect('back');
     }
 });
+
+
+
 
 //Profile edit page
 router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){

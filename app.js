@@ -4,6 +4,7 @@ var express = require("express"),
     Comment = require("./models/comment"),
     User = require("./models/user"),
     Notification = require("./models/notification"),
+    ChatMessage = require("./models/ChatMessage"),
     multer = require("multer"),
     bodyParser = require("body-parser"),
     methodOverride = require("method-override"),
@@ -21,8 +22,8 @@ var commentRoute = require("./routes/comment");
 var flash = require("connect-flash");
 const helmet = require("helmet");
 
-// mongoose.connect("mongodb://localhost/Product");
-mongoose.connect(process.env.database);
+mongoose.connect("mongodb://localhost/Product");
+// mongoose.connect(process.env.database);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));  // Serving static files from the "public" directory
@@ -125,5 +126,78 @@ app.use(productRoute);
 app.use(dynamicRoute);
 app.use(commentRoute);
 
-app.listen(process.env.PORT, process.env.IP);
-console.log("application is now running");
+
+const http = require("http");
+const socketio = require("socket.io");
+
+const server = http.createServer(app);
+const io = socketio(server);
+
+const PORT = process.env.PORT || 3000;
+const IP = process.env.IP || "0.0.0.0";
+
+server.listen(PORT, IP, () => {
+    console.log(`Application is now running on ${IP}:${PORT}`);
+});
+
+// User socket tracking
+const userSockets = new Map();
+
+io.on("connection", (socket) => {
+    console.log("A user connected");
+
+    socket.on("register user", (userId) => {
+        userSockets.set(userId, socket.id);
+        socket.userId = userId;
+    });
+
+    socket.on("private message", async (msg) => {
+        if (!msg.from || !msg.to || !msg.message) {
+            console.warn("Invalid message format:", msg);
+            return;
+        }
+
+        try {
+            const newMessage = new ChatMessage({
+                from: msg.from,
+                to: msg.to,
+                message: msg.message
+            });
+
+            await newMessage.save();
+
+            // Send to sender
+            socket.emit("private message", newMessage);
+
+            // Send to recipient if online
+            const recipientSocketId = userSockets.get(msg.to);
+            if (recipientSocketId) {
+                io.to(recipientSocketId).emit("private message", newMessage);
+            }
+        } catch (err) {
+            console.error("Error saving message:", err);
+        }
+    });
+
+    socket.on("register user", async (userId) => {
+        socket.userId = userId;
+
+        try {
+            // Load all messages sent to or from this user
+            const messages = await ChatMessage.find({
+                $or: [{ from: userId }, { to: userId }]
+            }).sort({ timestamp: 1 });
+
+            socket.emit("chat history", messages);
+        } catch (err) {
+            console.error("Failed to load chat history:", err);
+        }
+    });
+
+    socket.on("disconnect", () => {
+        if (socket.userId) {
+            userSockets.delete(socket.userId);
+        }
+        console.log("User disconnected");
+    });
+});

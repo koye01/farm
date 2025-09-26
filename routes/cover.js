@@ -4,6 +4,7 @@ var Product = require("../models/produce");
 var Comment = require("../models/comment");
 var User    = require("../models/user");
 var Notification = require("../models/notification");
+const ChatMessage = require("../models/ChatMessage");
 
 //livestock page
 router.get("/livestocks", async function(req, res){
@@ -268,5 +269,28 @@ router.get("/contact", async function(req, res){
     }catch(err){
         res.redirect("/")
     }
-})
+});
+
+//web chat interface
+router.get("/chat/:id", async (req, res) => {
+    const recipient = await User.findById(req.params.id);
+    const currentUser = req.user;
+  
+    if (!recipient) {
+      return res.status(404).send("Recipient not found.");
+    }
+  
+    // Render chat.ejs with both sender and recipient
+    res.render("chat", {
+      user: currentUser,       // sender
+      recipient: recipient,     // recipient
+      title: "live chat", 
+        description: "live chat",
+        keywords: "live chat",
+        image: "/pics/logo.png"
+    });
+});
+  
+
+
 module.exports = router;
