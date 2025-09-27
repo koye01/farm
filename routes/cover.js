@@ -25,8 +25,6 @@ router.get("/pets", async function(req, res){
         var pets = await Product.find({"category": "Pets", "adminpost": "true"});
         const keywords = pets.map(other => other.name).join(", ");
         res.render("categories/pets", {
-            pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors",
-            pets, title: 'Other commodity', description: "other goods and services for sales", 
             pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors", 
             keywords,
             image: "/pics/logo.png"
@@ -102,9 +100,6 @@ router.get("/chef", async function(req, res){
     }
 });
 // real estate page
-// bakery page
-
-// real estate page
 router.get("/estate", async function(req, res){
     try{
         var estate = await Product.find({"category": "Farm Real Estate", "adminpost": "true"});
@@ -118,21 +113,6 @@ router.get("/estate", async function(req, res){
         console.log(err)
     }
 });
-
-//bakery page
-// router.get("/bakeries", async function(req, res){
-//     try{
-//         var bakeries = await Product.find({"category": "bakeries", "adminpost": "true"});
-//         const keywords = bakeries.map(bake => bake.name).join(", ");
-//         res.render("categories/bakeries", {
-//             bakeries, title: 'baked products',description: "All baked items such as; cake, bread and small chops", 
-//             keywords,
-//             image: "/pics/logo.png"
-//         });
-//     }catch(err){
-//         console.log(err)
-//     }
-// });
 //Others
 router.get("/others", async function(req, res){
     try{
@@ -313,31 +293,4 @@ router.get("/chat/:id", async (req, res) => {
   
 
 
-<<<<<<< HEAD
-
-router.get("/about", async function(req, res){
-    try{
-        res.render("about", {title: "about farm-gate", 
-            description: "Farm-Gate is a dynamic and innovative platform dedicated to connecting farmers with their target audience",
-            keywords: "farmgate",
-            image: "/pics/logo.png"
-        });
-    }catch(err){
-        res.redirect("/")
-    }
-})
-
-router.get("/contact", async function(req, res){
-    try{
-        res.render("contact", {title: "contact information", 
-            description: "Farm-Gate is a dynamic and innovative platform dedicated to connecting farmers with their target audience",
-            keywords: "farm-gate contact information",
-            image: "/pics/logo.png"
-        });
-    }catch(err){
-        res.redirect("/")
-    }
-})
-=======
->>>>>>> 80ba25f (socket integration)
 module.exports = router;

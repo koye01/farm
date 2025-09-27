@@ -450,23 +450,6 @@ a {
     /* background-color: rgb(15, 15, 15); */
 }
 
-
-
-/* .profilePicture i {
-    /* background-color: white;
-    margin: 5px auto;
-    padding: 5px 15px; */
-    /* color: red; */
-} */
-
-/* .profilePicture img{
-    border: 10px solid rgb(46, 32, 32);
-    border-radius: 50%;
-    height: 250px;
-    width: 200px;
-    z-index: 0;
-} */
-
 .comment-link a{
     color: blue;
 }
@@ -547,7 +530,6 @@ a {
     /* background-size: cover; */
     height: 40px;
     width: 800px;
-    width: 700px;
     position: fixed;
     padding: 5px;
     bottom: 0;
@@ -561,7 +543,6 @@ a {
     padding: 3px 5px;
     color: white;
 }
-
 /* .follow-followers{
     float: inline-start;
     margin-left: 20%;
@@ -579,155 +560,6 @@ a {
 
 #followersList {
     background-color: black;
-    list-style: none;
-    text-align: left;
-    /* padding: 3px 3px; */
-    /* margin: 5px 3px; */
-    position: absolute;
-    color: red;
-    left: 35%;
-}
-
-#followingList {
-    background-color: black;
-    list-style: none;
-    text-align: right;
-    margin: 3px 3px;
-    position: absolute;
-    /* top: 100px;   */
-    color: red;
-    left: 50%;  
-}
-
-.profile-body {
-    text-align: center;
-}
-
-.follow-info {
-    display: flex;
-    justify-content: center;
-    gap: 10px; /* Adds space between the buttons */
-    margin-top: 10px;
-}
-
-#listfollowers, #listfollowing {
-    padding: 10px 20px;
-    background-color: black;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-#listfollowers:hover, #listfollowing:hover {
-    background-color: #555; /* Optional: Adds hover effect */
-}
-
-.profilePicture {
-    background-image: url("/pics/kitten.jpg");
-    width: auto;
-    height: 300px;
-    border: thin solid white;
-    margin: 10px 1%;
-    padding: 15px 5px;
-    text-align: center;
-    z-index: 0;
-}
-
-.profilePicture img {
-    border: 10px solid rgb(46, 32, 32);
-    border-radius: 50%;
-    height: 250px;
-    width: auto;
-    z-index: 0;
-}
-
-.profilePicture h3{
-    color: red;
-}
-
-.profile-details p {
-    font-size: 1.1em;
-}
-
-.edit-button:hover, .delete-button:hover {
-    background-color: #555;
-}
-
-.profile-bottom {
-    margin: 20px;
-}
-
-.profile-bottom .descLink h3 a {
-    color: blue;
-}
-
-.aboutUs{
-    
-    color: #0e0d0d;
-}
-.aboutUs div{
-    padding: 10px 10px;
-}
-
-.aboutHead{
-    /* background-color: #0e0d0d; */
-    margin: 6px 4px;
-    padding: 3px 3px;
-    box-shadow: 5px 5px 10px #444;
-    color: black;
-}
-
-.category {
-    /* padding: 20px 20px; */
-    margin: 10px 10px;
-    text-align: justify;
-}
-.clusterImage{
-    background-color: #131212;
-}
-.clusterImage img{
-    border: 1px solid #ddd;
-    display: inline;
-    padding: 5px;
-    width: 30%;
-    height: auto;
-}
-   .inquiry-form h3{
-    padding: 3px 3px;
-    background-color: whitesmoke;
-   }
-    .inquiry-form input, .inquiry-form textarea{
-        border: thin solid rgb(107, 82, 82);
-        width: 90%;
-        margin: 4px auto;
-        text-align: center;
-        /* background-color: #da86f3; */
-        background-color: #f2eef3;
-    }
-    .inquiry-form label{
-        margin-left: 5%;
-        text-align: left;
-        display: block;
-    }
-
-.follow-followers{
-
-/* .follow-followers{
-    float: inline-start;
-    margin-left: 20%;
-    display: flex;
-} */
-/* ul li{
-    list-style: none;
-} */
-/* #followersList li a, #followingList li a{
-    padding: 3px 3px;
-    color: red;
-    /* background-color: green; */
-}
-
-
-#followersList {
     list-style: none;
     text-align: left;
     /* padding: 3px 3px; */
@@ -841,8 +673,6 @@ a {
     width: 30%;
     height: auto;
 }
-
-
    .inquiry-form h3{
     padding: 3px 3px;
     background-color: whitesmoke;

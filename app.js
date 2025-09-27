@@ -15,17 +15,11 @@ var express = require("express"),
     passportLocalMongoose = require("passport-local-mongoose"),
     expressSession = require("express-session");
 
-
 var coverRoute   = require("./routes/cover");
 var productRoute = require("./routes/auth");
 var dynamicRoute = require("./routes/allproduct");
 var commentRoute = require("./routes/comment");
 var flash = require("connect-flash");
-    var coverRoute   = require("./routes/cover");
-    var productRoute = require("./routes/auth");
-    var dynamicRoute = require("./routes/allproduct");
-    var commentRoute = require("./routes/comment");
-    var flash = require("connect-flash");
 const helmet = require("helmet");
 
 mongoose.connect("mongodb://localhost/Product");
@@ -75,73 +69,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-app.use(
-
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "https://www.googletagmanager.com", // Allow external GA script
-        "'unsafe-inline'", // Optional: Use this ONLY if needed; better to use nonce or hash
-      ],
-      imgSrc: [
-        "'self'",
-        "https://res.cloudinary.com",
-        "https://www.facebook.com",
-        "https://platform.twitter.com",
-        "https://www.linkedin.com",
-        "data:",
-      ],
-      connectSrc: ["'self'", "https://www.google-analytics.com"], // For GA tracking requests
-    },
-  })
-);
-// Serve robots.txt
-app.get("/robots.txt", function (req, res) {
-  res.type("text/plain");
-  res.send(
-    `User-agent: *
-Disallow: /adminpost/
-Disallow: /redirect
-Disallow: /api/
-Allow: /`
-  );
-});
-    helmet.contentSecurityPolicy({
-      directives: {
-        defaultSrc: ["'self'"], // Allow self
-        imgSrc: [
-          "'self'", // Allow images from the same domain
-          'https://res.cloudinary.com', // Allow Cloudinary images
-          'https://www.facebook.com', // Allow Facebook's scraper bot
-          'https://platform.twitter.com', // Allow Twitter's scraper bot
-          'https://www.linkedin.com', // Allow LinkedIn's scraper bot
-          'data:', // Allow data URIs (for inline images)
-        ],
-        // Allow other directives for social media bots, adjust as needed
-      },
-    })
-  
-  
-  app.use(
-      helmet({
-          contentSecurityPolicy: false, //Disable if using third party scripts
-          frameguard: {
-              action: "deny"
-          }, //prevent clickjacking
-          referrerPolicy: {
-              policy: 'no-referrer'
-          }, // manage referer info
-          xssFilter: true, //Prevent xss attacks
-          hsts: {
-              maxAge: 31536000,
-              includeSubDomains: true
-          }, //Enforce HTTPS
-      })
-  );
-
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -213,15 +140,6 @@ server.listen(PORT, IP, () => {
     console.log(`Application is now running on ${IP}:${PORT}`);
 });
 
-<<<<<<< HEAD
-
-// app.listen("3000", function(){
-//     console.log("Your app is loading")
-// });
-
-
-=======
->>>>>>> 80ba25f (socket integration)
 // User socket tracking
 const userSockets = new Map();
 
@@ -283,9 +201,3 @@ io.on("connection", (socket) => {
         console.log("User disconnected");
     });
 });
-<<<<<<< HEAD
-
-app.listen(process.env.PORT, process.env.IP);
-console.log("application is now running");
-=======
->>>>>>> 80ba25f (socket integration)
