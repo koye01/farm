@@ -690,6 +690,36 @@ a {
         text-align: left;
         display: block;
     }
+
+#chat-form #m{
+    margin: 0px auto;
+    text-align: center;
+}
+#messages{
+    list-style: none;
+}
+.my-message {
+    background-color: #d1e7dd; /* light green */
+    height: 40px;
+    width: 90%;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px auto;
+    /* margin-bottom: 5px; */
+    text-align: right;
+  }
+
+  .their-message {
+    background-color: #f8d7da; /* light red */
+    height: 40px;
+    width: 90%;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px auto;
+    /* margin-bottom: 5px; */
+    text-align: left;
+  }
+
 @media(max-width: 600px){
    .footerInfo{
     width: 100%;

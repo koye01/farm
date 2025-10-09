@@ -23,7 +23,7 @@ var flash = require("connect-flash");
 const helmet = require("helmet");
 
 mongoose.connect("mongodb://localhost/Product");
-// mongoose.connect(process.env.database);
+// mongoose.connect(process.env.DATABASE);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));  // Serving static files from the "public" directory
@@ -146,46 +146,20 @@ const userSockets = new Map();
 io.on("connection", (socket) => {
     console.log("A user connected");
 
-    socket.on("register user", (userId) => {
-        userSockets.set(userId, socket.id);
-        socket.userId = userId;
-    });
-
-    socket.on("private message", async (msg) => {
-        if (!msg.from || !msg.to || !msg.message) {
-            console.warn("Invalid message format:", msg);
-            return;
-        }
-
-        try {
-            const newMessage = new ChatMessage({
-                from: msg.from,
-                to: msg.to,
-                message: msg.message
-            });
-
-            await newMessage.save();
-
-            // Send to sender
-            socket.emit("private message", newMessage);
-
-            // Send to recipient if online
-            const recipientSocketId = userSockets.get(msg.to);
-            if (recipientSocketId) {
-                io.to(recipientSocketId).emit("private message", newMessage);
-            }
-        } catch (err) {
-            console.error("Error saving message:", err);
-        }
-    });
-
-    socket.on("register user", async (userId) => {
+    socket.on("register user", async ({ userId, recipientId }) => {
         socket.userId = userId;
 
+        if (!userSockets.has(userId)) {
+            userSockets.set(userId, new Set());
+        }
+        userSockets.get(userId).add(socket.id);
+
         try {
-            // Load all messages sent to or from this user
             const messages = await ChatMessage.find({
-                $or: [{ from: userId }, { to: userId }]
+                $or: [
+                    { from: userId, to: recipientId },
+                    { from: recipientId, to: userId }
+                ]
             }).sort({ timestamp: 1 });
 
             socket.emit("chat history", messages);
@@ -194,9 +168,45 @@ io.on("connection", (socket) => {
         }
     });
 
+    socket.on("private message", async (msg) => {
+        const from = socket.userId;  // Trust server-side identity
+        const to = msg.to;
+
+        if (!from || !to || !msg.message) {
+            console.warn("Invalid message format:", msg);
+            return;
+        }
+
+        try {
+            const newMessage = new ChatMessage({
+                from,
+                to,
+                message: msg.message
+            });
+
+            await newMessage.save();
+
+            socket.emit("private message", newMessage);
+
+            const recipientSockets = userSockets.get(to);
+            if (recipientSockets) {
+                for (const sid of recipientSockets) {
+                    io.to(sid).emit("private message", newMessage);
+                }
+            }
+        } catch (err) {
+            console.error("Error saving message:", err);
+        }
+    });
+
     socket.on("disconnect", () => {
-        if (socket.userId) {
-            userSockets.delete(socket.userId);
+        const userId = socket.userId;
+        if (userId && userSockets.has(userId)) {
+            const sockets = userSockets.get(userId);
+            sockets.delete(socket.id);
+            if (sockets.size === 0) {
+                userSockets.delete(userId);
+            }
         }
         console.log("User disconnected");
     });

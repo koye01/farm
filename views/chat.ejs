@@ -1,12 +1,14 @@
 <%- include("./partials/header") %>
 <div id="chat-container">
-    <h2>Private Chat with <%= recipient.username %></h2>
+    <h2>Private Chat with <a href="/user/<%=recipient.id%>"><%= recipient.username %> </a> </h2>
     <ul id="messages"></ul>
+    
     <form id="chat-form">
         You: <%= user.username %><br>
-        <input id="m" autocomplete="off" name="message" placeholder="Type a message..." />
-        <button type="submit">Send</button>
+        <textarea id="m" name="message" rows="2" placeholder="Type a message..." autocomplete="off" style="resize: vertical; width: 90%;"></textarea>
+        <p><button type="submit">Send</button></p>
     </form>
+
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -18,7 +20,11 @@
     const recipientId = "<%= recipient._id %>";
     const recipientUsername = "<%= recipient.username %>";
 
-    socket.emit("register user", senderId);
+    socket.emit("register user", {
+    userId: senderId,
+    recipientId: recipientId
+});
+
 
     const form = document.getElementById("chat-form");
     const input = document.getElementById("m");
@@ -42,12 +48,15 @@
         const item = document.createElement("li");
         if (msg.from === senderId) {
             item.textContent = `You: ${msg.message}`;
+            item.classList.add("my-message");
         } else {
             item.textContent = `${recipientUsername}: ${msg.message}`;
+            item.classList.add("their-message");
         }
         messages.appendChild(item);
         messages.scrollTop = messages.scrollHeight;
     });
+
 
     socket.on("chat history", function(history) {
         messages.innerHTML = "";
@@ -55,8 +64,10 @@
             const item = document.createElement("li");
             if (msg.from === senderId) {
                 item.textContent = `You: ${msg.message}`;
+                item.classList.add("my-message");
             } else {
                 item.textContent = `${recipientUsername}: ${msg.message}`;
+                item.classList.add("their-message");
             }
             messages.appendChild(item);
         });
