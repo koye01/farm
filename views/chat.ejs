@@ -73,6 +73,12 @@
         });
         messages.scrollTop = messages.scrollHeight;
     });
+
+    socket.on("new inbox notification", (data) => {
+        // Show red dot, play sound, or popup preview
+        console.log("New message notification from:", data.from);
+        showInboxNotification(data); // Your UI handler
+    });
 </script>
 
 <%- include("./partials/footer") %>

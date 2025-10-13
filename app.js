@@ -142,72 +142,122 @@ server.listen(PORT, IP, () => {
 
 // User socket tracking
 const userSockets = new Map();
+// Track current open chat
+const activeChatMap = new Map(); // userId => chattingWithUserId
 
 io.on("connection", (socket) => {
     console.log("A user connected");
 
-    socket.on("register user", async ({ userId, recipientId }) => {
-        socket.userId = userId;
 
-        if (!userSockets.has(userId)) {
-            userSockets.set(userId, new Set());
-        }
-        userSockets.get(userId).add(socket.id);
+socket.on("register user", async ({ userId, recipientId }) => {
+    socket.userId = userId;
 
-        try {
-            const messages = await ChatMessage.find({
-                $or: [
-                    { from: userId, to: recipientId },
-                    { from: recipientId, to: userId }
-                ]
-            }).sort({ timestamp: 1 });
+    if (!userSockets.has(userId)) {
+        userSockets.set(userId, new Set());
+    }
+    userSockets.get(userId).add(socket.id);
 
-            socket.emit("chat history", messages);
-        } catch (err) {
-            console.error("Failed to load chat history:", err);
-        }
+    try {
+        const messages = await ChatMessage.find({
+            $or: [
+                { from: userId, to: recipientId },
+                { from: recipientId, to: userId }
+            ]
+        }).sort({ timestamp: 1 });
+
+        socket.emit("chat history", messages);
+
+        // ✅ Move this emit here, where userId and recipientId are available
+        socket.emit("user in chat with", {
+            userId: userId,
+            chattingWith: recipientId
+        });
+
+    } catch (err) {
+        console.error("Failed to load chat history:", err);
+    }
+});
+
+
+
+    socket.on("user in chat with", ({ userId, chattingWith }) => {
+      activeChatMap.set(userId, chattingWith);
     });
 
     socket.on("private message", async (msg) => {
-        const from = socket.userId;  // Trust server-side identity
-        const to = msg.to;
+    const from = socket.userId;
+    const to = msg.to;
 
-        if (!from || !to || !msg.message) {
-            console.warn("Invalid message format:", msg);
-            return;
-        }
+    if (!from || !to || !msg.message) return;
 
-        try {
-            const newMessage = new ChatMessage({
-                from,
-                to,
-                message: msg.message
-            });
+    try {
+        const newMessage = new ChatMessage({
+            from,
+            to,
+            message: msg.message,
+            isRead: false
+        });
 
-            await newMessage.save();
+        await newMessage.save();
 
-            socket.emit("private message", newMessage);
+        // Emit to sender
+        socket.emit("private message", newMessage);
 
-            const recipientSockets = userSockets.get(to);
-            if (recipientSockets) {
+        // Emit to recipient(s)
+        const recipientSockets = userSockets.get(to);
+        if (recipientSockets) {
+            for (const sid of recipientSockets) {
+                io.to(sid).emit("private message", newMessage);
+            }
+
+            // Check if recipient is actively chatting with sender
+            const currentlyChattingWith = activeChatMap.get(to);
+
+            if (String(currentlyChattingWith) !== String(from)) {
+                // Not actively chatting, send inbox notification
                 for (const sid of recipientSockets) {
-                    io.to(sid).emit("private message", newMessage);
+                    io.to(sid).emit("new inbox notification", {
+                        from,
+                        message: msg.message,
+                        timestamp: newMessage.timestamp,
+                    });
                 }
-            }
-        } catch (err) {
-            console.error("Error saving message:", err);
-        }
-    });
 
-    socket.on("disconnect", () => {
-        const userId = socket.userId;
-        if (userId && userSockets.has(userId)) {
-            const sockets = userSockets.get(userId);
-            sockets.delete(socket.id);
-            if (sockets.size === 0) {
-                userSockets.delete(userId);
+                // Fetch sender username for DB notification
+                const sender = await User.findById(from).select("username");
+
+              const newNotif = new Notification({
+                  chat: {
+                      username: sender.username,
+                      userID: to
+                  },
+                  isRead: false
+              });
+              await newNotif.save();
+              const recipientUser = await User.findById(to);
+              recipientUser.notifications.push(newNotif._id);
+              await recipientUser.save(); 
             }
         }
-        console.log("User disconnected");
-    });
+    } catch (err) {
+        console.error("Error saving message:", err);
+    }
+});
+
+
+
+
+
+  socket.on("disconnect", () => {
+      const userId = socket.userId;
+      if (userId) {
+          userSockets.get(userId)?.delete(socket.id);
+          if (userSockets.get(userId)?.size === 0) {
+              userSockets.delete(userId);
+              activeChatMap.delete(userId);
+          }
+      }
+  });
+
+
 });
