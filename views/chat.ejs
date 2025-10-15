@@ -20,11 +20,17 @@
     const recipientId = "<%= recipient._id %>";
     const recipientUsername = "<%= recipient.username %>";
 
+    // Register user + load chat history
     socket.emit("register user", {
-    userId: senderId,
-    recipientId: recipientId
-});
+        userId: senderId,
+        recipientId: recipientId
+    });
 
+    // Mark current active chat for notifications
+    socket.emit("user in chat with", {
+        userId: senderId,
+        chattingWith: recipientId
+    });
 
     const form = document.getElementById("chat-form");
     const input = document.getElementById("m");
@@ -57,7 +63,6 @@
         messages.scrollTop = messages.scrollHeight;
     });
 
-
     socket.on("chat history", function(history) {
         messages.innerHTML = "";
         history.forEach((msg) => {
@@ -75,11 +80,11 @@
     });
 
     socket.on("new inbox notification", (data) => {
-        // Show red dot, play sound, or popup preview
-        console.log("New message notification from:", data.from);
-        showInboxNotification(data); // Your UI handler
+        console.log("📩 New inbox notification from:", data.from);
+        showInboxNotification(data); // Replace with your actual UI handler
     });
 </script>
+
 
 <%- include("./partials/footer") %>
 
