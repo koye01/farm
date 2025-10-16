@@ -474,5 +474,17 @@ router.get('/notifications/reply/:id', middleware.isLoggedIn, async function(req
     }
 });
 
+//chat notification address
+router.get('/notifications/chat/:id', middleware.isLoggedIn, async function(req, res) {
+    try {
+        var user = await User.findById(req.params.id);
+        var notification = await Notification.findById(req.params.id);
+        notification.isRead = true;
+        notification.save();
+        res.redirect("/chat" +"/" +notification.chat.userID);
+    } catch(err) {
+        console.log(err);
+    }
+});
 
 module.exports = router;

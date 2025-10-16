@@ -89,6 +89,15 @@
                                     <% }%>
                                     
                                 <%})%>
+
+                                <!-- chat notifications -->
+                                 <%notifications.forEach(function(notif){%>
+                                    <%if(notif.chat.username){%>
+                                        <li>
+                                            <a href="/chat/<%=notif.chat.userID%>"><%=notif.chat.username%> messaged you</a>
+                                        </li>
+                                    <%}%>
+                                 <%})%>
                             </ul>    
                                 
                                 
