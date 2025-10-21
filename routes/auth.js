@@ -382,8 +382,15 @@ router.get('/user/:id/followers', async function(req, res) {
     try{
        const userId = req.params.id; 
        var user = await User.findById(userId).populate('followers').exec();
+       const keywords = user.followers.map(user => user.username).join(", ");
        var listfollowers = user.followers;
-       res.render("followerspage", {listfollowers});
+       res.render("followerspage", {
+            listfollowers, title: 'follower-list',
+            description: "followers", 
+            keywords,
+            image: "/pics/logo.png"
+        }
+    );
     }catch(err){
         console.log(err);
     }
@@ -395,8 +402,14 @@ router.get('/user/:id/following', async function(req, res) {
     try{
        const userId = req.params.id; 
        var user = await User.findById(userId).populate('following').exec();
+       const keywords = user.following.map(user => user.username).join(", ");
        var listfollowing = user.following;
-       res.render("followingpage", {listfollowing});
+       res.render("followingpage", {
+            listfollowing, title: 'following-list',
+            description: "following list", 
+            keywords,
+            image: "/pics/logo.png"
+        });
     }catch(err){
         console.log(err);
     }

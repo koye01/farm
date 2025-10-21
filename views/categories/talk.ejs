@@ -1,4 +1,7 @@
 <%- include("../partials/header")%>
+<div class="categorycontainer">
+
+
 <div class="category">
 <p>
     <h3 class="aboutHead">Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
@@ -12,9 +15,6 @@
     <p>
         
         <h3 class="aboutHead">Agricultural Talk</h3>
-            Farmgate Global offers a platform for engaging discussions on current trends in pet and 
-        <div class="category">
-        <h3>Agricultural Talk</h3><hr/>
             Farmgate Nigeria offers a platform for engaging discussions on current trends in pet and 
             livestock management. Join the conversation on various topics such as animal health, behavioral 
             patterns, disease management, and habitat care. Through our interactive "Agricultural Talk" 
@@ -37,10 +37,6 @@
             
     </p>
 </div>
-    <div class="add-new">
-        <button><a href="/addnew">Click to contribute</a></button>
-        <p>Matters arising in the field of Agricultural Sciences</p>
-    </div>
     <div class="general-content">
     <%Agricultural_talk.forEach(function(talk){%>
         <div class="content">
@@ -57,5 +53,6 @@
         
     <%})%>
 
+</div>
 </div>
 <%- include("../partials/footer") %>

@@ -1,13 +1,8 @@
 <%- include("../partials/header")%>
-<p>
+<div class="category">
+    <p>
     <h3 class="aboutHead">Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
     At Farmgate Global, we specialize in linking farmers with their target audience across the globe. 
-    We are committed to helping agricultural businesses connect with new customers and expand their reach 
-    nationwide.
-    if you have any farm product to display for sales, 
-    kindly click the "add to Feed ingredients" button below for your product's display and expect a call to action in 
-    <h3>Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
-    At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
     We are committed to helping agricultural businesses connect with new customers and expand their reach 
     nationwide.
     if you have any farm product to display for sales, 
@@ -15,9 +10,6 @@
     some moment later
     </p>
     <div class="category">
-        <h3 class="aboutHead">
-            Feed Ingredients and Grains for Sale at Farm-Gate Prices
-        </h3>
         <h3 class="aboutHead">Feed Ingredients and Grains for Sale at Farm-Gate Prices</h3>
         We invite you to use our platform to display a variety of feed ingredients, grains, and food items 
         at competitive farm-gate prices. Whether you have rice, beans, maize, soybeans, or other agricultural 
@@ -34,24 +26,27 @@
          Let Farmgate Nigeria be your go-to marketplace for all your feed ingredients, grains, and specialty 
          products!
     </div>
+
     <div class="add-new">
         <button><a href="/addnew">Add to Feed Ingredients</a></button>
         <p>List of the available agrocommodities for sales</p>
     </div>
+
     <div class="general-content">
-    <%food.forEach(function(eat){%>
-        <div class="content">
-            <a href="/<%=eat._id%>">
-                <img height="auto" width="100%" src="<%= eat.image[0].url%>" alt="<%=eat.name%>"/>
-                <div class="content-desc">
-                    <h1><%=eat.name%></h1>
-                    <p><%=eat.description%></p>
-                </div>
-                <button class="frontBtn">See more</button>
-            </a>
+        <%food.forEach(function(eat){%>
+            <div class="content">
+                <a href="/<%=eat._id%>">
+                    <img height="auto" width="100%" src="<%= eat.image[0].url%>" alt="<%=eat.name%>"/>
+                    <div class="content-desc">
+                        <h1><%=eat.name%></h1>
+                        <p><%=eat.description%></p>
+                    </div>
+                    <button class="frontBtn">See more</button>
+                </a>
+                
+            </div>
             
-        </div>
-        
-    <%})%>
+        <%})%>
+    </div>
 </div>
 <%- include("../partials/footer") %>

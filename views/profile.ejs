@@ -18,20 +18,22 @@
             <% if(currentUser && user.username == currentUser.username){ %>
                 <a disabled="disabled"><button disabled class="edit-button">Follow <%= user.username %></button></a>
                 <div class="follow-info">
-                    <button id="listfollowers"><%= user.followers.length %> followers</button>
-                    <button id="listfollowing">Following <%= user.following.length %></button>
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.followers.length %></a></button>
                 </div>
             <% } else if(!currentUser) { %>
                 <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
                 <div class="follow-info">
-                    <button id="listfollowers"><%= user.followers.length %> followers</button>
-                    <button id="listfollowing">Following <%= user.following.length %></button>
+                    <!-- <button id="listfollowers"><%= user.followers.length %> followers</button>
+                    <button id="listfollowing">Following <%= user.following.length %></button> -->
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.followers.length %></a></button>
                 </div>
             <% } else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){ %>
                 <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
                 <div class="follow-info">
-                    <button id="listfollowers"><%= user.followers.length %> followers</button>
-                    <button id="listfollowing">Following <%= user.following.length %></button>
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.followers.length %></a></button>
                 </div>
             <% } %> 
         </p>
@@ -45,23 +47,7 @@
         
     
         
-            <!-- Hidden list of followers -->
-            <div id="followersList" style="display: none;">
-                <ol>
-                    <% user.followers.forEach(function(follower) { %>
-                        <li><a href="/user/<%= follower.id %>"><b><%= follower.username %></b></a></li>
-                    <% }); %>
-                </ol>
-            </div>
-    
-            <!-- Hidden list of following -->
-            <div id="followingList" style="display: none;">
-                <ol>
-                    <% user.following.forEach(function(follow) { %>
-                        <li><a href="/user/<%= follow.id %>"><b><%= follow.username %></b></a></li>
-                    <% }); %>
-                </ol>
-            </div>
+
         <div class="profilePicture">
             <img src="<%= user.image[0].url %>" alt="<%= user.username %>'s picture">
             <h3><i>Profile Picture</i></h3>

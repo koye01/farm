@@ -140,124 +140,135 @@ server.listen(PORT, IP, () => {
     console.log(`Application is now running on ${IP}:${PORT}`);
 });
 
-// User socket tracking
+// Enhanced user tracking
 const userSockets = new Map(); // userId => Set(socketId)
-const activeChatMap = new Map(); // userId => chattingWithUserId
+const activeChats = new Map(); // userId => { chattingWith: userId, socketId: string }
 
 io.on("connection", (socket) => {
     console.log("A user connected");
 
+    // ✅ KEEP THIS - for initial chat registration and history loading
     socket.on("register user", async ({ userId, recipientId }) => {
+        userId = String(userId);
+        recipientId = String(recipientId);
+        socket.userId = userId;
+
+        if (!userSockets.has(userId)) {
+            userSockets.set(userId, new Set());
+        }
+        userSockets.get(userId).add(socket.id);
+
+        // Set active chat
+        activeChats.set(userId, {
+            chattingWith: recipientId,
+            socketId: socket.id,
+            timestamp: new Date()
+        });
+
+        console.log(`✅ ${userId} is now actively chatting with ${recipientId}`);
+
         try {
-            userId = String(userId);
-            recipientId = String(recipientId);
-            socket.userId = userId;
-
-            // Initialize user sockets
-            if (!userSockets.has(userId)) {
-                userSockets.set(userId, new Set());
-            }
-            userSockets.get(userId).add(socket.id);
-
-            // Set chat context
-            activeChatMap.set(userId, recipientId);
-            console.log(`✅ ${userId} is now chatting with ${recipientId}`);
-
-            // Load chat history
+            // ✅ KEEP THIS - load chat history
             const messages = await ChatMessage.find({
                 $or: [
                     { from: userId, to: recipientId },
                     { from: recipientId, to: userId }
                 ]
-            }).sort({ timestamp: 1 });
+            })
+            .sort({ timestamp: 1 })
+            .populate('from', 'username')
+            .populate('to', 'username');
 
-            socket.emit("chat history", messages);
+            const messagesWithUsernames = messages.map(msg => ({
+                ...msg.toObject(),
+                fromUsername: msg.from.username,
+                toUsername: msg.to.username
+            }));
+
+            socket.emit("chat history", messagesWithUsernames);
         } catch (err) {
             console.error("Failed to load chat history:", err);
         }
     });
 
+    // ✅ KEEP THIS - for when users switch between chats without page reload
     socket.on("user in chat with", ({ userId, chattingWith }) => {
         userId = String(userId);
         chattingWith = String(chattingWith);
-        activeChatMap.set(userId, chattingWith);
-        console.log(`✅ ${userId} is now chatting with ${chattingWith}`);
+        
+        activeChats.set(userId, {
+            chattingWith: chattingWith,
+            socketId: socket.id,
+            timestamp: new Date()
+        });
+        console.log(`✅ ${userId} switched to chat with ${chattingWith}`);
     });
 
-    socket.on("private message", async (msg) => {
-        const from = String(socket.userId);
-        const to = String(msg.to);
+    // ✅ KEEP THIS - handling message sending with proper filtering
+socket.on("private message", async (msg) => {
+    const from = String(socket.userId);
+    const to = String(msg.to);
 
-        // Validate message data
-        if (!from || !to || !msg.message?.trim()) {
-            console.error("❌ Invalid message data:", { from, to, message: msg.message });
-            return;
-        }
+    if (!from || !to || !msg.message) return;
 
-        try {
-            // Save message to database
-            const newMessage = new ChatMessage({
-                from,
-                to,
-                message: msg.message.trim(),
-                isRead: false,
-            });
+    try {
+        const senderUser = await User.findById(from).select("username");
+        const senderUsername = senderUser ? senderUser.username : 'Unknown User';
 
-            await newMessage.save();
+        const newMessage = new ChatMessage({
+            from,
+            to,
+            message: msg.message,
+            isRead: false,
+        });
 
-            // Emit to sender
-            socket.emit("private message", newMessage);
+        await newMessage.save();
 
-            // Get recipient info
-            const recipientSockets = userSockets.get(to);
-            const currentlyChattingWith = activeChatMap.get(to);
+        // Always emit to sender
+        socket.emit("private message", {
+            ...newMessage.toObject(),
+            fromUsername: senderUsername
+        });
 
-            console.log(`💬 Message from ${from} to ${to}`);
-            console.log("🔌 Recipient sockets:", recipientSockets ? Array.from(recipientSockets) : "None");
-            console.log("🧭 Recipient is chatting with:", currentlyChattingWith || "Nobody");
+        const recipientSockets = userSockets.get(to);
+        const recipientActiveChat = activeChats.get(to);
 
-            // If recipient has active sockets
-            if (recipientSockets && recipientSockets.size > 0) {
-                // Emit message to all recipient's sockets
+        // Check if recipient is online
+        if (recipientSockets && recipientSockets.size > 0) {
+            const isRecipientChattingWithSender = recipientActiveChat && 
+                String(recipientActiveChat.chattingWith) === String(from);
+
+            // Always deliver message if recipient is chatting with sender
+            if (isRecipientChattingWithSender) {
+                console.log(`💬 Delivering message to ${to}`);
                 for (const sid of recipientSockets) {
-                    io.to(sid).emit("private message", newMessage);
+                    io.to(sid).emit("private message", {
+                        ...newMessage.toObject(),
+                        fromUsername: senderUsername
+                    });
                 }
-
-                // Check if notification should be sent
-                const shouldSendNotification = !currentlyChattingWith || 
-                    String(currentlyChattingWith) !== String(from);
-
-                console.log(`📬 Should send notification: ${shouldSendNotification}`);
-
-                if (shouldSendNotification) {
-                    console.log(`📬 Sending inbox notification to ${to}`);
-
-                    // Send notification to all recipient sockets
-                    for (const sid of recipientSockets) {
-                        io.to(sid).emit("new inbox notification", {
-                            from,
-                            message: msg.message,
-                            timestamp: newMessage.timestamp,
-                            messageId: newMessage._id
-                        });
-                    }
-
-                    // Save notification in DB
-                    await saveNotification(from, to);
+            }
+            
+            // ✅ ALWAYS send notification if recipient is NOT chatting with sender
+            // This ensures notifications work regardless of chat status
+            if (!isRecipientChattingWithSender) {
+                console.log(`📬 Sending notification to ${to} (not in active chat)`);
+                for (const sid of recipientSockets) {
+                    io.to(sid).emit("new inbox notification", {
+                        from: from,
+                        fromUsername: senderUsername,
+                        message: msg.message,
+                        timestamp: newMessage.timestamp,
+                        messageId: newMessage._id
+                    });
                 }
-            } else {
-                console.log(`⚠️ User ${to} is offline or has no active sockets.`);
-                
-                // Save notification anyway for when user comes online
                 await saveNotification(from, to);
             }
-
-        } catch (err) {
-            console.error("❌ Error handling private message:", err);
-            // Optionally notify the sender about the failure
-            socket.emit("message_error", { error: "Failed to send message" });
         }
-    });
+    } catch (err) {
+        console.error("❌ Error handling private message:", err);
+    }
+});
 
     socket.on("disconnect", () => {
         const userId = socket.userId;
@@ -267,7 +278,7 @@ io.on("connection", (socket) => {
                 sockets.delete(socket.id);
                 if (sockets.size === 0) {
                     userSockets.delete(userId);
-                    activeChatMap.delete(userId);
+                    activeChats.delete(userId);
                 }
             }
             console.log(`❌ User disconnected: ${userId}`);

@@ -67,28 +67,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // --------------- Followers List Toggle ----------------
-    document.getElementById('listfollowers')?.addEventListener('click', function() {
-        const followersList = document.getElementById('followersList');
+    // document.getElementById('listfollowers')?.addEventListener('click', function() {
+    //     const followersList = document.getElementById('followersList');
 
-        // Toggle the visibility of the followers list
-        if (followersList.style.display === 'none') {
-            followersList.style.display = 'block'; // Show followers
-        } else {
-            followersList.style.display = 'none'; // Hide followers
-        }
-    });
+    //     // Toggle the visibility of the followers list
+    //     if (followersList.style.display === 'none') {
+    //         followersList.style.display = 'block'; // Show followers
+    //     } else {
+    //         followersList.style.display = 'none'; // Hide followers
+    //     }
+    // });
 
     // --------------- Following List Toggle ----------------
-    document.getElementById('listfollowing')?.addEventListener('click', function() {
-        const followingList = document.getElementById('followingList');
+//     document.getElementById('listfollowing')?.addEventListener('click', function() {
+//         const followingList = document.getElementById('followingList');
 
-        // Toggle the visibility of the following list
-        if (followingList.style.display === 'none') {
-            followingList.style.display = 'block'; // Show following
-        } else {
-            followingList.style.display = 'none'; // Hide following
-        }
-    });
+//         // Toggle the visibility of the following list
+//         if (followingList.style.display === 'none') {
+//             followingList.style.display = 'block'; // Show following
+//         } else {
+//             followingList.style.display = 'none'; // Hide following
+//         }
+//     });
 
 });
 
