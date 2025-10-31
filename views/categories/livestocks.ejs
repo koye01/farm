@@ -1,28 +1,11 @@
 <%- include("../partials/header")%>
-<div class="categorycontainer">
+
 <div class="category">
-    <p>
-        <h3 class="aboutHead">Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
-        At Farmgate Global, we specialize in linking farmers with their target audience across the globe. 
-        We are committed to helping agricultural businesses connect with new customers and expand their reach 
-        nationwide.
-        if you have any farm product to display for sales, 
-        kindly click the "add to livestock" button below for your product's display and expect a call to action in some moment later
-    </p>
+
     
-        <h3 class="aboutHead">
-            Farmers Nationwide Invited to Post Livestock and Poultry Products for Sale at Competitive 
-            Farm Gate Prices.
-        </h3 class="aboutHead"> We invite farmers from across the country to participate in this interactive 
-        kindly click the "add to store" button below for your product's display and expect a call to 
-        action in some moment later
-        <h3>Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
-        At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
-        We are committed to helping agricultural businesses connect with new customers and expand their reach 
-        nationwide.
-        if you have any farm product to display for sales, 
-        kindly click the "add to livestock" button below for your product's display and expect a call to action in some moment later
-    </p>
+    <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+    <div class="livestock">   
+   </div>
     
         <h3 class="aboutHead">
             Farmers Nationwide Invited to Post Livestock and Poultry Products for Sale at Competitive 
@@ -35,10 +18,9 @@
          stock. Whether you're selling spent layers or any poultry-related product, this platform is designed 
          to connect you with potential buyers. Additionally, farmers selling poultry products such as 
          eggs and day-old chicks are also welcome to display their offerings for interested buyers. 
-         <h3>Day-Old Chicks for Sale </h3>
-         When posting day-old chicks for sale, make sure to clearly indicate the brand name
-         eggs and day-old chicks are also welcome to display their offerings for interested buyers. Day-Old 
-         Chicks for Sale When posting day-old chicks for sale, make sure to clearly indicate the brand name 
+         <h3 class="aboutHead">Day-Old Chicks for Sale </h3>
+    <div class="category">
+         When posting day-old chicks for sale, make sure to clearly indicate the brand name 
          so your buyers can easily identify your products. Popular day-old chicks brands include, 
          but are not limited to:<br>
 
@@ -57,7 +39,6 @@
         <p>List of the available agrocommodities for sales</p>
     </div>
 
-</div>
     <div class="general-content">
     <%livestocks.forEach(function(live){%>
         <div class="content">
@@ -73,5 +54,6 @@
         </div>
         
     <%})%>
+    </div>
 </div>
 <%- include("../partials/footer") %>

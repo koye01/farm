@@ -138,5 +138,38 @@ router.post("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async funct
     }
 });
 
+router.get("/:id/comment/:comment_id/reply/:reply_id/edit", middleware.replyOwner, async function(req, res){
+    try{
+        var product = await Product.findById(req.params.id); 
+        var parentComment = await Comment.findById(req.params.comment_id); 
+        var editReply = await Comment.findById(req.params.reply_id);
+        res.render("comment_sub/edit", {product_id: req.params.id, 
+            editReply_id: req.params.reply_id, product, parentComment, editReply, 
+            title: 'edit reply mode', description: editReply.post, keywords: product.name,
+        image: product.image});
+    }catch(error){
+        console.log(error)
+    }
+});
+
+router.put("/:id/comment/:comment_id/reply/:reply_id", middleware.replyOwner, async function(req, res){
+    try{
+        var replyUpd = await Comment.findByIdAndUpdate(req.params.reply_id, req.body.replies);
+        req.flash("success", "your response was updated successfully");
+        res.redirect("/" + req.params.id);
+    }catch(err){
+        console.log(err)
+    }
+})
+
+router.delete("/:id/comment/:comment_id/reply/:reply_id", middleware.replyOwner, async function(req, res){
+    try{
+        var deleteReply = await Comment.findByIdAndRemove(req.params.reply_id);
+        req.flash("success", "your reply was successfully removed");
+        res.redirect("/" + req.params.id);
+    }catch(err){
+        console.log(err)
+    }
+})
 
 module.exports = router;

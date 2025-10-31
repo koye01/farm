@@ -276,7 +276,7 @@ input[type=file]{
     font-size: medium;
     padding: 2px 5px;
     color: #f1ecec;
-    background-color: rgb(37, 25, 25);
+    background-color: rgb(63, 59, 59);
     /* background-color: rgb(81, 82, 77); */
 }
 .frontBtn a{
@@ -336,6 +336,31 @@ a {
     padding: 5px 10px;
     border-radius: 20%;
 }
+.notifResponse{
+    display: flex;
+    width: 60%;
+    margin: 5px auto;
+}
+.response {
+    display: flex;
+    width: 200px;
+    text-align: left;
+}
+.reply-btn-edit a{
+    color: black;
+}
+.reply-btn-edit {
+    padding: 5px;
+    margin: 0px 3px;
+    
+}
+.reply-btn-delete{
+    margin: 0px;
+    background-color: rgb(218, 167, 167);
+    padding: 5px;
+    float: right;
+}
+
 .comment-block .reply a{
     color: black;
 }
@@ -668,6 +693,70 @@ background-color: rgb(209, 132, 132);;
     border-top: none;
     padding: 10px 10px;
     box-shadow: 5px 5px 10px #444;
+}
+.livestock {
+    background-image: url("/pics/livestock.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 40% 60%;
+    background-size: cover;
+}
+
+.farmequips{
+    background-image: url("/pics/farmequip.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+.Agrictalk{
+    background-image: url("/pics/Agrictalk.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+.pets {
+    background-image: url("/pics/pets.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 75% 25%;
+    background-size: cover;
+}
+.flourist {
+    background-image: url("/pics/flourist.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 50% 50%;
+    background-size: cover;
+}
+.chef {
+    background-image: url("/pics/chef.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 40% 60%;
+    background-size: cover;
+}
+.veg {
+    background-image: url("/pics/veg.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 40% 60%;
+    background-size: cover;
+}
+.estate {
+    background-image: url("/pics/estate.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 40% 60%;
+    background-size: cover;
+}
+.feed{
+    background-image: url("/pics/feed.jpg");
+    width: 100%;
+    height: 200px;
+    background-position: 40% 60%;
+    background-size: cover;
 }
 .clusterImage{
     background-color: #131212;

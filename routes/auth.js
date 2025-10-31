@@ -449,6 +449,18 @@ router.get("/notifications", middleware.isLoggedIn, async function(req, res){
         console.log(error);
     }
 });
+
+// remove reply notification
+router.delete("/notifications/reply/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
+
 //Product notification address
 router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
     try {
@@ -499,5 +511,16 @@ router.get('/notifications/chat/:id', middleware.isLoggedIn, async function(req,
         console.log(err);
     }
 });
+
+//remove chat notification
+router.delete("/notifications/chat/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
 
 module.exports = router;

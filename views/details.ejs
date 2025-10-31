@@ -92,6 +92,20 @@
                                     </b>
                                 </p>
                                 <p><%= reply.post %></p>
+                            <div class="response">
+                                <!-- edit button for reply post -->
+                                    <% if(currentUser && (reply.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                                <button class="reply-btn-edit">
+                                    <a href="/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>/edit"> 
+                                    edit </a> 
+                                </button>
+
+                                <!-- delete button for reply post -->
+                                <form action="/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>?_method=delete" method="POST">
+                                    <button class="reply-btn-delete">Delete</button>
+                                </form>
+                                    <%}%>
+                            </div>
                             </div>
                         <% }); %>
                     </div>

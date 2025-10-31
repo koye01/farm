@@ -1,20 +1,14 @@
 <%- include("../partials/header")%>
-<div class="categorycontainer">
+<!-- <div class="categorycontainer"> -->
 
 
 <div class="category">
-<p>
-    <h3 class="aboutHead">Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
-    At Farmgate Global, we specialize in linking farmers with their target audience across the globe.
-    <h3>Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
-    At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
-    At Farmgate Global, we specialize in linking farmers with their target audience across the globe. 
-    We are committed to helping agricultural businesses connect with new customers and expand their reach 
-    nationwide.
-    </p>
-    <p>
+    <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+        <div class="Agrictalk">   
+        </div>
         
         <h3 class="aboutHead">Agricultural Talk</h3>
+        <div class="category">
             Farmgate Nigeria offers a platform for engaging discussions on current trends in pet and 
             livestock management. Join the conversation on various topics such as animal health, behavioral 
             patterns, disease management, and habitat care. Through our interactive "Agricultural Talk" 
@@ -26,17 +20,16 @@
             Enter "0000" in the price field and click the submit button.<br>
             Once submitted, fellow farm users with similar experiences will be able to connect with you 
             through the comment section, offering advice and shared insights.
-        
+        </div>
             
-    </p>
-</div>
+
     <div class="add-new">
         <button><a href="/addnew">Click to contribute</a></button>
         <p>Matters arising in the field of Agricultural Sciences</p>
-        </div>
+    </div>
             
     </p>
-</div>
+
     <div class="general-content">
     <%Agricultural_talk.forEach(function(talk){%>
         <div class="content">
@@ -52,7 +45,6 @@
         </div>
         
     <%})%>
+</div>
 
-</div>
-</div>
 <%- include("../partials/footer") %>

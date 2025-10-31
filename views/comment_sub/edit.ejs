@@ -1,4 +1,5 @@
 <%-include("../partials/header")%>
+
 <div class="comment-block">
     <h4>Original Comment</h4>
     <p>By <%= parentComment.author.username %></p>
@@ -7,12 +8,11 @@
     
 
 <h4>reply to <%= parentComment.author.username %>'s comment</h4>
-<form action="/<%=product._id%>/comment/<%=parentComment._id%>/reply" method="post" >
+<form action="/<%=product._id%>/comment/<%=parentComment._id%>/reply/<%=editReply._id%>?_method=PUT" method="POST" >
     <div class="form-style">
-        
         <label>comment</label>
-        <textarea name="comment[post]" placeholder="write your reply here"></textarea>
-        <button>submit</button>
+        <textarea name="replies[post]"><%=editReply.post%></textarea>
+        <button>update</button>
     </div>
     
 </form>

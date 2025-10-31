@@ -14,7 +14,7 @@ router.get("/livestocks", async function(req, res){
         res.render("categories/livestocks", {livestocks, title: 'Livestock session', 
             description: "Animals and animal products", 
             keywords,
-            image: "/pics/logo.png"});
+            image: "/pics/livestock.jpg"});
     }catch(err){
         console.log(err)
     }
@@ -81,7 +81,7 @@ router.get("/farmequips", async function(req, res){
         res.render("categories/farmequips", {
             farmequips, title: 'farm equipments', description: "21st-century farming now incorporates sophisticated tools, including surveillance cameras", 
             keywords,
-            image: "/pics/logo.png"
+            image: "/pics/farmequip.jpg"
         });
     }catch(err){
         console.log(err)
@@ -136,7 +136,7 @@ router.get("/talk", async function(req, res){
         res.render("categories/talk", {
             Agricultural_talk, title: 'Agricultural talk', description: 'matters arrising in the field of agricultural sciences', 
             keywords,
-            image: "/pics/logo.png"
+            image: "/pics/Agrictalk.jpg"
         });
     }catch(err){
         console.log(err)

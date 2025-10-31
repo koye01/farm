@@ -19,7 +19,7 @@
                 <a disabled="disabled"><button disabled class="edit-button">Follow <%= user.username %></button></a>
                 <div class="follow-info">
                     <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
-                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.followers.length %></a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
                 </div>
             <% } else if(!currentUser) { %>
                 <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
@@ -27,13 +27,13 @@
                     <!-- <button id="listfollowers"><%= user.followers.length %> followers</button>
                     <button id="listfollowing">Following <%= user.following.length %></button> -->
                     <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
-                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.followers.length %></a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
                 </div>
             <% } else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){ %>
                 <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
                 <div class="follow-info">
                     <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
-                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.followers.length %></a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
                 </div>
             <% } %> 
         </p>
@@ -54,11 +54,14 @@
         </div>
     
         <div class="profile-info">
+            <%if(currentUser && user.username === currentUser.username ){%>
             <div>
                 <button class="edit-profile"> 
                     <a href="<%= user._id %>/edit">Edit Profile</a>
                 </button>
             </div>
+            <%}%>
+            
             <div class="profile-details">
                 <p>Phone number: <%= user.phone %></p>
                 <p>Email: <%= user.email %></p>
