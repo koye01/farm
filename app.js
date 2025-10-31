@@ -22,8 +22,8 @@ var commentRoute = require("./routes/comment");
 var flash = require("connect-flash");
 const helmet = require("helmet");
 
-mongoose.connect("mongodb://localhost/Product");
-// mongoose.connect(process.env.DATABASE);
+// mongoose.connect("mongodb://localhost/Product");
+mongoose.connect(process.env.DATABASE);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));  // Serving static files from the "public" directory
@@ -249,8 +249,7 @@ socket.on("private message", async (msg) => {
                 }
             }
             
-            // ✅ ALWAYS send notification if recipient is NOT chatting with sender
-            // This ensures notifications work regardless of chat status
+            // ✅ Send notification if recipient is online but NOT chatting with sender
             if (!isRecipientChattingWithSender) {
                 console.log(`📬 Sending notification to ${to} (not in active chat)`);
                 for (const sid of recipientSockets) {
@@ -262,8 +261,13 @@ socket.on("private message", async (msg) => {
                         messageId: newMessage._id
                     });
                 }
+                // Save notification to DB for persistence
                 await saveNotification(from, to);
             }
+        } else {
+            // ✅ CRITICAL FIX: Save notification for OFFLINE users
+            console.log(`💾 User ${to} is offline - saving notification to DB`);
+            await saveNotification(from, to);
         }
     } catch (err) {
         console.error("❌ Error handling private message:", err);
