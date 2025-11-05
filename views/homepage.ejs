@@ -9,7 +9,7 @@
         <p>List of the available agrocommodities for sales</p>
     </div>
     <div class="general-content">
-    <%product.forEach(function(prod){%>
+    <%product.slice().reverse().forEach(function(prod){%>
         <div class="content">
             <a href="/<%=prod._id%>">
                 <img height="auto" width="100%" src="<%= prod.image[0].url%>" alt="<%=prod.name%>"/>

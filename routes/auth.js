@@ -450,16 +450,6 @@ router.get("/notifications", middleware.isLoggedIn, async function(req, res){
     }
 });
 
-// remove reply notification
-router.delete("/notifications/reply/:id", middleware.isLoggedIn, async function(req, res){
-    try{
-        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
-        req.flash("success", "notification link deleted successfully");
-        res.redirect("/notifications")
-    }catch(error){
-        console.log(error);
-    }
-})
 
 //Product notification address
 router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
@@ -473,6 +463,18 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res)
         console.log(err);
     }
 });
+
+// remove product upload's notification
+router.delete("/notifications/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
+
 //comment notification address
 router.get('/notifications/com/:id', middleware.isLoggedIn, async function(req, res) {
     try {
@@ -486,6 +488,17 @@ router.get('/notifications/com/:id', middleware.isLoggedIn, async function(req, 
     }
 });
 
+// remove comment notification
+router.delete("/notifications/com/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
+
 //reply notification address
 router.get('/notifications/reply/:id', middleware.isLoggedIn, async function(req, res) {
     try {
@@ -498,6 +511,16 @@ router.get('/notifications/reply/:id', middleware.isLoggedIn, async function(req
         console.log(err);
     }
 });
+// remove reply notification
+router.delete("/notifications/reply/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
 
 //chat notification address
 router.get('/notifications/chat/:id', middleware.isLoggedIn, async function(req, res) {

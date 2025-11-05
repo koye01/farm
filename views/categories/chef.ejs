@@ -21,7 +21,7 @@
             <p>List of the available agrocommodities for sales</p>
         </div>
         <div class="general-content">
-        <%chef.forEach(function(cook){%>
+        <%chef.slice().reverse().forEach(function(cook){%>
             <div class="content">
                 <a href="/<%=cook._id%>">
                     <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="<%=cook.name%>"/>

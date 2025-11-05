@@ -27,7 +27,7 @@
         </div>
 
         <div class="general-content">
-        <%farmequips.forEach(function(equips){%>
+        <%farmequips.slice().reverse().forEach(function(equips){%>
             <div class="content">
                 <a href="/<%=equips._id%>">
                     <img height="auto" width="100%" src="<%= equips.image[0].url%>" alt="<%=equips.name%>"/>

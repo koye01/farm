@@ -1,14 +1,16 @@
 <%- include("./partials/header") %>
-<div class="content">
+
         <%if(product.length > 0){%>
             <% product.forEach(function(search){%>
                 <a href="/<%=search.id%>">
-                    <img height="auto" width="100%" src="<%= search.image[0].url%>" alt="<%=search.name%>"/>
-                    <div class="content-desc">
-                        <h1><%=search.name%></h1>
+                    <div class="profile">
+                    <img height="auto" width="auto" src="<%= search.image[0].url%>" alt="<%=search.name%>"/>
+                    <div class="descLink">
+                        <h3><%=search.name%></h3>
                         <p><%=search.description%></p>
                     </div>
                     <button class="frontBtn"><a href="/<%=search.id%>">See more</a></button>
+                </div>
                 </a>
                 
 
@@ -16,4 +18,4 @@
         <%} else{%>
             <h1>product not found</h1>
         <%}%>
-</div>
+

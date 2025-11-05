@@ -40,7 +40,7 @@
     </div>
 
     <div class="general-content">
-    <%livestocks.forEach(function(live){%>
+    <%livestocks.slice().reverse().forEach(function(live){%>
         <div class="content">
             <a href="/<%=live._id%>">
                 <img height="auto" width="100%" src="<%= live.image[0].url%>" alt="<%=live.name%>"/>

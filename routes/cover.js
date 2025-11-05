@@ -59,20 +59,36 @@ router.get("/seedlings", async function(req, res){
         console.log(err)
     }
 });
-//food page
-router.get("/food", async function(req, res){
-    try{
-        var food = await Product.find({"category": "Food", "adminpost": "true"});
-        const keywords = food.map(eat => eat.name).join(", ");
-        res.render("categories/food", {
-            food, title: 'feed ingredients', description: food.description, 
-            keywords,
-            image: "/pics/logo.png"
+// Food page
+router.get("/food", async function(req, res) {
+    try {
+        // Fetch only admin-approved food products
+        let food = await Product.find({ 
+            category: "Food", 
+            adminpost: true // Boolean, not string
         });
-    }catch(err){
-        console.log(err)
+
+        // Generate keywords from all food names
+        const keywords = food.map(eat => eat.name).join(", ");
+
+        // Page-level description (since food.description is undefined here)
+        const description = "Various food and feed ingredients";
+
+        // Render the page
+        res.render("categories/food", {
+            food,
+            title: "Feed Ingredients",
+            description,
+            keywords,
+            image: "/pics/feed.jpg"
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
     }
 });
+
 //farmequipment page
 router.get("/farmequips", async function(req, res){
     try{
