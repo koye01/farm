@@ -24,7 +24,7 @@
         <%chef.slice().reverse().forEach(function(cook){%>
             <div class="content">
                 <a href="/<%=cook._id%>">
-                    <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="<%=cook.image[0].name%>"/>
+                    <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="<%=cook.name%>"/>
                     <div class="content-desc">
                         <h1><%=cook.name%></h1>
                         <p><%=cook.description%></p>
