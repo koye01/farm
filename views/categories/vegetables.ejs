@@ -15,7 +15,7 @@
             <%veggies.forEach(function(veg){%>
                 <div class="content">
                     <a href="/<%=veg._id%>">
-                        <img height="auto" width="100%" src="<%= veg.image[0].url%>" alt="<%=veg.name%>"/>
+                        <img height="auto" width="100%" src="<%= veg.image[0].url%>" alt="<%=veg.image[0].name%>"/>
                         <div class="content-desc">
                             <h1><%=veg.name%></h1>
                             <p><%=veg.description%></p>

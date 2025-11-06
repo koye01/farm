@@ -12,7 +12,7 @@
     <%product.slice().reverse().forEach(function(prod){%>
         <div class="content">
             <a href="/<%=prod._id%>">
-                <img height="auto" width="100%" src="<%= prod.image[0].url%>" alt="<%=prod.name%>"/>
+                <img height="auto" width="100%" src="<%= prod.image[0].url%>" alt="<%=prod.image[0].name%>"/>
                 <div class="content-desc">
                     <h1><%=prod.name%></h1>
                     <p><%=prod.description%></p>

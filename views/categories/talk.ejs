@@ -34,7 +34,7 @@
     <%Agricultural_talk.forEach(function(talk){%>
         <div class="content">
             <a href="/<%=talk._id%>">
-                <img height="auto" width="100%" src="<%= talk.image[0].url%>" alt="<%=talk.name%>"/>
+                <img height="auto" width="100%" src="<%= talk.image[0].url%>" alt="<%=talk.image[0].name%>"/>
                 <div class="content-desc">
                     <h1>matters arising on <%=talk.name%></h1>
                     <p><%=talk.description%></p>
