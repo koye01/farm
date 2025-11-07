@@ -158,7 +158,6 @@ router.get("/:id", async function(req, res) {
             path: 'comments',
             populate: { path: 'replies' }
         });
-        console.log(detailed);
         console.log(detailed.name);
         if (detailed.category == 'Agricultural talk') {
             res.render("details", {
