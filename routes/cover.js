@@ -205,8 +205,12 @@ router.get("/approvepost/:id", async function(req, res){
 router.get("/", async function(req, res){
     try{
         var product = await Product.find({});
-        var user = await User.find({});
-        res.render("index",{product, user, title: 'homepage'});
+        const user = await User.find({});
+        // Shuffle them randomly
+        const shuffled = product.sort(() => 0.5 - Math.random());
+        // Pick only 3
+        const featured = shuffled.slice(0, 3);
+        res.render("index",{product, featured, user, title: 'homepage'});
     }catch(err){
         console.log(err)
     }

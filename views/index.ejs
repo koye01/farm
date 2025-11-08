@@ -109,7 +109,7 @@
                 </p></a>
             </li><hr>
             
-            <li><a class="frontline" href="/chef"><h3>Chef's Corner</h3></a>
+            <li><a class="frontline" href="/chef"><h3>Chef's Corner</h3>
             <p>
                 Find premium farm-fresh ingredients, spices, and kitchen essentials curated for chefs, 
                 restaurants, and home cooks. Sourced directly from local farms for freshness and flavour.
@@ -134,4 +134,25 @@
             </p></a>
             </li>
         </ul>
+<div >
+    <div class="featured">
+    <h3>Featured products</h3>
+    <%featured.forEach(function(random){%>
+        <div class="featuredFr">
+            <a href="/<%=random.id%>">
+            <img height="150px" width="200px" src="<%=random.image[0].url%>"/>
+            </a>
+            <div><a href="/<%=random.id%>">
+                    <p><%=random.name%></p>
+                    <p>=N=<%=random.price%></p>
+                </a>  
+            </div>
+        </div>
+        
+            
+    <%})%>
+    </div>
+</div>
+
+        
 </div>

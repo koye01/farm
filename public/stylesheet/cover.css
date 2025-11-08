@@ -132,6 +132,28 @@ ul {
     color: white;
     border: white;
 }
+/* .featuredCover{
+
+} */
+.featured {
+    text-align: center;
+    width: 50%;
+    color: red;
+    display: inline;
+}
+.featuredFr{
+    margin: 4px auto;
+    width: 200px;
+    border: thin solid white;
+}
+.featuredFr a{
+    color: white;
+}
+.featured h3 {
+    width: 50%;
+    color: red;
+    border-bottom: 5px solid red;
+}
 @keyframes frontPageAnimation {
     0% {
         opacity: 0;
