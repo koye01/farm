@@ -43,7 +43,7 @@
     <%livestocks.slice().reverse().forEach(function(live){%>
         <div class="content">
             <a href="/<%=live._id%>">
-                <img height="auto" width="100%" src="<%= live.image[0].url%>" alt="<%=live.name%>"/>
+                <img height="auto" width="100%" src="<%= live.image[0].url%>" alt="<%=live.name%> for sales"/>
                 <div class="content-desc">
                     <h1><%=live.name%></h1>
                     <p><%=live.description%></p>

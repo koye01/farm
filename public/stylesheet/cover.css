@@ -138,10 +138,11 @@ ul {
 .featured {
     text-align: center;
     width: 50%;
-    color: red;
+    color: rgb(228, 223, 223);
     display: inline;
 }
 .featuredFr{
+    display: inline-block;
     margin: 4px auto;
     width: 200px;
     border: thin solid white;
