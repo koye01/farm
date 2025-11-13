@@ -17,6 +17,9 @@ li {
 li a {
     color: white;
 }
+.headings li{
+    list-style-type: decimal;
+}
 
 .cover {
     width: 80%;
