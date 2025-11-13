@@ -291,6 +291,18 @@ router.get("/contact", async function(req, res){
     }
 });
 
+router.get("/faq", async function(req, res){
+    try{
+        res.render("faq", {title: "frequently asked questions", 
+            description: "Farm-Gate is a dynamic and innovative platform dedicated to connecting farmers with their target audience",
+            keywords: "frequently asked questions",
+            image: "/pics/logo.png"
+        });
+    }catch(err){
+        res.redirect("/")
+    }
+});
+
 //web chat interface
 router.get("/chat/:id", async (req, res) => {
     const recipient = await User.findById(req.params.id);

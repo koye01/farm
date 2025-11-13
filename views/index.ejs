@@ -19,6 +19,7 @@
     <link rel="icon" type="image/svg+xml" href="pics/logo.png">
     <link rel="stylesheet" href="stylesheet/cover.css">
 </head>
+
 <div class="productUser">
         <form action="/search" method="POST">
             <input type="text" name="productSearch" placeholder="search for a product">
@@ -62,6 +63,15 @@
             Serving farmers and businesses nationwide, Farmgate Market is your go-to marketplace for 
             high-quality agricultural products, competitive farm gate prices, and reliable transactions
         </p>
+            <h3>Browse hundreds of listings or post your produce in minutes</h3>
+            <h4>How it works</h4>
+        <ol>
+            <li>register as a farmer or buyer</li>
+            <li>post or browse available produce listings</li>
+            <li>Connect directly to negotiate and confirm deals</li>
+            <li>Arrange delivery through verified logistics partners</li>
+            <li>Complete transactions securely with FarmGate trusted system</li>
+        </ol>
      </div>   
         <h2>Available categories of Agricultural commodities at farm gate price</h2>
         <ul>
@@ -136,7 +146,7 @@
         </ul>
 <div >
     <div class="featured">
-    <h3>Featured products</h3>
+    <h3>Featured products for sales</h3>
     <%featured.forEach(function(random){%>
         <div class="featuredFr">
             <a href="/<%=random.id%>">
@@ -156,3 +166,27 @@
 
         
 </div>
+
+<h3>FarmGate Market</h3>
+<h4>Why choose us?</h4>
+<ol>
+    <li>Transparent pricing and direct negotiation</li>
+    <li>Pay on delivery service</li>
+    <li>Reliable delivery and logistics partners</li>
+    <li>Secure payment and transaction protection</li>
+    <li>Verified farmers and produce quality checks</li>
+    <li>Real time updates on availability and prices</li>
+</ol>
+<div class="faqContainer">
+<div class="faq">
+    <a href="/faq">Frequently Asked Questions</a>
+</div>
+<div class="faq">
+       <a href="">For Farmers</a>
+</div>
+<div class="faq">
+    <a href="">For Buyers</a>
+</div>    
+
+</div>
+

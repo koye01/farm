@@ -147,14 +147,30 @@ ul {
     width: 200px;
     border: thin solid white;
 }
-.featuredFr a{
-    color: white;
-}
 .featured h3 {
     width: 50%;
     color: red;
     border-bottom: 5px solid red;
 }
+.featuredFr a{
+    color: white;
+}
+.faqContainer{
+    margin: 3px 3px;
+    text-align: center;
+    width: 100%;
+}
+.faq{
+    width: 150px;
+    display: inline-block;
+    margin-bottom: 20px;
+    border: thin solid blue;
+}
+.faq a{
+    color: white;
+}
+
+
 @keyframes frontPageAnimation {
     0% {
         opacity: 0;
