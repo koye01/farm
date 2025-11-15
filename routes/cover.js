@@ -79,12 +79,12 @@ router.get("/food", async function(req, res) {
         const keywords = food.map(eat => eat.name).join(", ");
 
         // Page-level description (since food.description is undefined here)
-        const description = "Various food and feed ingredients";
+        const description = "List and explore feed ingredients, grains, and specialty agricultural products at competitive farm-gate prices. Connect with buyers nationwide on Farmgate Global.";
 
         // Render the page
         res.render("categories/food", {
             food,
-            title: "Feed Ingredients",
+            title: "Feed Ingredients and Grains for Sale | FarmgateGate Nigerian Marketplace",
             description,
             keywords,
             image: "/pics/feed.jpg",
@@ -104,7 +104,8 @@ router.get("/farmequips", async function(req, res){
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = farmequips.map(equips => equips.name).join(", ");
         res.render("categories/farmequips", {
-            farmequips, title: 'farm equipments', description: "21st-century farming now incorporates sophisticated tools, including surveillance cameras", 
+            farmequips, title: 'Farm Equipment for Sale | Connect Farmers to Global Markets - Farmgate Nigeria', 
+            description: "Explore modern farm equipment for sale at Farmgate Nigeria. Connect with global markets, boost your agricultural business, and access advanced tools like drones, harvesters, planters, and livestock management aids.", 
             keywords,
             image: "/pics/farmequip.jpg",
             canonicalUrl
@@ -133,7 +134,8 @@ router.get("/estate", async function(req, res){
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = estate.map(bake => bake.name).join(", ");
         res.render("categories/estate", {
-            estate, title: 'farm real estate',description: "available farm properties, farm settlement with establishments", 
+            estate, title: 'Farmgate Real Estate – Lease or Sell Agricultural Properties Nationwide',
+            description: "Farmgate Nigeria connects farmers with buyers and tenants for agricultural land, farm structures, and buildings. List your farm real estate to reach the right audience nationwide.", 
             keywords,
             image: "/pics/logo.png",
             canonicalUrl
@@ -166,7 +168,8 @@ router.get("/talk", async function(req, res){
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = Agricultural_talk.map(blog => blog.name).join(", ");
         res.render("categories/talk", {
-            Agricultural_talk, title: 'Agricultural talk', description: 'matters arrising in the field of agricultural sciences', 
+            Agricultural_talk, title: 'Agricultural Talk – Engage, Learn & Connect | Farmgate Nigeria', 
+            description: "Agricultural Talk, Farmgate Nigeria, livestock management, animal health, petcare Nigeria, feeding formulation, livestock diseases, farm discussion, agricultural forum Nigeria, animal behavior, livestock solutions", 
             keywords,
             image: "/pics/Agrictalk.jpg",
             canonicalUrl
@@ -231,7 +234,7 @@ router.get("/", async function(req, res){
         const shuffled = product.sort(() => 0.5 - Math.random());
         // Pick only 3
         const featured = shuffled.slice(0, 3);
-        res.render("index",{product, featured, user});
+        res.render("index",{product, featured, user, canonicalUrl});
     }catch(err){
         console.log(err)
     }
