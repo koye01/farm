@@ -50,9 +50,14 @@ router.get("/allproduct", async function(req, res){
     try{
         var product = await Product.find({});
         const keywords = product.map(pro => pro.name).join(", ");
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("homepage", {product, title: 'overall database', description: "farm produce gallery", 
             keywords,
-            image: "/pics/logo.png"});
+            image: "/pics/logo.png",
+            canonicalUrl,
+            noindex: true   // <--- ADD THI
+        });
     }catch(err){
         console.log(err)
     }
@@ -60,9 +65,14 @@ router.get("/allproduct", async function(req, res){
 
 router.get("/addnew", middleware.isLoggedIn, async function(req, res){
     try{
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("addnew", {title: 'add new product', description: "add new product", 
             keywords: "add new product",
-            image: "/pics/logo.png"});
+            image: "/pics/logo.png",
+            canonicalUrl,
+            noindex: true   // <--- ADD THI
+        });
     }catch(err){
         console.log(err)
     }
@@ -154,31 +164,40 @@ const transporter = nodemailer.createTransport({
 // the show page
 router.get("/:id", async function(req, res) {
     try {
-        var detailed = await Product.findById(req.params.id).populate({
+        const detailed = await Product.findById(req.params.id).populate({
             path: 'comments',
             populate: { path: 'replies' }
         });
-        if (detailed.category == 'Agricultural talk') {
-            res.render("details", {
-                detailed,
-                title: 'Open discussion on ' + detailed.name,
-                description: detailed.description,
-                keywords: detailed.name,
-                image: detailed.image
-            });
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        let title, description, keywords;
+
+        if (detailed.category === 'Agricultural talk') {
+            title = `Agricultural Discussion: ${detailed.name} | Farmgate Market`;
+            description = `Join the open agricultural discussion about ${detailed.name}. 
+                           Learn insights, share opinions, and explore expert viewpoints on ${detailed.name} at Farmgate Market.`;
+            keywords = `${detailed.name}, agricultural talk, farm discussions, farmer forum`;
         } else {
-            res.render("details", {
-                detailed,
-                title: detailed.name + ' for sales',
-                description: detailed.description,
-                keywords: detailed.name,
-                image: detailed.image
-            });
+            title = `${detailed.name} for Sale | Buy ${detailed.name} Online | Farmgate Market`;
+            description = `Buy ${detailed.name} at Farmgate Market. High-quality, affordable, and verified farm products. 
+                           View details, images, and seller information for ${detailed.name}.`;
+            keywords = `${detailed.name}, buy ${detailed.name}, farm products, agriculture marketplace, farmgate market`;
         }
+
+        res.render("details", {
+            detailed,
+            title,
+            description,
+            keywords,
+            image: detailed.image,
+            canonicalUrl
+        });
+
     } catch (err) {
         console.log(err);
     }
 });
+
 
 // POST route for handling inquiries
 router.post("/:id", async function(req, res) {
@@ -229,9 +248,14 @@ router.post("/:id", async function(req, res) {
 router.get("/:id/edit", middleware.isOwner, async function(req, res){
     try{
         var edit = await Product.findById(req.params.id);
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("edit", {edit, title: 'edit page', description: edit.description, 
             keywords: edit.name,
-            image: "/pics/logo.png"});
+            image: "/pics/logo.png",
+            canonicalUrl,
+            noindex: true   // <--- ADD THI
+        });
     }catch(err){
         console.log(err)
     }

@@ -11,30 +11,44 @@
         </script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Farmgate Nigeria | <%=title %></title>
-        
-        <!-- Standard Meta Tags -->
-        <meta name="description" content="<%= description %>">
-        <meta name="keywords" content="<%= keywords %>">
-        
-        <!-- Open Graph Meta Tags -->
-        <meta property="og:title" content="<%= title %>">
-        <meta property="og:description" content="<%= description %>">
-        <meta property="og:image" content="<%= image[0].url %>">
-    
-        <!-- Twitter Card Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image"> <!-- This defines the card type -->
-        <meta name="twitter:title" content="<%= title %>">
-        <meta name="twitter:description" content="<%= description %>">
-        <meta name="twitter:image" content="<%= image[0].url %>">
-        
-        <link rel="icon" type="image/svg+xml" href="pics/logo.png">
-        <link rel="stylesheet" href="/stylesheet/app.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <!-- SEO Title -->
+    <title><%= title %> | Farmgate Nigeria</title>
+
+    <!-- Primary SEO Meta Tags -->
+    <meta name="description" content="<%= description %>">
+    <meta name="keywords" content="<%= keywords %>, farm products, agriculture, buy farm produce online, farmgate market, Nigeria agriculture marketplace">
+    <meta name="author" content="Farmgate Market Nigeria">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL (helps SEO & prevents duplicate content issues) -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+
+    <!-- Open Graph Meta Tags (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="<%= title %> | Farmgate Nigeria">
+    <meta property="og:description" content="<%= description %>">
+    <meta property="og:image" content="<%= image[0].url %>">
+    <meta property="og:url" content="<%= canonicalUrl %>">
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="Farmgate Market Nigeria">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= title %> | Farmgate Nigeria">
+    <meta name="twitter:description" content="<%= description %>">
+    <meta name="twitter:image" content="<%= image[0].url %>">
+    <!-- <meta name="twitter:site" content="@farmgate"> 
+    <meta name="twitter:creator" content="@farmgate">  -->
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="pics/logo.png">
+    <link rel="stylesheet" href="/stylesheet/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
        
            
           
-    </head>
+</head>
     
 <body>
 <div class="container">

@@ -1,4 +1,57 @@
 <%- include("../partials/header")%>
+<%- include("../partials/header")%>
+<head>
+    <!-- Primary Meta Tags -->
+    <title>Feed Ingredients and Grains for Sale | Farmgate Global Marketplace</title>
+    <meta name="title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
+    <meta name="description" content="List and explore feed ingredients, grains, and specialty agricultural products at competitive farm-gate prices. Connect with buyers nationwide on Farmgate Global.">
+
+    <!-- SEO Keywords -->
+    <meta name="keywords" content="feed ingredients for sale, grains for sale, agricultural products, farm-gate prices, soybean, rice, beans, maize, sorghum, groundnut cake, rice bran, wheat offal, dried brewery waste, blood meal, sweeteners, Farmgate Global">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate-market.onrender.com/feed">
+    <meta property="og:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
+    <meta property="og:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
+    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/feed.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://farmgate-market.onrender.com/feed">
+    <meta property="twitter:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
+    <meta property="twitter:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
+    <meta property="twitter:image" content="https://farmgate-market.onrender.com/pics/feed.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Feed Ingredients and Grains for Sale",
+      "description": "List of feed ingredients, grains, and specialty agricultural products available for sale at farm-gate prices.",
+      "itemListElement": [
+        <% food.forEach(function(eat, index) { %>
+        {
+          "@type": "Product",
+          "position": <%= index + 1 %>,
+          "name": "<%= eat.name %>",
+          "image": "<%= eat.image[0].url %>",
+          "description": "<%= eat.description %>",
+          "offers": {
+            "@type": "Offer",
+            "url": "https://farmgate-market.onrender.com/<%= eat._id %>",
+            "availability": "https://schema.org/InStock"
+          }
+        }<% if(index < food.length - 1) { %>,<% } %>
+        <% }) %>
+      ]
+    }
+    </script>
+</head>
+
 <div class="category">
     <p>
     <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>

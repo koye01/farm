@@ -20,6 +20,9 @@ li a {
 .headings li{
     list-style-type: decimal;
 }
+ol li{
+    list-style-type: decimal;
+}
 
 .cover {
     width: 80%;

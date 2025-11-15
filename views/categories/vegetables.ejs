@@ -1,4 +1,73 @@
 <%- include("../partials/header")%>
+<head>
+    <!-- Primary Meta Tags -->
+    <title>Fresh Vegetables for Sale | Farmgate Nigeria Marketplace</title>
+    <meta name="title" content="Fresh Vegetables for Sale | Farmgate Nigeria Marketplace">
+    <meta name="description" content="Discover and buy fresh vegetables directly from Nigerian farmers. Farmgate Nigeria connects buyers with leafy and fruity vegetables at farm-gate prices.">
+
+    <!-- SEO Keywords -->
+    <meta name="keywords" content="fresh vegetables for sale, Nigerian vegetables, farm-gate prices, leafy vegetables, fruity vegetables, spinach, tomatoes, peppers, cucumbers, Farmgate Nigeria">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate-market.onrender.com/vegetables">
+    <meta property="og:title" content="Fresh Vegetables for Sale | Farmgate Nigeria Marketplace">
+    <meta property="og:description" content="Buy fresh vegetables directly from Nigerian farmers. Leafy and fruity vegetables available at competitive farm-gate prices.">
+    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/veg.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://farmgate-market.onrender.com/vegetables">
+    <meta property="twitter:title" content="Fresh Vegetables for Sale | Farmgate Nigeria Marketplace">
+    <meta property="twitter:description" content="Buy fresh vegetables directly from Nigerian farmers. Leafy and fruity vegetables available at competitive farm-gate prices.">
+    <meta property="twitter:image" content="https://farmgate-market.onrender.com/pics/veg.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Farmgate Nigeria",
+      "url": "https://farmgate-market.onrender.com",
+      "logo": "https://farmgate-market.onrender.com/pics/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/farmgatenigeria",
+        "https://www.twitter.com/farmgatenigeria",
+        "https://www.linkedin.com/company/farmgatenigeria"
+      ]
+    }
+    </script>
+
+    <!-- ItemList Schema for Vegetables -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Fresh Vegetables for Sale",
+      "description": "List of fresh leafy and fruity vegetables available at Farmgate Nigeria at farm-gate prices.",
+      "itemListElement": [
+        <% veggies.forEach(function(veg, index){ %>
+        {
+          "@type": "Product",
+          "position": <%= index + 1 %>,
+          "name": "<%= veg.name %>",
+          "image": "<%= veg.image[0].url %>",
+          "description": "<%= veg.description %>",
+          "offers": {
+            "@type": "Offer",
+            "url": "https://farmgate-market.onrender.com/<%= veg._id %>",
+            "availability": "https://schema.org/InStock"
+          }
+        }<% if(index < veggies.length - 1) { %>,<% } %>
+        <% }) %>
+      ]
+    }
+    </script>
+</head>
+
 <div class="category">
             <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
                 <div class="veg"></div>
@@ -7,6 +76,54 @@
                 if you have any farm product to display for sales, 
                 kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
             </p>
+        <div class="category">
+
+            <h3 class="aboutHead">Vegetable Category – Farmgate Nigeria</h3>
+            Vegetables remain one of nature’s richest sources of essential nutrients and antioxidants. 
+            They play a vital role in supporting overall wellness by contributing to improved immunity, 
+            healthy aging, enhanced vitality, and general body nourishment. Numerous studies have shown 
+            that individuals who include adequate amounts of fresh vegetables in their daily meals tend 
+            to enjoy better long-term health and improved resistance to common ailments.
+            Farmgate Nigeria is proud to pioneer a fully integrated digital marketplace that connects 
+            vegetable farmers directly with consumers, retailers, wholesalers, and event planners across 
+            the country. Our platform is the first of its kind in Nigeria—designed specifically to empower
+         vegetable growers and provide buyers with easy, unrestricted access to fresh, locally grown 
+         produce.
+        <h3 class="aboutHead">For Vegetable Farmers</h3>
+        This is a call to all vegetable farmers nationwide: Farmgate Nigeria offers you a ready-made 
+        online marketplace where you can showcase your produce to thousands of buyers who are actively 
+        searching for fresh leafy and fruity vegetables. Whether you grow in small, medium, or large 
+        quantities, our platform ensures your products reach the right customers at the right time.
+        <h3 class="aboutHead">For Buyers & Event Planners</h3>
+        Planning a large event or stocking up for commercial food preparation? Farmgate Nigeria gives you 
+        direct access to trusted vegetable sellers and farmers in every region of Nigeria. You can 
+        conveniently order bulk quantities of leafy vegetables such as:<br>
+        Jute mallow (Ewedu)<br>
+        Spinach<br>
+        Celosia<br>
+        Amaranthus<br>
+        Waterleaf<br>
+        Fluted pumpkin (Ugu)<br>
+
+        Perfect for preparing soups like Ewedu, Efo-Riro, and other traditional delicacies.
+        We also offer seamless access to bulk orders of fruity vegetables including:<br>
+        Tomatoes<br>
+        Peppers<br>
+        Cucumbers<br>
+        Garden eggs<br>
+        Eggplants<br>
+        Onions<br>
+
+        Ideal for salads, stews, sauces, catering services, and party menus.
+        <h3 class="aboutHead">Our Commitment</h3>
+        At Farmgate Nigeria, our priority is to ensure that consumers enjoy fresh, unadulterated farm 
+        produce sourced directly from farmers—without preservatives, middlemen, or foreign additives. 
+        We aim to make high-quality vegetables affordable and accessible to households, restaurants, 
+        markets, and event planners across the country, all at true farm-gate prices.
+        Farmgate Nigeria is your trusted link to reliable vegetable farmers and quality produce—fresh 
+        from the farm to your doorstep.
+        </div>
+
             <div class="add-new">
                 <button><a href="/addnew">Add to vegetables</a></button>
                 <p>List of the available agrocommodities for sales</p>

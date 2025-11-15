@@ -49,9 +49,10 @@ cloudinary.config({
 
 
 router.get("/register", function(req, res){
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("form/register", {title: 'register new user', description: "user sign-up page", 
         keywords: 'sign-up page',
-        image: "/pics/logo.png"});
+        image: "/pics/logo.png", canonicalUrl});
 });
 
 
@@ -86,8 +87,9 @@ router.post("/register", upload.single("image"), async function(req, res){
 });
 
 router.get("/login", function(req, res){
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("form/login", {title: 'user login',description: "user login page", keywords: 'login page',
-        image: "/pics/logo.png"});
+        image: "/pics/logo.png", canonicalUrl});
 });
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/",
@@ -107,11 +109,13 @@ router.get("/logout", function(req, res){
 
 //forgot password
 router.get("/forgot", function(req, res){
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("users/forgot", {
         title: 'password reset',
         description: "password reset link", 
         keywords: 'forgot password',
-        image: "/pics/logo.png"
+        image: "/pics/logo.png",
+        canonicalUrl
     })
     });
 
@@ -170,7 +174,7 @@ router.post("/forgot", async function(req, res, next) {
 
 router.get("/reset/:token", async function(req, res){
     var user = await User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
-
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     if(!user) {
         req.flash("error", "password reset token has been expired.");
         return res.redirect("/forgot");
@@ -179,7 +183,8 @@ router.get("/reset/:token", async function(req, res){
         token: req.params.token, title: 'reset token',
         description: "password reset link", 
         keywords: 'forgot password',
-        image: "/pics/logo.png"
+        image: "/pics/logo.png",
+        canonicalUrl
     });
 });
 
@@ -291,12 +296,13 @@ router.get("/user/:id", async function(req, res) {
         
         // Include 'user.username' in the keywords
         const allKeywords = `${keywords}, ${user.username}`;
-
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render('profile', {
             user, product, unique, title: user.username + ' profile',
             description: user.description, 
             keywords: allKeywords,  // Use the updated 'allKeywords' here
-            image: user.image
+            image: user.image,
+            canonicalUrl
         });
     } catch (err) {
         console.log(err);
@@ -311,11 +317,13 @@ router.get("/user/:id", async function(req, res) {
 router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){
     try{
         var editProf = await User.findById(req.params.id);
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("profileedit", {
             editProf, title: 'edit profile',
             description: "edit profile", 
             keywords: "edit profile",
-            image: editProf.image
+            image: editProf.image,
+            canonicalUrl
         });
     }catch(err){
         console.log(err);
@@ -384,11 +392,13 @@ router.get('/user/:id/followers', async function(req, res) {
        var user = await User.findById(userId).populate('followers').exec();
        const keywords = user.followers.map(user => user.username).join(", ");
        var listfollowers = user.followers;
+       const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
        res.render("followerspage", {
             listfollowers, title: 'follower-list',
             description: "followers", 
             keywords,
-            image: "/pics/logo.png"
+            image: "/pics/logo.png",
+            canonicalUrl
         }
     );
     }catch(err){
@@ -404,11 +414,13 @@ router.get('/user/:id/following', async function(req, res) {
        var user = await User.findById(userId).populate('following').exec();
        const keywords = user.following.map(user => user.username).join(", ");
        var listfollowing = user.following;
+       const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
        res.render("followingpage", {
             listfollowing, title: 'following-list',
             description: "following list", 
             keywords,
-            image: "/pics/logo.png"
+            image: "/pics/logo.png",
+            canonicalUrl
         });
     }catch(err){
         console.log(err);
@@ -438,12 +450,15 @@ router.get("/notifications", middleware.isLoggedIn, async function(req, res){
             path: "notifications",
             options: {sort: {"_id": -1}}
         }).exec();
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         var allNotification = user.notifications;
         res.render("notification", {
             allNotification, title: 'notification page',
             description: "Notification page", 
             keywords: "notifications",
-            image: user.image
+            image: user.image,
+            canonicalUrl,
+            noindex: true   // <--- ADD THIS
         });
     }catch(error){
         console.log(error);
