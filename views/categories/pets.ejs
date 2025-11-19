@@ -1,0 +1,55 @@
+<%- include("../partials/header")%>
+<div class="category">
+            <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+            <div class="pets"></div>
+        <p>
+            <h3>Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
+        At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
+        We are committed to helping agricultural businesses connect with new customers and expand their reach 
+        nationwide. 
+            if you have any farm product to display for sales, 
+        kindly click the "add to pets" button below for your product's display and expect a call to action 
+        in some moment later
+        </p>
+        
+            <h3 class="aboutHead">Pet Animals</h3>
+        <div class="category">
+        
+            <h3>Pet Animals</h3>
+            Pets are an integral part of the biotic components that enhance the environment of human life. 
+            Many pets have exhibited life-saving behaviors and unwavering loyalty to their owners, 
+            even in the face of danger or death, solidifying their role as devoted companions.
+            This platform is dedicated to pet lovers worldwide, providing a space to showcase pets for 
+            sale and share fascinating experiences through our "Agricultural Talk" section. Here, you 
+            can highlight the remarkable behaviors you have witnessed in your pets and connect with others 
+            who share your passion.
+            Use our platform to engage with fellow pet enthusiasts, buy or sell pets, and participate in 
+            discussions by sharing your thoughts and experiences in the comment section.
+            kindly click this <a href="/livestocks">link</a> to explore our livestock category.
+        </div>
+    
+    
+        <div class="add-new">
+            <button><a href="/addnew">Add to pets</a></button>
+            <p>List of the available agrocommodities for sales</p>
+        </div>
+        <div class="general-content">
+        <%pets.forEach(function(equips){%>
+            <div class="content">
+                <a href="/<%=equips._id%>">
+                    <img height="auto" width="100%" src="<%= equips.image[0].url%>" alt="<%=equips.name%> for sales"/>
+                    <div class="content-desc">
+                        <h1><%=equips.name%></h1>
+                        <p><%=equips.description%></p>
+                    </div>
+                    <button class="frontBtn">See more</button>
+                </a>
+                
+            </div>
+            
+        <%})%>
+    
+    </div>
+</div>
+<%- include("../partials/footer") %>
+    

@@ -1,98 +1,101 @@
-<%- include("./partials/header") %>
-<div class="profile-body">
-    <h1>welcome to <%= user.username%>'s page </h1>
+ 
+    <%- include("./partials/header") %>
 
-    <p>
-        <%if(currentUser && user.username == currentUser.username){%>
-            <a disabled="disabled"><button disabled  class="edit-button">follow <%=user.username%></button></a>
-            <%=user.followers.length%> followers
-            following <%=user.following.length%>
-            <%} else if(!currentUser) {%>
-                <a  href="/follow/<%=user.id%>"> <button class="edit-button">follow <%=user.username%></button></a>
-                        <button id="listfollowers"><%=user.followers.length%> followers</button>
-                        <button id="listfollowing">following <%=user.following.length%></button>
-                <%}else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){%>
-                    <a  href="/follow/<%=user.id%>"><button>follow <%=user.username%></button> </a>
-                    <%=user.followers.length%> followers
-                <%}%>
-                
-                
+    <div class="profile-body">
+        <h1>Welcome to <%= user.username %>'s page </h1>
+    
+        <div>
+            <% for(var checkFollower of unique){ %>
+                <% if(currentUser && checkFollower.username == currentUser.username){ %>
+                    <a disabled="disabled">already following <%= user.username %></a>
+                    <p id="danger">
+                        <a href="/unfollow/<%= user.id %>"><button class="delete-button">Unfollow <%= user.username %></button></a>
+                    </p>
+                <% } %>
+            <% } %>
+        </div>
+        <p>
+            <% if(currentUser && user.username == currentUser.username){ %>
+                <a disabled="disabled"><button disabled class="edit-button">Follow <%= user.username %></button></a>
+                <div class="follow-info">
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
+                </div>
+            <% } else if(!currentUser) { %>
+                <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
+                <div class="follow-info">
+                    <!-- <button id="listfollowers"><%= user.followers.length %> followers</button>
+                    <button id="listfollowing">Following <%= user.following.length %></button> -->
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
+                </div>
+            <% } else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){ %>
+                <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
+                <div class="follow-info">
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
+                </div>
+            <% } %> 
         </p>
+    
+        <% if (currentUser && user.username == currentUser.username) { %>
+            chat
+        <% }else if(currentUser){%>
+            <p><a href="/chat/<%= user._id %>">💬 Message <%= user.username %></a></p>
+        <%} %>
+        
+        
+    
+        
 
-            <% for(var checkFollower of unique){%>
-                <%if(currentUser && checkFollower.username == currentUser.username){%>
-                    <a disabled="disabled"><button disabled class="edit-button">following <%=user.username%></button></a>
-                <p id="danger">
-                    <a href="/unfollow/<%=user.id%>"><button class="delete-button">Unfollow <%= user.username%></button></a>
-                </p>
-                
-                <%}%>
+        <div class="profilePicture">
+            <img src="<%= user.image[0].url %>" alt="<%= user.username %>'s picture">
+            <h3><i>Profile Picture</i></h3>
+        </div>
+    
+        <div class="profile-info">
+            <%if(currentUser && user.username === currentUser.username ){%>
+            <div>
+                <button class="edit-profile"> 
+                    <a href="<%= user._id %>/edit">Edit Profile</a>
+                </button>
+            </div>
             <%}%>
             
-
-            <div class="profilePicture">
-                <img src="<%= user.image[0].url%>" alt="<%=user.username%>'s picture">
-            <h3><i>profile picture</i></h3>
-            
+            <div class="profile-details">
+                <p>Phone number: <%= user.phone %></p>
+                <p>Email: <%= user.email %></p>
+                <p>Full name: <%= user.fullname %></p>
+                <p>Brief description: <%= user.description %></p>
             </div>
-            <div class="profile-info">
-                <div>
-                    <button class="edit-profile"> 
-                        <a href="<%=user._id%>/edit">Edit profile</a>
-                    </button>
-                </div>
-                <div class="profile-details">
-                    <p>Phone number: <%= user.phone%></p>
-                    <p>Email: <%=user.email%></p>
-                    <p>Fullname: <%=user.fullname%></p>
-                    <p>Brief description: <%=user.description%></p>
-                </div>
-            </div>
-            
-            
-
-            <div>
-                <%product.forEach(function(pro){%>
-                    <% if(pro.adminpost === true){ %>
-                        <%if(user.username === pro.author.username){%>
-                                <div class="profile">
-                                    <h2>
-                                        <% if(pro.category == "Agricultural talk"){ %>
-                                            <%=pro.name%>
-                                        <%}else{ %>
-                                            <%=pro.name%> for sales
-                                        <%}%>
-                                    </h2>
-                                    <img src="<%=pro.image[0].url%>" alt="<%=pro.name%>">
-
-                                        <div class="descLink">
-                                            <p>
-                                                <%=pro.description%>
-                                            </p> 
-                                        
-                                            <h3><a href="/<%=pro._id%>"> click to view more</a></h3>
-                                        </div>
-                                        
-                                </div>
-                                    
-                            <%}%>
-                    <% } else if(pro.adminpost === false && user.username === pro.author.username){ %>
+        </div>
+    
+        <div class="profile-bottom">
+            <% product.forEach(function(pro){ %>
+                <% if(pro.adminpost === true){ %>
+                    <% if(user.username === pro.author.username){ %>
                         <div class="profile">
-                            <h3>Your <%=pro.name%>'s post is under review</h3>
+                            <h3>
+                                <% if(pro.category == "Agricultural talk"){ %>
+                                    matters arising on<%= pro.name %>
+                                <% } else { %>
+                                    <%= pro.name %> for sales
+                                <% } %>
+                            </h3>
+                            <img src="<%= pro.image[0].url %>" alt="<%= pro.name %>">
+                            <div class="descLink">
+                                <p><%= pro.description %></p>
+                                <h3><a href="/<%= pro._id %>">Click to view more</a></h3>
+                            </div>
                         </div>
-                        
-                    <%}%>
-                    
-
-
-                    
-                <%}) %>
-            </div>
-</div>
-<script type="text/javascript" src="myjs.js" ></script>
-<%- include("./partials/footer") %>
-
-      
-             
+                    <% } %>
+                <% } else if(pro.adminpost === false && user.username === pro.author.username){ %>
+                    <div class="profile">
+                        <h3>Your <%= pro.name %>'s post is under review</h3>
+                    </div>
+                <% } %>
+            <% }) %>
+        </div>
+    </div>
     
-    
+    <%- include("./partials/footer") %>

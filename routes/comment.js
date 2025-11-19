@@ -11,9 +11,10 @@ var middleware = require("../middleware/index");
 router.get("/:id/comment/new", middleware.isLoggedIn, async function(req, res){
     try{
         var product = await Product.findById(req.params.id);
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
        res.render("comment/new", {product, title: 'new comment', description: "add new comment", 
         keywords: product.name,
-        image: product.image});
+        image: product.image, canonicalUrl});
     }catch(err){
         console.log(err)
     }
@@ -52,8 +53,12 @@ router.post("/:id/comment", middleware.isLoggedIn, async function(req, res){
     }
 });
 router.get("/:id/comment/:comment_id/edit", middleware.commentOwner, async function(req, res){
+    var product = await Product.findById(req.params.id);
     var edit = await Comment.findById(req.params.comment_id);
- res.render("comment/edit", {product_id:req.params.id, edit, title: 'comment edit mode'});
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+ res.render("comment/edit", {product_id:req.params.id, edit, title: 'comment edit mode', description: edit.post, 
+    keywords: product.name,
+    image: product.image, canonicalUrl});
 });
 
 //comment update route
@@ -83,10 +88,11 @@ router.get("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async functi
     try {
         var product = await Product.findById(req.params.id); // Get the product
         var parentComment = await Comment.findById(req.params.comment_id); // Get the comment that will have the reply
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("comment_sub/new", { product, parentComment, title: product.name,
             description: parentComment.post, 
             keywords: product.name,
-            image: product.image }); // Render the reply form
+            image: product.image, canonicalUrl}); // Render the reply form
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
@@ -135,5 +141,39 @@ router.post("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async funct
     }
 });
 
+router.get("/:id/comment/:comment_id/reply/:reply_id/edit", middleware.replyOwner, async function(req, res){
+    try{
+        var product = await Product.findById(req.params.id); 
+        var parentComment = await Comment.findById(req.params.comment_id); 
+        var editReply = await Comment.findById(req.params.reply_id);
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        res.render("comment_sub/edit", {product_id: req.params.id, 
+            editReply_id: req.params.reply_id, product, parentComment, editReply, 
+            title: 'edit reply mode', description: editReply.post, keywords: product.name,
+        image: product.image, canonicalUrl});
+    }catch(error){
+        console.log(error)
+    }
+});
+
+router.put("/:id/comment/:comment_id/reply/:reply_id", middleware.replyOwner, async function(req, res){
+    try{
+        var replyUpd = await Comment.findByIdAndUpdate(req.params.reply_id, req.body.replies);
+        req.flash("success", "your response was updated successfully");
+        res.redirect("/" + req.params.id);
+    }catch(err){
+        console.log(err)
+    }
+})
+
+router.delete("/:id/comment/:comment_id/reply/:reply_id", middleware.replyOwner, async function(req, res){
+    try{
+        var deleteReply = await Comment.findByIdAndRemove(req.params.reply_id);
+        req.flash("success", "your reply was successfully removed");
+        res.redirect("/" + req.params.id);
+    }catch(err){
+        console.log(err)
+    }
+})
 
 module.exports = router;

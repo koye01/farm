@@ -1,29 +1,110 @@
 <%- include("../partials/header")%>
+<head>
+    <title>Farmgate Chefs – Showcase Your Culinary Skills & Connect With Customers</title>
+
+    <!-- Meta Tags -->
+    <meta name="description" 
+          content="Join Farmgate Global and showcase your culinary skills. Chefs specializing in local & international cuisines—jollof, small chops, cakes, amala, asun & more—can list their services and reach customers nationwide.">
+    <meta name="keywords" 
+          content="chef marketplace Nigeria, hire a chef, catering services, culinary skills, local cuisine, international cuisine, party jollof, small chops, cake maker, amala, asun, Farmgate Global">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Farmgate Chef Showcase – Connect With Customers Nationwide">
+    <meta property="og:description" content="Farmgate Global invites talented chefs to showcase their skills and reach a wider market. List your culinary services and get discovered.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/chef.jpg">
+    <meta property="og:url" content="https://farmgate-market.onrender.com/chef">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Farmgate Chefs – Showcase Your Culinary Skills">
+    <meta name="twitter:description" content="Join Farmgate Nigerian Chef Marketplace to connect with clients nationwide and sell your local and international dishes.">
+    <meta name="twitter:image" content="https://farmgate-market.onrender.com/pics/chef.jpg">
+
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Farmgate Global",
+      "url": "https://farmgate-market.onrender.com",
+      "logo": "https://farmgate-market.onrender.com/pics/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/FarmgateGlobal",
+        "https://twitter.com/FarmgateGlobal",
+        "https://www.instagram.com/farmgatngr"
+      ],
+      "description": "Farmgate Global connects chefs and culinary experts with customers nationwide. Showcase your skills, sell local and international dishes, and grow your culinary business online.",
+      "department": {
+        "@type": "Organization",
+        "name": "Chef Marketplace",
+        "url": "https://farmgate-market.onrender.com/chef"
+      }
+    }
+    </script>
+</head>
+
 <div class="category">
-<p>
-        We are open for business all across the nation, 
-        if you have any farm product to display for sales, 
-        kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
-    </p>
-    <div class="add-new">
-        <button><a href="/addnew">Add to Chef</a></button>
-        <p>List of the available agrocommodities for sales</p>
-    </div>
-    <div class="general-content">
-    <%chef.forEach(function(cook){%>
-        <div class="content">
-            <a href="/<%=cook._id%>">
-                <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="<%=cook.name%>"/>
-                <div class="content-desc">
-                    <h1><%=cook.name%></h1>
-                    <p><%=cook.description%></p>
-                </div>
-                <button class="frontBtn">See more</button>
-            </a>
-            
-        </div>
+        <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKET - Your Digital Marketing Solution</h3>
+            <div class="chef"></div>
+            We are open for business all across the nation, 
+            if you have any form of culinary skills to offer for sales, 
+            kindly click the "add to chef" button below for your product's display and expect a call to action in some moment later
         
-    <%})%>
+    <div class="category">
+            <h3 class="aboutHead">CHEF SHOWCASE</h3>
+            Farmgate Global invites talented chefs from across the country to showcase their culinary skills 
+            and expertise. We welcome chefs specializing in both local and international cuisines, 
+            including cake making, small chops, party jollof, party stew, Amala and Efo-riro, Asun, and more.
+            If you are a skilled chef eager to display your talent and connect with a broader market, 
+            Farmgate Global provides the perfect platform for you to shine.
+
+    </div>
+
+        <div class="add-new">
+            <button><a href="/addnew">Add to Chef</a></button>
+            <p>List of the available agrocommodities for sales</p>
+        </div>
+
+        <div class="general-content">
+            <% if (chef.length === 0) { %>
+                <div class="no-products">
+                    <p>No chefs found at the moment. Check back later!</p>
+                </div>
+            <% } else { %>
+                <% chef.forEach(function(cook){ %>
+                <div class="content">
+                    <a href="/<%=cook._id%>">
+                        <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="<%=cook.name%>"/>
+                        <div class="content-desc">
+                            <h1><%=cook.name%></h1>
+                            <p><%=cook.description%></p>
+                        </div>
+                    <button class="frontBtn">See more</button>
+                    </a>
+                
+                </div>
+                <% }) %>
+            <% } %>
+        </div>
+
+            <div class="pagination">
+                  <% if (currentPage > 1) { %>
+                      <a href="/chef?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+                  <% } %>
+
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                      <a href="/chef?page=<%= i %>" 
+                        class="page-number <%= i === currentPage ? 'active' : '' %>">
+                          <%= i %>
+                      </a>
+                  <% } %>
+
+                  <% if (currentPage < totalPages) { %>
+                      <a href="/chef?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+                  <% } %>
+              </div>
 </div>
-</div>
+<%- include("../partials/footer") %>
     

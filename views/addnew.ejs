@@ -1,33 +1,40 @@
-<%-include("./partials/header")%>
+<%- include("./partials/header") %>
 <h2>Add a new product here</h2>
-<form action="/" method="post" enctype="multipart/form-data">
+<form id="form" action="/" method="post" enctype="multipart/form-data">
+<form action="/" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
     <div class="form-style">
         <div class="form-set">
             <label>Product's category</label>
             <select name="category" required>
                 <option disabled selected value> -- select an option -- </option>
-                <option value="Livestocks">Livestocks</option>
-                <option value="Seedlings">Seedlings</option>
-                <option value="Vegetables">Vegetables</option>
-                <option value="Food">Food</option>
-                <option value="Chef">Chef</option>
-                <option value="Bakeries">Bakeries</option>
-                <option value="Farm equipments">Farm equipments</option>
                 <option value="Agricultural talk">Agricultural talk</option>
+                <option value="Livestocks">Livestocks</option>
+                <option value="Pets">Pets</option>
+                <option value="Seedlings">Garden /Floriculture</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Food">Feed Ingredients</option>
+                <option value="Chef">Chef</option>
+                <option value="Farm Real Estate">Farm Real Estate</option>
+                <option value="Farm equipments">Farm equipments</option>
                 <option value="Others">Others</option>
             </select>
             <label>Name</label>
             <input type="text" name="name" placeholder="Product's name">
             <label>Price</label>
             <input type="text" name="price" placeholder="Product's price">
-            <label>Image</label>
-            <input type="file" name="image" multiple accept="image/*">
-            <label>product's description</label>
-            <textarea name="description" placeholder="brief description about product"></textarea> 
+            <label>Images</label>
+            <input type="file" name="image" id="imageInput" multiple accept="image/*">
+            <label>Product's description</label>
+            <textarea name="description" rows="3" placeholder="Brief description about product" style="resize: vertical; width: 90%;"></textarea> 
             <div class="show">
-                <button>Submit</button>
+                <button type="submit">Submit</button>
             </div>
         </div>
     </div>
 </form>
 <%- include("./partials/footer") %>
+
+<!-- Link to the external JavaScript file -->
+<script src="/js/addnew.js"></script>
+
+

@@ -14,7 +14,10 @@ var notificationSchema = new mongoose.Schema({
         parentCommentId: String,
         productId: String
     },
-    
+    chat: {
+        username: String,
+        userID: String
+    },
     isRead: {
         type: Boolean, default: false
     }

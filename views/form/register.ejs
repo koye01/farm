@@ -1,6 +1,6 @@
 <%- include("../partials/header") %>
 <h2>user signup form</h2>
-<form action="/register" method="POST" enctype="multipart/form-data">
+<form id="form" action="/register" method="POST" enctype="multipart/form-data">
     <div class="form-style" >
         <div class="form-set">
             <label>Prefered username</label>
@@ -15,13 +15,15 @@
             <textarea type="text" name="description" placeholder="brief description about your profile"></textarea>
             <label>Email</label>
             <input type="email" name="email" placeholder="email">
-            <label>Admin code</label>
+            <label>Pick any number between 01 and 1000</label>
             <input type="number" name="secretCode" placeholder="pick any number">
             <label>Password</label>
             <input id="tog" type="password" name="password" placeholder="password">
+            <label>Password again</label>
+            <input id="tog2" type="password" name="password2" placeholder="password again">
             <div class="show">
-                <input type="checkbox" onclick="Toggle()"><br>
-                <strong>show password</strong><br>
+                <!-- <input type="checkbox" onclick="Toggle()"><br>
+                <strong>show password</strong><br> -->
                 <button>submit</button>
             </div>
             
@@ -29,5 +31,16 @@
         
     </div>
 </form>
-    
-<script src="myjs.js"></script>
+<script src="/js/myjs.js"></script>
+<!-- <script src="/js/form.js"></script> -->
+ <script>
+    function Toggle() {
+    var showpassword = document.getElementById("tog");
+    if (showpassword.type === "password") {
+        showpassword.type = "text";
+    } else {
+        showpassword.type = "password";
+    }
+}
+ </script>
+<script src="/js/form.js"></script>

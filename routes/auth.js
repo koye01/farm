@@ -18,14 +18,20 @@ require('dotenv').config();
 var google = require("googleapis");
 
 var storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, "public/profile")
-    },
-    filename: function(req, file, cb){
-        //console.log(file),
-        cb(null, Date.now() + path.extname(file.originalname))
+    filename: function(req, file, callback){
+     callback(null, Date.now() + file.originalname);
     }
-});
+ });
+
+//  var storage = multer.diskStorage({
+//     destination: function(req, file, cb){
+//         cb(null, "public/profile")
+//     },
+//     filename: function(req, file, cb){
+//         //console.log(file),
+//         cb(null, Date.now() + path.extname(file.originalname))
+//     }
+// });
 var upload = multer({storage: storage});
 var cloudinary = require("cloudinary");
 cloudinary.config({ 
@@ -42,10 +48,11 @@ cloudinary.config({
 // });
 
 
-router.get("/register", async function(req, res){
+router.get("/register", function(req, res){
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("form/register", {title: 'register new user', description: "user sign-up page", 
         keywords: 'sign-up page',
-        image: "/pics/logo.png"});
+        image: "/pics/logo.png", canonicalUrl});
 });
 
 
@@ -59,9 +66,10 @@ router.post("/register", upload.single("image"), async function(req, res){
             try{
             var username = req.body.username;
             var email = req.body.email;
-            phone = req.body.phone;
+            var phone = req.body.phone;
             var description = req.body.description;
             var fullname = req.body.fullname;
+            var secretCode = req.body.secretCode;
             var newUser = {image: image, username: username, email: email, secretCode: secretCode, 
                 description: description, fullname: fullname, phone: phone};
             var secretCode = req.body.secretCode;
@@ -69,18 +77,19 @@ router.post("/register", upload.single("image"), async function(req, res){
                 newUser.isAdmin = true;
             }
             var user = await User.register(newUser, req.body.password);
-            req.flash("success", user.username, "! ", "Your registration was successful")
+            req.flash("success", user.username + "! "+ " Your registration was successful")
                 res.redirect("/login");
             } catch(err){
             req.flash("error", err.message);
-            res.render("form/register");
+            res.redirect("back");
         }
     
 });
 
 router.get("/login", function(req, res){
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("form/login", {title: 'user login',description: "user login page", keywords: 'login page',
-        image: "/pics/logo.png"});
+        image: "/pics/logo.png", canonicalUrl});
 });
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/",
@@ -100,11 +109,13 @@ router.get("/logout", function(req, res){
 
 //forgot password
 router.get("/forgot", function(req, res){
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("users/forgot", {
         title: 'password reset',
         description: "password reset link", 
         keywords: 'forgot password',
-        image: "/pics/logo.png"
+        image: "/pics/logo.png",
+        canonicalUrl
     })
     });
 
@@ -122,7 +133,7 @@ router.post("/forgot", async function(req, res, next) {
         const user = await User.findOne({ email: req.body.email });
         if (!user) {
             req.flash("error", "No account with that email address exists");
-            return res.redirect("/forget");
+            return res.redirect("/forgot");
         }
 
         user.resetPasswordToken = token;
@@ -142,7 +153,7 @@ router.post("/forgot", async function(req, res, next) {
         const mailOptions = {
             to: user.email,
             from: "koyegarden@gmail.com",
-            subject: "Producer's market password reset",
+            subject: "Farmgate Nigerian mobile App's password reset",
             text: `You are receiving this because you or someone else have requested a password reset.\n\n` +
                   `Please click on this link or copy the code to your browser to complete the process:\n\n` +
                   `http://${req.headers.host}/reset/${token}\n\n` +
@@ -163,7 +174,7 @@ router.post("/forgot", async function(req, res, next) {
 
 router.get("/reset/:token", async function(req, res){
     var user = await User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}})
-
+    const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     if(!user) {
         req.flash("error", "password reset token has been expired.");
         return res.redirect("/forgot");
@@ -172,7 +183,8 @@ router.get("/reset/:token", async function(req, res){
         token: req.params.token, title: 'reset token',
         description: "password reset link", 
         keywords: 'forgot password',
-        image: "/pics/logo.png"
+        image: "/pics/logo.png",
+        canonicalUrl
     });
 });
 
@@ -250,35 +262,68 @@ router.post("/reset/:token", async function(req, res) {
 
 
 // Profile page route
-router.get("/user/:id", async function(req, res){
+// router.get("/user/:id", async function(req, res){
+//     try {
+//         var product = await Product.find({});
+//         var user = await User.findById(req.params.id).populate('followers following').exec();  // Populate 'following' field as well
+//         var unique = user.followers.filter((value, index) => {
+//             return user.followers.indexOf(value) === index;
+//         });
+//         const keywords = product.map(pro => pro.name).join(", ");
+//         res.render('profile', {
+//             user, product, unique, title: user.username + ' profile',
+//             description: user.description, 
+//             keywords,
+//             image: user.image
+//             });
+//     } catch (err) {
+//         console.log(err);
+//         return res.redirect('back');
+//     }
+// });
+
+//Profile page
+router.get("/user/:id", async function(req, res) {
     try {
         var product = await Product.find({});
         var user = await User.findById(req.params.id).populate('followers following').exec();  // Populate 'following' field as well
         var unique = user.followers.filter((value, index) => {
             return user.followers.indexOf(value) === index;
         });
+        
+        // Create a comma-separated list of product names
         const keywords = product.map(pro => pro.name).join(", ");
+        
+        // Include 'user.username' in the keywords
+        const allKeywords = `${keywords}, ${user.username}`;
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render('profile', {
             user, product, unique, title: user.username + ' profile',
             description: user.description, 
-            keywords,
-            image: user.image
-            });
+            keywords: allKeywords,  // Use the updated 'allKeywords' here
+            image: user.image,
+            canonicalUrl
+        });
     } catch (err) {
         console.log(err);
         return res.redirect('back');
     }
 });
 
+
+
+
 //Profile edit page
 router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){
     try{
         var editProf = await User.findById(req.params.id);
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("profileedit", {
             editProf, title: 'edit profile',
             description: "edit profile", 
             keywords: "edit profile",
-            image: editProf.image
+            image: editProf.image,
+            canonicalUrl
         });
     }catch(err){
         console.log(err);
@@ -325,7 +370,11 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
         var unique = user.followers.filter((value, index)=>{
             return user.followers.indexOf(value) === index;
         });
+        var followingUnique =follow.following.filter((value, index)=>{
+            return follow.following.indexOf(value) === index;
+        })
         user.followers = unique;
+        follow.following = followingUnique;
         user.save();
         follow.save();
         req.flash("success", unique.username, "started following you");
@@ -335,6 +384,50 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
         res.redirect('back');
     }
 });
+
+// loading followers list in a separate file
+router.get('/user/:id/followers', async function(req, res) {
+    try{
+       const userId = req.params.id; 
+       var user = await User.findById(userId).populate('followers').exec();
+       const keywords = user.followers.map(user => user.username).join(", ");
+       var listfollowers = user.followers;
+       const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+       res.render("followerspage", {
+            listfollowers, title: 'follower-list',
+            description: "followers", 
+            keywords,
+            image: "/pics/logo.png",
+            canonicalUrl
+        }
+    );
+    }catch(err){
+        console.log(err);
+    }
+    
+});
+
+// loading following list in a separate file
+router.get('/user/:id/following', async function(req, res) {
+    try{
+       const userId = req.params.id; 
+       var user = await User.findById(userId).populate('following').exec();
+       const keywords = user.following.map(user => user.username).join(", ");
+       var listfollowing = user.following;
+       const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+       res.render("followingpage", {
+            listfollowing, title: 'following-list',
+            description: "following list", 
+            keywords,
+            image: "/pics/logo.png",
+            canonicalUrl
+        });
+    }catch(err){
+        console.log(err);
+    }
+    
+});
+
 
 //Unfollow user
 router.get('/unfollow/:id', middleware.isLoggedIn, async function(req, res) {
@@ -357,17 +450,22 @@ router.get("/notifications", middleware.isLoggedIn, async function(req, res){
             path: "notifications",
             options: {sort: {"_id": -1}}
         }).exec();
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         var allNotification = user.notifications;
         res.render("notification", {
             allNotification, title: 'notification page',
             description: "Notification page", 
             keywords: "notifications",
-            image: user.image
+            image: user.image,
+            canonicalUrl,
+            noindex: true   // <--- ADD THIS
         });
     }catch(error){
         console.log(error);
     }
 });
+
+
 //Product notification address
 router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res) {
     try {
@@ -380,6 +478,18 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res)
         console.log(err);
     }
 });
+
+// remove product upload's notification
+router.delete("/notifications/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
+
 //comment notification address
 router.get('/notifications/com/:id', middleware.isLoggedIn, async function(req, res) {
     try {
@@ -393,6 +503,17 @@ router.get('/notifications/com/:id', middleware.isLoggedIn, async function(req, 
     }
 });
 
+// remove comment notification
+router.delete("/notifications/com/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
+
 //reply notification address
 router.get('/notifications/reply/:id', middleware.isLoggedIn, async function(req, res) {
     try {
@@ -405,6 +526,39 @@ router.get('/notifications/reply/:id', middleware.isLoggedIn, async function(req
         console.log(err);
     }
 });
+// remove reply notification
+router.delete("/notifications/reply/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
 
+//chat notification address
+router.get('/notifications/chat/:id', middleware.isLoggedIn, async function(req, res) {
+    try {
+        var user = await User.findById(req.params.id);
+        var notification = await Notification.findById(req.params.id);
+        notification.isRead = true;
+        notification.save();
+        res.redirect("/chat" +"/" +notification.chat.userID);
+    } catch(err) {
+        console.log(err);
+    }
+});
+
+//remove chat notification
+router.delete("/notifications/chat/:id", middleware.isLoggedIn, async function(req, res){
+    try{
+        var removeNotif = await Notification.findByIdAndRemove(req.params.id);
+        req.flash("success", "notification link deleted successfully");
+        res.redirect("/notifications")
+    }catch(error){
+        console.log(error);
+    }
+})
 
 module.exports = router;

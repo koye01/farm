@@ -4,6 +4,8 @@ var Product = require("../models/produce");
 var Comment = require("../models/comment");
 var User    = require("../models/user");
 var Notification = require("../models/notification");
+const nodemailer = require('nodemailer');
+
 require('dotenv').config();
 var multer = require("multer");
 var path = require("path");
@@ -48,9 +50,14 @@ router.get("/allproduct", async function(req, res){
     try{
         var product = await Product.find({});
         const keywords = product.map(pro => pro.name).join(", ");
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("homepage", {product, title: 'overall database', description: "farm produce gallery", 
             keywords,
-            image: "/pics/logo.png"});
+            image: "/pics/logo.png",
+            canonicalUrl,
+            noindex: true   // <--- ADD THI
+        });
     }catch(err){
         console.log(err)
     }
@@ -58,9 +65,14 @@ router.get("/allproduct", async function(req, res){
 
 router.get("/addnew", middleware.isLoggedIn, async function(req, res){
     try{
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("addnew", {title: 'add new product', description: "add new product", 
             keywords: "add new product",
-            image: "/pics/logo.png"});
+            image: "/pics/logo.png",
+            canonicalUrl,
+            noindex: true   // <--- ADD THI
+        });
     }catch(err){
         console.log(err)
     }
@@ -104,7 +116,8 @@ function uploadImages(req, res) {
                 var author ={
                     id: req.user._id,
                     username: req.user.username,
-                    phone: req.user.phone
+                    phone: req.user.phone,
+                    email: req.user.email
                 }
                 var allproduct = {category: category, name: name, price: price, image: images, description: description, author: author};
                 var newProduce = Product.create(allproduct);
@@ -123,7 +136,7 @@ function uploadImages(req, res) {
                     }
                     //redirect back to allproducts page
                     req.flash("success", "your request was succesful and is being processed");
-            // res.redirect("/allproduct", {user}); // Redirect to the picture gallery URL
+            res.redirect("/"); // Redirect to the picture gallery URL
           } catch (dbError) {
             if (!hasError) {
               hasError = true;
@@ -138,29 +151,111 @@ function uploadImages(req, res) {
 //Adding new post (post request)
 router.post("/", multiUpload.array('image', 10), uploadImages);
 
-// the show page
-router.get("/:id", async function(req, res){
-    try{
-        var detailed =  await Product.findById(req.params.id).populate({
-            path: 'comments',
-            populate: { path: 'replies' }
-          });
-          
-        res.render("details", {detailed, title: detailed.name, description: detailed.description, 
-            keywords: detailed.name,
-            image: detailed.image});
-    }catch(err){
-        console.log(err)
+// Set up the email transport using the default SMTP transport
+const transporter = nodemailer.createTransport({
+    service: 'gmail',  // Example: using Gmail as the email service
+    auth: {
+        user: 'koyegarden@gmail.com',   // Replace with your email
+        pass: process.env.password     // Replace with your email password
     }
 });
+
+
+// the show page
+router.get("/:id", async function(req, res) {
+    try {
+        const detailed = await Product.findById(req.params.id).populate({
+            path: 'comments',
+            populate: { path: 'replies' }
+        });
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        let title, description, keywords;
+
+        if (detailed.category === 'Agricultural talk') {
+            title = `Agricultural Discussion: ${detailed.name} | Farmgate Market`;
+            description = `Join the open agricultural discussion about ${detailed.name}. 
+                           Learn insights, share opinions, and explore expert viewpoints on ${detailed.name} at Farmgate Market.`;
+            keywords = `${detailed.name}, agricultural talk, farm discussions, farmer forum`;
+        } else {
+            title = `${detailed.name} for Sale | Buy ${detailed.name} Online | Farmgate Market`;
+            description = `Buy ${detailed.name} at Farmgate Market. High-quality, affordable, and verified farm products. 
+                           View details, images, and seller information for ${detailed.name}.`;
+            keywords = `${detailed.name}, buy ${detailed.name}, farm products, agriculture marketplace, farmgate market`;
+        }
+
+        res.render("details", {
+            detailed,
+            title,
+            description,
+            keywords,
+            image: detailed.image,
+            canonicalUrl
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+
+// POST route for handling inquiries
+router.post("/:id", async function(req, res) {
+    try {
+        const { name, telephone, enquiry } = req.body;
+        const postId = req.params.id;  // Retrieve the detailed product data (the product post)
+
+        // Find the product details by ID to get the author's email
+        const detailed = await Product.findById(postId);
+
+        // Ensure that the author and email exist
+        if (!detailed || !detailed.author || !detailed.author.email) {
+            return res.status(400).send('Author email is missing');
+        }
+
+        // Retrieve the author's email
+        const authorEmail = detailed.author.email;
+
+        // Set up the email options
+        const mailOptions = {
+            from: process.env.EMAIL_USER,  // Replace with your email
+            to: authorEmail,  // Send email to the author of the post
+            subject: `Inquiry about ${detailed.name}`,  // Correct subject string
+            text: `You have received an inquiry about your post titled: ${detailed.name}\n\n
+                   Name: ${name}\n
+                   Telephone: ${telephone}\n
+                   Enquiry: ${enquiry}`
+        };
+
+        // Send the email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log('Error sending email:', error);
+                return res.status(500).send('Error sending inquiry');
+            }
+            req.flash("success", "Your enquiry has been received");
+            console.log('Email sent:', info.response);
+            res.redirect("/"+ req.params.id);  // Redirect back to the post page
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("An error occurred while handling your request.");
+    }
+});
+
 
 //edit page
 router.get("/:id/edit", middleware.isOwner, async function(req, res){
     try{
         var edit = await Product.findById(req.params.id);
+        // Build the canonical URL dynamically
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("edit", {edit, title: 'edit page', description: edit.description, 
             keywords: edit.name,
-            image: "/pics/logo.png"});
+            image: "/pics/logo.png",
+            canonicalUrl,
+            noindex: true   // <--- ADD THI
+        });
     }catch(err){
         console.log(err)
     }
@@ -232,6 +327,54 @@ router.post("/:id", middleware.isOwner, async function(req, res){
         res.redirect("/"+ req.params.id)
     }
 });
+
+
+
+
+// Route to handle the form submission for inquiries
+// router.post('/:id', async (req, res) => {
+//     const { name, telephone, enquiry } = req.body;
+//     const postId = req.params.id;
+
+//     try {
+//         // Retrieve the detailed product data (the product post)
+//         const detailed = await Product.findById(postId);
+        
+//         // Ensure that the author and email exist
+//         if (!detailed || !detailed.author || !detailed.author.email) {
+//             return res.status(400).send('Author email is missing');
+//         }
+//         // Retrieve the author's email
+//         const authorEmail = detailed.author.email;
+//         console.log(authorEmail);
+//         // Set up the email options
+//         const mailOptions = {
+//             from: process.env.EMAIL_USER,  // Replace with your email
+//             to: authorEmail,  // Send email to the author of the post
+//             subject: `Inquiry about ${detailed.name}`,  // Correct subject string
+//             text: `
+//                 You have received an inquiry about your post titled: ${detailed.name}\n\n
+//                 Name: ${name}\n
+//                 Telephone: ${telephone}\n
+//                 Enquiry: ${enquiry}
+//             ` 
+//         };
+
+//         // Send the email
+//         transporter.sendMail(mailOptions, (error, info) => {
+//             if (error) {
+//                 console.log('Error sending email:', error);
+//                 return res.status(500).send('Error sending inquiry');
+//             }
+//             console.log('Email sent:', info.response);
+//             res.redirect(`/${postId}`);  // Redirect back to the post page
+//         });
+
+//     } catch (error) {
+//         console.log('Error finding product:', error);
+//         res.status(500).send('Error processing inquiry');
+//     }
+// });
 
 
 module.exports = router;

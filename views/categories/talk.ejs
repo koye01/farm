@@ -1,21 +1,99 @@
 <%- include("../partials/header")%>
+<head>
+    <meta charset="utf-8">
+    <title>Agricultural Talk – Engage, Learn & Connect | Farmgate Nigeria</title>
+
+    <meta name="description" content="Join Nigeria’s leading farm discussion hub for livestock management, animal health, feeding formulation, and disease control insights. Share your experiences and connect with other farmers.">
+
+    <meta name="keywords" content="Agricultural Talk, Farmgate Nigeria, livestock management, animal health, pet care Nigeria, feeding formulation, livestock diseases, farm discussion, agricultural forum Nigeria, animal behavior, livestock solutions">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Agricultural Talk – Connect With Farmers & Share Insights">
+    <meta property="og:description" content="Discuss livestock care, feeding tips, disease control, and farm best practices with farmers across Nigeria.">
+    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/Agrictalk.jpg">
+    <meta property="og:url" content="https://farmgate-market.onrender.com/talk">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agricultural Talk – Livestock Advice & Farm Insights">
+    <meta name="twitter:description" content="Discuss animal health, feeding, disease solutions, and livestock best practices with farmers across Nigeria.">
+    <meta name="twitter:image" content="https://farmgate-market.onrender.com/pics/Agrictalk.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://farmgate-market.onrender.com/talk">
+
+    <!-- Schema Markup for Listing Page -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Agricultural Talk",
+      "description": "A discussion hub for Nigerian farmers to share insights on livestock care, feeding, and animal health.",
+      "url": "https://farmgate-market.onrender.com/talk",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Farmgate Nigeria",
+        "url": "https://farmgate-market.onrender.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://farmgate-market.onrender.com/pics/logo.png"
+        }
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          <% Agricultural_talk.forEach(function(talk, index){ %>
+          {
+            "@type": "ListItem",
+            "position": <%= index + 1 %>,
+            "url": "https://farmgate-market.onrender.com/<%= talk._id %>"
+          }<% if (index !== Agricultural_talk.length - 1) { %>,<% } %>
+          <% }); %>
+        ]
+      }
+    }
+    </script>
+
+</head>
+
+
+<!-- <div class="categorycontainer"> -->
 <div class="category">
-<p>
-        We are open for business all across the nation, 
-        if you have any farm product to display for sales, 
-        kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
-    </p>
+    <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+        <div class="Agrictalk">   
+        </div>
+        
+        <h3 class="aboutHead">Agricultural Talk</h3>
+        <div class="category">
+            Farmgate Nigeria offers a platform for engaging discussions on current trends in pet and 
+            livestock management. Join the conversation on various topics such as animal health, behavioral 
+            patterns, disease management, and habitat care. Through our interactive "Agricultural Talk" 
+            section, you can gain insights into effective feeding formulations and other best practices 
+            for livestock care. How to Participate:<br>
+            Upload up to three images showcasing your current situation or experience.<br>
+            Provide a detailed explanation of your experience or scenario.<br>
+            Select "Agricultural Talk" from the category drop-down menu.<br>
+            Enter "0000" in the price field and click the submit button.<br>
+            Once submitted, fellow farm users with similar experiences will be able to connect with you 
+            through the comment section, offering advice and shared insights.
+        </div>
+            
+
     <div class="add-new">
-        <button><a href="/addnew">Contribute to Agricultural matters</a></button>
-        <p>List of the available agrocommodities for sales</p>
+        <button><a href="/addnew">Click to contribute</a></button>
+        <p>Matters arising in the field of Agricultural Sciences</p>
     </div>
+            
+    </p>
+
     <div class="general-content">
     <%Agricultural_talk.forEach(function(talk){%>
         <div class="content">
             <a href="/<%=talk._id%>">
                 <img height="auto" width="100%" src="<%= talk.image[0].url%>" alt="<%=talk.name%>"/>
                 <div class="content-desc">
-                    <h1><%=talk.name%></h1>
+                    <h1>matters arising on <%=talk.name%></h1>
                     <p><%=talk.description%></p>
                 </div>
                 <button class="frontBtn">See more</button>
@@ -25,5 +103,5 @@
         
     <%})%>
 </div>
-</div>
-    
+
+<%- include("../partials/footer") %>

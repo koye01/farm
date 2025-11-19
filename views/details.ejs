@@ -1,16 +1,9 @@
 <%-include("./partials/header")%>
-<style>
-   .koye  {
-        color: black;
-    }
- 
 
-
-</style>
 <% if(detailed.category != 'Agricultural talk'){ %>
-    <h2><%= detailed.name %> for sales</h2>
+    <h1><%= detailed.name %> for sales</h1>
 <% }else{ %>
- <h2><%= detailed.name %></h2>
+ <h1>open discussion on <%= detailed.name %></h1>
 <% }%>
 
 <div class="koye">
@@ -33,7 +26,7 @@
                 <p><%= detailed.price %></p>
                 <em>submitted by </em><a href="/user/<%=detailed.author.id%>"><strong> <%=detailed.author.username.toUpperCase()%> </strong></a>
                 <%=detailed.author.phone%>
-                
+                <!-- <%=detailed.author.email%> -->
             <div class="control-button">
                 <%if(currentUser && detailed.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){%>
                     <a href="/<%= detailed.id%>/edit"><button id="button-float" class="edit-button">Edit</button></a>
@@ -46,14 +39,41 @@
         </div>    
            
     </div>
+
+<!-- Inquiry Form -->
+    
+        
+                <div class="inquiry-form">
+                <h3>Send Inquiry to <%= detailed.author.username %></h3>
+                <form action="/<%= detailed.id %>" method="POST">
+                   <!-- <div class="inquiry-form>  -->
+                    <div class="form-set">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Your full name here" required>
+
+                        <label for="telephone">Telephone:</label>
+                        <input type="tel" id="telephone" name="telephone" placeholder="phone number" required>
+
+                        <label for="enquiry">Enquiry:</label>
+                        <textarea placeholder="write your message..." id="enquiry" name="enquiry" rows="4" required></textarea>
+
+                        <button type="submit">Send Inquiry</button>
+                   </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        
+
     
     <div class="comment-session">
         <button class="frontBtn">
             <a href="/<%=detailed.id%>/comment/new">Add comment</a>
         </button>
-    
         <% detailed.comments.forEach(function(comment){ %>
             <div class="comment-block">
+            <!-- <h3><%=detailed.comments.length + comment.replies.length%> comment(s)</h3>  -->
                 <p class="comment-link">
                     <b>
                         <a href="/user/<%= comment.author.id %>"><%= comment.author.username %>:</a>
@@ -72,6 +92,20 @@
                                     </b>
                                 </p>
                                 <p><%= reply.post %></p>
+                            <div class="response">
+                                <!-- edit button for reply post -->
+                                    <% if(currentUser && (reply.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                                <button class="reply-btn-edit">
+                                    <a href="/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>/edit"> 
+                                    edit </a> 
+                                </button>
+
+                                <!-- delete button for reply post -->
+                                <form action="/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>?_method=delete" method="POST">
+                                    <button class="reply-btn-delete">Delete</button>
+                                </form>
+                                    <%}%>
+                            </div>
                             </div>
                         <% }); %>
                     </div>
@@ -95,7 +129,7 @@
             </div>
         <% }); %>
     </div>
-   <script src="myjs.js" ></script>
+   <script src="/js/myjs.js" ></script>
    
     
 </div>

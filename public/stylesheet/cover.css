@@ -17,6 +17,12 @@ li {
 li a {
     color: white;
 }
+.headings li{
+    list-style-type: decimal;
+}
+ol li{
+    list-style-type: decimal;
+}
 
 .cover {
     width: 80%;
@@ -50,6 +56,7 @@ h3{
     /* border: thin solid white; */
 }
 input {
+    color: rgb(243, 111, 111);
     height: 40px;
     width: 70%;
 }
@@ -58,6 +65,7 @@ button{
     width: 55px;
 }
 .productUser {
+    /* color: white; */
     margin-top: 20px;
 }
 ul {
@@ -130,6 +138,45 @@ ul {
     color: white;
     border: white;
 }
+/* .featuredCover{
+
+} */
+.featured {
+    text-align: center;
+    width: 50%;
+    color: rgb(228, 223, 223);
+    display: inline;
+}
+.featuredFr{
+    display: inline-block;
+    margin: 4px auto;
+    width: 200px;
+    border: thin solid white;
+}
+.featured h3 {
+    width: 50%;
+    color: red;
+    border-bottom: 5px solid red;
+}
+.featuredFr a{
+    color: white;
+}
+.faqContainer{
+    margin: 3px 3px;
+    text-align: center;
+    width: 100%;
+}
+.faq{
+    width: 150px;
+    display: inline-block;
+    margin-bottom: 20px;
+    border: thin solid blue;
+}
+.faq a{
+    color: white;
+}
+
+
 @keyframes frontPageAnimation {
     0% {
         opacity: 0;

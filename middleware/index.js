@@ -54,6 +54,25 @@ middlewareObj.commentOwner = async function(req, res, next){
     }
 }
 
+middlewareObj.replyOwner = async function(req, res, next){
+    try{
+        if(req.isAuthenticated()){
+            var edit = await Comment.findById(req.params.reply_id);
+            if(edit.author.id.equals(req.user._id) || req.user.isAdmin){
+                next();
+            }else{
+                req.flash("error", "you are not authorized to edit")
+                res.redirect("back");
+            }
+        }else{
+            req.flash("error", "please login first");
+            res.redirect("/login");
+        }
+    }catch(err){
+        req.flash("error", err.message);
+    }
+}
+
 middlewareObj.userAuthor = async function (req, res, next){
     try{
         if(req.isAuthenticated()){
@@ -75,4 +94,6 @@ middlewareObj.userAuthor = async function (req, res, next){
         req.flash("error", err.message)
     }
 }
+
+
 module.exports = middlewareObj;

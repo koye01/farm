@@ -1,18 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Koye farm produce and raw materials | <%=title %></title>
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3065HDSTE3"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-3065HDSTE3');
+        </script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- SEO Title -->
+    <title><%= title %> | Farmgate Nigeria</title>
+
+    <!-- Primary SEO Meta Tags -->
     <meta name="description" content="<%= description %>">
-    <meta name="keywords" content="<%= keywords %>">
-    <meta property="og:title" content="<%= title %>">
+    <meta name="keywords" content="<%= keywords %>, farm products, agriculture, buy farm produce online, farmgate market, Nigeria agriculture marketplace">
+    <meta name="author" content="Farmgate Market Nigeria">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL (helps SEO & prevents duplicate content issues) -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+
+    <!-- Open Graph Meta Tags (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="<%= title %> | Farmgate Nigeria">
     <meta property="og:description" content="<%= description %>">
-    <meta property="og:image" content="<%= image %>">
-    
+    <meta property="og:image" content="<%= image[0].url %>">
+    <meta property="og:url" content="<%= canonicalUrl %>">
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="Farmgate Market Nigeria">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= title %> | Farmgate Nigeria">
+    <meta name="twitter:description" content="<%= description %>">
+    <meta name="twitter:image" content="<%= image[0].url %>">
+    <!-- <meta name="twitter:site" content="@farmgate"> 
+    <meta name="twitter:creator" content="@farmgate">  -->
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="pics/logo.png">
     <link rel="stylesheet" href="/stylesheet/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+       
+           
+          
 </head>
+    
 <body>
 <div class="container">
     <div class="nav1">
@@ -24,8 +61,8 @@
                 <i class="fa-solid fa-bars"></i>
             </label>
             <div class="para">
-                        <p class="navbar right"><a href="/">About</a></p>
-                    <p class="navbar right"><a href="/">Contact us</a></p>
+                        <p class="navbar right"><a href="/about">About</a></p>
+                    <p class="navbar right"><a href="/contact">Contact us</a></p>
 
                     <% if(!currentUser){%>
                         <p class="navbar right"><a href="/register">sign up</a></p>
@@ -66,6 +103,15 @@
                                     <% }%>
                                     
                                 <%})%>
+
+                                <!-- chat notifications -->
+                                 <%notifications.forEach(function(notif){%>
+                                    <%if(notif.chat.username){%>
+                                        <li>
+                                            <a href="/chat/<%=notif.chat.userID%>"><%=notif.chat.username%> messaged you</a>
+                                        </li>
+                                    <%}%>
+                                 <%})%>
                             </ul>    
                                 
                                 
@@ -82,11 +128,11 @@
         <div class="header-page">
                 <li></li>
                 <div class="logo">
-                    <a href="/"><img src="/pics/logo.png" alt="company logo" width="120px" height="120px"/></a>
+                    <a href="/"><img src="/pics/logo.png" alt="farmgate company logo" width="120px" height="120px"/></a>
                 </div>
             <div class="front-page">
-                    <h1>Welcome to koye Agrostore</h1>
-                    <p>Your non-stop access to all sort of farm gadgets that you may desire to buy</p>
+                    <h2>Welcome to Farmgate Nigeria</h2>
+                    <p>Your non-stop access to all sort of farm gadgets at farmgate prices</p>
             </div>
             
         </div>
@@ -103,4 +149,4 @@
 </div>
         
     
-    <script type="text/javascript" src="myjs.js"></script>
+    <script type="text/javascript" src="/js/myjs.js"></script>

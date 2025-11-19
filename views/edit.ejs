@@ -6,10 +6,20 @@
         <input type="text" name="update[name]" value="<%= edit.name%>">
         <label>Price</label>
         <input type="text" name="update[price]" value="<%= edit.price%>">
+        <div class="clusterImage">
+            <label>Image preview</label>
+            <img src="<%=edit.image[0].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+            <img src="<%=edit.image[1].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+            <img src="<%=edit.image[2].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+        </div>
+        <label>Existing Image URLs</label>
+        <% edit.image.forEach(img => { %>
+            <input type="text" name="update[image][]" value="<%= img.url %>">
+        <% }) %>
         <label>Image</label>
         <input type="file" name="image" required multiple accept="image/*">
-        <label>product's description</label>
-        <textarea name="update[description]"><%= edit.description%></textarea> 
+        <label>product's description</label> 
+        <textarea name="update[description]" rows="3" style="resize: vertical; width: 90%;"><%= edit.description%></textarea> 
         <button>Update</button>
     </div>
 </form>
