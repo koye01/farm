@@ -14,12 +14,12 @@
         </div>
         <label>Existing Image URLs</label>
         <% edit.image.forEach(img => { %>
-            <input type="text" name="update[image][]" value="<%= img.url %>">
+            <input type="text" name="update[image][]" disabled value="<%= img.url %>">
         <% }) %>
         <label>Image</label>
-        <input type="file" name="image" required multiple accept="image/*">
+        <input type="file" name="image" multiple accept="image/*">
         <label>product's description</label> 
-        <textarea name="update[description]" rows="3" style="resize: vertical; width: 90%;"><%= edit.description%></textarea> 
+        <textarea name="update[description]" rows="4" style="resize: vertical; width: 90%;"><%= edit.description%></textarea> 
         <button>Update</button>
     </div>
 </form>
