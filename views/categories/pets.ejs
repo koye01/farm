@@ -1,18 +1,72 @@
 <%- include("../partials/header")%>
+<head>
+    <head>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Buy and sell pets across Nigeria. Showcase dogs, cats, birds, and other pet animals on Farmgate Nigeria and connect with pet lovers nationwide.">
+    <meta name="keywords" content="pets for sale, pet animals, dogs, cats, birds, farm pets, livestock pets, Farmgate Global">
+    <meta name="robots" content="index, follow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate.com.ng/pets">
+    <meta property="og:title" content="Pet Animals for Sale | Farmgate Global Marketplace">
+    <meta property="og:description" content="Buy and sell pets across Nigeria. Showcase dogs, cats, birds, and other pet animals on Farmgate Global and connect with pet lovers nationwide.">
+    <meta property="og:image" content="https://farmgate.com.ng/pics/pets.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/pets">
+    <meta name="twitter:title" content="Pet Animals for Sale | Farmgate Global Marketplace">
+    <meta name="twitter:description" content="Buy and sell pets across Nigeria. Showcase dogs, cats, birds, and other pet animals on Farmgate Global and connect with pet lovers nationwide.">
+    <meta name="twitter:image" content="https://farmgate.com.ng/pics/pets.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Pet Animals for Sale",
+      "description": "List of pet animals available for sale across Nigeria.",
+      "itemListElement": [
+        <% pets.forEach(function(equips, index) { %>
+        {
+          "@type": "Product",
+          "position": <%= index + 1 %>,
+          "name": "<%= equips.name %>",
+          "image": "<%= equips.image[0].url %>",
+          "description": "<%= equips.description %>",
+          "offers": {
+            "@type": "Offer",
+            "url": "https://farmgate.com.ng/<%= equips._id %>",
+            "availability": "https://schema.org/InStock"
+          }
+        }<% if(index < pets.length - 1) { %>,<% } %>
+        <% }) %>
+      ]
+    }
+    </script>
+</head>
+
+</head>
 <div class="category">
             <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
             <div class="pets"></div>
         <p>
-            <h3>Connecting Farmers to Global Markets - Your Digital Marketing Solution</h3>
-        At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
-        We are committed to helping agricultural businesses connect with new customers and expand their reach 
-        nationwide. 
-            if you have any farm product to display for sales, 
-        kindly click the "add to pets" button below for your product's display and expect a call to action 
-        in some moment later
+            At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
+            We are committed to helping agricultural businesses connect with new customers and expand their reach 
+            nationwide. 
+                if you have any farm product to display for sales, 
+            kindly click the "add to pets" button below for your product's display and expect a call to action 
+            in some moment later
         </p>
         
-            <h3 class="aboutHead">Pet Animals</h3>
+            <h1 class="aboutHead">Pet Animals</h1>
         <div class="category">
         
             <h3>Pet Animals</h3>
@@ -20,7 +74,7 @@
             Many pets have exhibited life-saving behaviors and unwavering loyalty to their owners, 
             even in the face of danger or death, solidifying their role as devoted companions.
             This platform is dedicated to pet lovers worldwide, providing a space to showcase pets for 
-            sale and share fascinating experiences through our "Agricultural Talk" section. Here, you 
+            sale and share fascinating experiences through our <a href="/talk">"Agricultural Talk" section</a>. Here, you 
             can highlight the remarkable behaviors you have witnessed in your pets and connect with others 
             who share your passion.
             Use our platform to engage with fellow pet enthusiasts, buy or sell pets, and participate in 

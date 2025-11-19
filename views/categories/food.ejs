@@ -1,30 +1,31 @@
 <%- include("../partials/header")%>
 <head>
-    <!-- Primary Meta Tags -->
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feed Ingredients and Grains for Sale | Farmgate Global Marketplace</title>
-    <meta name="title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
-    <meta name="description" content="List and explore feed ingredients, grains, and specialty agricultural products at competitive farm-gate prices. Connect with buyers nationwide on Farmgate Global.">
-
-    <!-- SEO Keywords -->
+    <meta name="description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
     <meta name="keywords" content="feed ingredients for sale, grains for sale, agricultural products, farm-gate prices, soybean, rice, beans, maize, sorghum, groundnut cake, rice bran, wheat offal, dried brewery waste, blood meal, sweeteners, Farmgate Global">
+    <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://farmgate-market.onrender.com/feed">
+    <meta property="og:url" content="https://farmgate.com.ng/feed">
     <meta property="og:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
     <meta property="og:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
-    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/feed.jpg">
+    <meta property="og:image" content="https://farmgate.com.ng/pics/feed.jpg">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://farmgate-market.onrender.com/feed">
-    <meta property="twitter:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
-    <meta property="twitter:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
-    <meta property="twitter:image" content="https://farmgate-market.onrender.com/pics/feed.jpg">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/feed">
+    <meta name="twitter:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
+    <meta name="twitter:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
+    <meta name="twitter:image" content="https://farmgate.com.ng/pics/feed.jpg">
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
+    <!-- JSON-LD Schema for Products -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -41,7 +42,7 @@
           "description": "<%= eat.description %>",
           "offers": {
             "@type": "Offer",
-            "url": "https://farmgate-market.onrender.com/<%= eat._id %>",
+            "url": "https://farmgate.com.ng/<%= eat._id %>",
             "availability": "https://schema.org/InStock"
           }
         }<% if(index < food.length - 1) { %>,<% } %>
@@ -50,6 +51,7 @@
     }
     </script>
 </head>
+
 
 <div class="category">
     <p>

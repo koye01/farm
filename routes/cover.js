@@ -151,12 +151,12 @@ router.get("/food", async function(req, res) {
         const keywords = food.map(eat => eat.name).join(", ");
 
         // Page-level description (since food.description is undefined here)
-        const description = "List and explore feed ingredients, grains, and specialty agricultural products at competitive farm-gate prices. Connect with buyers nationwide on Farmgate Global.";
+        const description = "List and explore feed ingredients, grains, and specialty agricultural products at competitive farm-gate prices. Connect with buyers nationwide on Farmgate Nigeria.";
 
         // Render the page
         res.render("categories/food", {
             food,
-            title: "Feed Ingredients and Grains for Sale | FarmgateGate Nigerian Marketplace",
+            title: "Feed Ingredients and Grains for Sale | Farmgate Nigerian Marketplace",
             description,
             keywords,
             image: "/pics/feed.jpg",
@@ -229,7 +229,7 @@ router.get("/chef", async (req, res) => {
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = chef.map(ch => ch.name).join(", ");
 
-        const title = "Chef | We accepts cooking order nationwide";
+        const title = "Farmgate Chefs – Showcase Your Culinary Skills & Connect With Customers";
         const description = "chefs specializing in both local and international cuisines";
 
         // RENDER PAGE
