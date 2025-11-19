@@ -13,11 +13,8 @@
             <img src="<%=edit.image[2].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
         </div>
         <label>Existing Image URLs</label>
-        <% edit.image.forEach(img => { %>
-            <input type="text" name="update[image][]" disabled value="<%= img.url %>">
-        <% }) %>
         <label>Image</label>
-        <input type="file" name="image" multiple accept="image/*">
+        <input type="file" name="image" required multiple accept="image/*">
         <label>product's description</label> 
         <textarea name="update[description]" rows="4" style="resize: vertical; width: 90%;"><%= edit.description%></textarea> 
         <button>Update</button>
