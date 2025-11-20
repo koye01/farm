@@ -18,13 +18,32 @@ cloudinary.config({
 //livestock page
 router.get("/livestocks", async function(req, res){
     try{
-        var livestocks = await Product.find({"category": "Livestocks", "adminpost": "true"});
+        // PAGINATION
+        let page = parseInt(req.query.page) || 1;
+         // Ensure page is at least 1
+        page = Math.max(1, page);
+        const limit = 6; // you can change to any number
+        const skip = (page - 1) * limit;
+
+        // FETCH TOTAL COUNT
+        const total = await Product.countDocuments({
+            category: "Livestocks",
+            adminpost: "true"
+        });
+        const livestocks = await Product.find({"category": "Livestocks", "adminpost": "true"})
+        .skip(skip)
+        .limit(limit)
+        .sort({ _id: -1 });
+        const totalPages = Math.ceil(total / limit);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = livestocks.map(animals => animals.name).join(", ");
         res.render("categories/livestocks", {livestocks, title: 'Livestock session', 
             description: "Animals and animal products", 
             keywords,
-            image: "/pics/livestock.jpg", canonicalUrl});
+            image: "/pics/livestock.jpg", 
+            canonicalUrl, 
+            currentPage: page, 
+            totalPages});
     }catch(err){
         console.log(err)
     }
@@ -32,13 +51,32 @@ router.get("/livestocks", async function(req, res){
 //pets
 router.get("/pets", async function(req, res){
     try{
-        var pets = await Product.find({"category": "Pets", "adminpost": "true"});
+         // PAGINATION
+        let page = parseInt(req.query.page) || 1;
+         // Ensure page is at least 1
+        page = Math.max(1, page);
+        const limit = 6; // you can change to any number
+        const skip = (page - 1) * limit;
+
+        // FETCH TOTAL COUNT
+        const total = await Product.countDocuments({
+            category: "Livestocks",
+            adminpost: "true"
+        });
+        const pets = await Product.find({"category": "Pets", "adminpost": "true"})
+        .skip(skip)
+        .limit(limit)
+        .sort({ _id: -1 });
+        const totalPages = Math.ceil(total / limit);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = pets.map(other => other.name).join(", ");
         res.render("categories/pets", {
-            pets, title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors", 
+            pets, 
+            currentPage: page, 
+            totalPages,
+            title: 'Pet Animals', description: "Many pets have exhibited life-saving behaviors", 
             keywords,
-            image: "/pics/logo.png",
+            image: "/pics/pets.jpg",
             canonicalUrl
         });
     }catch(err){

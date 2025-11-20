@@ -111,6 +111,23 @@
             </a>
             
         </div>
+
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/livestocks?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+            <% } %>
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/livestocks?page=<%= i %>" 
+                class="page-number <%= i === currentPage ? 'active' : '' %>">
+                    <%= i %>
+                </a>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+                <a href="/livestocks?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+            <% } %>
+        </div>
         
     <%})%>
     </div>
