@@ -60,7 +60,7 @@ router.get("/pets", async function(req, res){
 
         // FETCH TOTAL COUNT
         const total = await Product.countDocuments({
-            category: "Livestocks",
+            category: "Pets",
             adminpost: "true"
         });
         const pets = await Product.find({"category": "Pets", "adminpost": "true"})
@@ -333,13 +333,30 @@ router.get("/others", async function(req, res){
 //Agricultural talk
 router.get("/talk", async function(req, res){
     try{
-        var Agricultural_talk = await Product.find({"category": "Agricultural talk", "adminpost": "true"});
+        // PAGINATION
+        let page = parseInt(req.query.page) || 1;
+         // Ensure page is at least 1
+        page = Math.max(1, page);
+        const limit = 6; // you can change to any number
+        const skip = (page - 1) * limit;
+        // FETCH TOTAL COUNT
+        const total = await Product.countDocuments({
+            category: "Agricultural talk",
+            adminpost: "true"
+        });
+        const Agricultural_talk = await Product.find({"category": "Agricultural talk", "adminpost": "true"})
+        .skip(skip)
+        .limit(limit)
+        .sort({ _id: -1 });
+        const totalPages = Math.ceil(total / limit);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = Agricultural_talk.map(blog => blog.name).join(", ");
         res.render("categories/talk", {
             Agricultural_talk, title: 'Agricultural Talk – Engage, Learn & Connect | Farmgate Nigeria', 
             description: "Agricultural Talk, Farmgate Nigeria, livestock management, animal health, petcare Nigeria, feeding formulation, livestock diseases, farm discussion, agricultural forum Nigeria, animal behavior, livestock solutions", 
             keywords,
+            totalPages,
+            currentPage: page,
             image: "/pics/Agrictalk.jpg",
             canonicalUrl
         });

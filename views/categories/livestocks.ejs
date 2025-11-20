@@ -112,6 +112,10 @@
             
         </div>
 
+        
+    <%})%>
+    </div>
+            
         <div class="pagination">
             <% if (currentPage > 1) { %>
                 <a href="/livestocks?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
@@ -128,8 +132,6 @@
                 <a href="/livestocks?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
             <% } %>
         </div>
-        
-    <%})%>
-    </div>
+
 </div>
 <%- include("../partials/footer") %>

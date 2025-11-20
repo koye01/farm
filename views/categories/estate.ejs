@@ -71,7 +71,7 @@
         <p>List of the available properties at reach</p>
     </div>
     <div class="general-content">
-    <%estate.slice().reverse().forEach(function(bake){%>
+    <%estate.forEach(function(bake){%>
         <div class="content">
             <a href="/<%=eat._id%>">
                 <img height="auto" width="100%" src="<%= bake.image[0].url%>" alt="<%=bake.name%>"/>

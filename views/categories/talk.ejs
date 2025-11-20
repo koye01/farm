@@ -142,5 +142,21 @@
         
     <%})%>
 </div>
+<div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/talk?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+            <% } %>
 
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/talk?page=<%= i %>" 
+                  class="page-number <%= i === currentPage ? 'active' : '' %>">
+                    <%= i %>
+                </a>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+                <a href="/talk?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+            <% } %>
+        </div>
+</div>
 <%- include("../partials/footer") %>

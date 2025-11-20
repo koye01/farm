@@ -216,25 +216,26 @@ You are guaranteed value, durability, and beauty with every purchase.
                         <button class="frontBtn">See more</button>
                     </a>
                 </div>
-                <div class="pagination">
-                    <% if (currentPage > 1) { %>
-                        <a href="/flowers?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
-                    <% } %>
-
-                    <% for (let i = 1; i <= totalPages; i++) { %>
-                        <a href="/flowers?page=<%= i %>" 
-                            class="page-number <%= i === currentPage ? 'active' : '' %>">
-                            <%= i %>
-                        </a>
-                    <% } %>
-
-                    <% if (currentPage < totalPages) { %>
-                        <a href="/flowers?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
-                    <% } %>
-              </div>
             <%})%>
         <%}%>
     
 </div>
+
+            <div class="pagination">
+                <% if (currentPage > 1) { %>
+                    <a href="/flowers?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+                <% } %>
+
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <a href="/flowers?page=<%= i %>" 
+                        class="page-number <%= i === currentPage ? 'active' : '' %>">
+                        <%= i %>
+                    </a>
+                <% } %>
+
+                <% if (currentPage < totalPages) { %>
+                    <a href="/flowers?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+                <% } %>
+          </div>
 </div>
 <%- include("../partials/footer") %>
