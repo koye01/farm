@@ -79,74 +79,68 @@ router.get("/addnew", middleware.isLoggedIn, async function(req, res){
 });
 
 // Function to upload images to Cloudinary
-function uploadImages(req, res) {
-    var images = [];
-    let completed = 0;
-    let hasError = false;
-  
-    req.files.forEach(function(file, index) {
-      cloudinary.uploader.upload(file.path, async function(error, result) {
-        if (error) {
-            if(!hasError){
-                hasError = true;
-                //flag to prevent multiple responses
-          res.status(500).json({ message: 'Error uploading image', error });
-            }
-        }else{
-            images.push({
-                url: result.secure_url,
-                public_id: result.public_id,
-              });
-            completed += 1;
-        
-        }
-        
-        // Delete the file from local storage after upload
-        fs.unlinkSync(file.path);
-  
-        // Check if all files are uploaded
-        if (completed === req.files.length && !hasError) {
-            // Save the image set to MongoDB
-            try {
-                var category = req.body.category;
-                var name = req.body.name;
-                var price = req.body.price;
-                var image = images;
-                var description = req.body.description;
-                var author ={
-                    id: req.user._id,
-                    username: req.user.username,
-                    phone: req.user.phone,
-                    email: req.user.email
-                }
-                var allproduct = {category: category, name: name, price: price, image: images, description: description, author: author};
-                var newProduce = Product.create(allproduct);
-                var dataid = (await newProduce).id;
-                var user = await User.findById(req.user._id).populate('followers').exec();
-                var newNotification = {
-                    post: {
-                        username: req.user.username,
-                        productId: dataid
-                    }
-                }
-                    for(var follower of user.followers) {
-                        var notification = await Notification.create(newNotification);
-                        follower.notifications.push(notification);
-                        follower.save();
-                    }
-                    //redirect back to allproducts page
-                    req.flash("success", "your request was succesful and is being processed");
-            res.redirect("/"); // Redirect to the picture gallery URL
-          } catch (dbError) {
-            if (!hasError) {
-              hasError = true;
-              res.status(500).json({ message: 'Error saving images to MongoDB', error: dbError });
-            }
-          }
-        }
+async function uploadImages(req, res) {
+  try {
+    // Convert all cloudinary uploads into promises
+    const uploadPromises = req.files.map(file => {
+      return cloudinary.uploader.upload(file.path).then(result => {
+        fs.unlinkSync(file.path);   // Remove local file
+        return {
+          url: result.secure_url,
+          public_id: result.public_id
+        };
       });
     });
+
+    // Wait for all uploads to finish
+    const images = await Promise.all(uploadPromises);
+
+    // Now safely save to MongoDB
+    const { category, name, price, description } = req.body;
+    const author = {
+      id: req.user._id,
+      username: req.user.username,
+      phone: req.user.phone,
+      email: req.user.email
+    };
+
+    const newProduct = await Product.create({
+      category,
+      name,
+      price,
+      description,
+      author,
+      image: images
+    });
+
+    // Send notifications
+    const user = await User.findById(req.user._id).populate("followers");
+
+    const newNotification = {
+      post: {
+        username: req.user.username,
+        productId: newProduct._id
+      }
+    };
+
+    for (const follower of user.followers) {
+      const notification = await Notification.create(newNotification);
+      follower.notifications.push(notification);
+      await follower.save();
+    }
+
+    req.flash("success", "Your request was successful and is being processed");
+    return res.redirect("/");  // <-- redirect works safely now
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "An error occurred",
+      error: err.message
+    });
+  }
 }
+
 
 //Adding new post (post request)
 router.post("/", multiUpload.array('image', 10), uploadImages);
@@ -173,12 +167,12 @@ router.get("/:id", async function(req, res) {
         let title, description, keywords;
 
         if (detailed.category === 'Agricultural talk') {
-            title = `Agricultural Discussion: ${detailed.name} | Farmgate Market`;
+            title = `Agricultural Discussion: ${detailed.name} | Agricultural talk`;
             description = `Join the open agricultural discussion about ${detailed.name}. 
                            Learn insights, share opinions, and explore expert viewpoints on ${detailed.name} at Farmgate Market.`;
             keywords = `${detailed.name}, agricultural talk, farm discussions, farmer forum`;
         } else {
-            title = `${detailed.name} for Sale | Buy ${detailed.name} Online | Farmgate Market`;
+            title = `${detailed.name} for Sale | Buy ${detailed.name} Online | place an order now`;
             description = `Buy ${detailed.name} at Farmgate Market. High-quality, affordable, and verified farm products. 
                            View details, images, and seller information for ${detailed.name}.`;
             keywords = `${detailed.name}, buy ${detailed.name}, farm products, agriculture marketplace, farmgate market`;
@@ -200,7 +194,7 @@ router.get("/:id", async function(req, res) {
 
 
 // POST route for handling inquiries
-router.post("/:id", async function(req, res) {
+router.post("/order/:id", async function(req, res) {
     try {
         const { name, telephone, enquiry } = req.body;
         const postId = req.params.id;  // Retrieve the detailed product data (the product post)

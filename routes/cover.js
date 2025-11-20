@@ -6,6 +6,15 @@ var User    = require("../models/user");
 var Notification = require("../models/notification");
 const ChatMessage = require("../models/ChatMessage");
 
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
+
+cloudinary.config({ 
+    cloud_name: "djt5dffbq", 
+    api_key: process.env.cloudinary_api_key, 
+    api_secret: process.env.cloudinary_api_secret 
+  });
+
 //livestock page
 router.get("/livestocks", async function(req, res){
     try{
@@ -318,22 +327,28 @@ router.get("/adminpost", async function(req, res){
 });
 
 //delete post from the admin server
-router.post("/adminpost", async function(req, res){
-    try{
-         const deletePic = await Product.findById(id);
-                if (!deletePic) {
-                    return res.status(404).json({ message: 'Image set not found' });
-                }
-            
-                // Delete each image from Cloudinary using its public_id
-                const deletePromises = deletePic.image.map(img => cloudinary.uploader.destroy(img.public_id));
-                await Promise.all(deletePromises);
-                await Product.findByIdAndRemove(req.params.id);
-        res.redirect("/");
-    }catch(err){
-        res.redirect("/"+ req.params.id)
+router.post("/adminpost/:id", async function (req, res) {
+  try {
+    const deletePic = await Product.findById(req.params.id);
+    if (!deletePic) {
+      return res.status(404).json({ message: "Image set not found" });
     }
+
+    // Delete each image from Cloudinary using its public_id
+    const deletePromises = deletePic.image.map(img =>
+      cloudinary.uploader.destroy(img.public_id)
+    );
+    await Promise.all(deletePromises);
+
+    await Product.findByIdAndRemove(req.params.id);
+
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.redirect("/" + req.params.id);
+  }
 });
+
 
 router.get("/approvepost/:id", async function(req, res){
     try{

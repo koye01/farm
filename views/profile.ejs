@@ -84,7 +84,7 @@
                             </h3>
                             <img src="<%= pro.image[0].url %>" alt="<%= pro.name %>">
                             <div class="descLink">
-                                <p><%= pro.description %></p>
+                                <p><%= pro.description.substring(0, 100)+ "..." %></p>
                                 <h3><a href="/<%= pro._id %>">Click to view more</a></h3>
                             </div>
                         </div>
