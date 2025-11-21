@@ -58,7 +58,7 @@ router.get("/:id/comment/:comment_id/edit", middleware.commentOwner, async funct
     const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
  res.render("comment/edit", {product_id:req.params.id, edit, title: 'comment edit mode', description: edit.post, 
     keywords: product.name,
-    image: product.image, canonicalUrl});
+    image: product.image, canonicalUrl, noindex: true});
 });
 
 //comment update route
@@ -92,7 +92,7 @@ router.get("/:id/comment/:comment_id/reply", middleware.isLoggedIn, async functi
         res.render("comment_sub/new", { product, parentComment, title: product.name,
             description: parentComment.post, 
             keywords: product.name,
-            image: product.image, canonicalUrl}); // Render the reply form
+            image: product.image, canonicalUrl, noindex: true}); // Render the reply form
     } catch (err) {
         console.log(err);
         req.flash("error", err.message);
@@ -150,7 +150,7 @@ router.get("/:id/comment/:comment_id/reply/:reply_id/edit", middleware.replyOwne
         res.render("comment_sub/edit", {product_id: req.params.id, 
             editReply_id: req.params.reply_id, product, parentComment, editReply, 
             title: 'edit reply mode', description: editReply.post, keywords: product.name,
-        image: product.image, canonicalUrl});
+        image: product.image, canonicalUrl, noindex: true});
     }catch(error){
         console.log(error)
     }

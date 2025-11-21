@@ -184,7 +184,8 @@ router.get("/:id", async function(req, res) {
             description,
             keywords,
             image: detailed.image,
-            canonicalUrl
+            canonicalUrl,
+            noindex: true
         });
 
     } catch (err) {

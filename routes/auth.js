@@ -52,7 +52,7 @@ router.get("/register", function(req, res){
     const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("form/register", {title: 'register new user', description: "user sign-up page", 
         keywords: 'sign-up page',
-        image: "/pics/logo.png", canonicalUrl});
+        image: "/pics/logo.png", canonicalUrl, noindex: true});
 });
 
 
@@ -89,7 +89,7 @@ router.post("/register", upload.single("image"), async function(req, res){
 router.get("/login", function(req, res){
     const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
     res.render("form/login", {title: 'user login',description: "user login page", keywords: 'login page',
-        image: "/pics/logo.png", canonicalUrl});
+        image: "/pics/logo.png", canonicalUrl, noindex: true});
 });
 router.post("/login", passport.authenticate("local", {
     successRedirect: "/",
@@ -115,7 +115,8 @@ router.get("/forgot", function(req, res){
         description: "password reset link", 
         keywords: 'forgot password',
         image: "/pics/logo.png",
-        canonicalUrl
+        canonicalUrl,
+        noindex: true
     })
     });
 
@@ -184,7 +185,8 @@ router.get("/reset/:token", async function(req, res){
         description: "password reset link", 
         keywords: 'forgot password',
         image: "/pics/logo.png",
-        canonicalUrl
+        canonicalUrl,
+        noindex: true
     });
 });
 
@@ -302,7 +304,8 @@ router.get("/user/:id", async function(req, res) {
             description: user.description, 
             keywords: allKeywords,  // Use the updated 'allKeywords' here
             image: user.image,
-            canonicalUrl
+            canonicalUrl,
+            noindex: true
         });
     } catch (err) {
         console.log(err);
@@ -323,7 +326,8 @@ router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){
             description: "edit profile", 
             keywords: "edit profile",
             image: editProf.image,
-            canonicalUrl
+            canonicalUrl,
+            noindex: true
         });
     }catch(err){
         console.log(err);
@@ -398,7 +402,8 @@ router.get('/user/:id/followers', async function(req, res) {
             description: "followers", 
             keywords,
             image: "/pics/logo.png",
-            canonicalUrl
+            canonicalUrl,
+            noindex: true
         }
     );
     }catch(err){
@@ -420,7 +425,8 @@ router.get('/user/:id/following', async function(req, res) {
             description: "following list", 
             keywords,
             image: "/pics/logo.png",
-            canonicalUrl
+            canonicalUrl,
+            noindex: true
         });
     }catch(err){
         console.log(err);
