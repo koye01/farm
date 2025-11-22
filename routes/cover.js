@@ -37,8 +37,8 @@ router.get("/livestocks", async function(req, res){
         const totalPages = Math.ceil(total / limit);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = livestocks.map(animals => animals.name).join(", ");
-        res.render("categories/livestocks", {livestocks, title: 'Livestock session', 
-            description: "Animals and animal products", 
+        res.render("categories/livestocks", {livestocks, title: 'Quality farm animals | Farmgate', 
+            description: "Your trusted source for robust cattle, sheep, goat and poultry. Explore our available breeding stock and learn about our commitment to animal health and customer success.", 
             keywords,
             image: "/pics/livestock.jpg", 
             canonicalUrl, 
@@ -128,7 +128,7 @@ router.get("/vegetables", async (req, res) => {
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = veggies.map(veg => veg.name).join(", ");
 
-        const title = "Fresh Vegetables for Sale | Farmgate Nigeria Marketplace";
+        const title = "Buy fresh Vegetables Online in Nigeria| Tomatoes, Peppers & more| Farmgate";
         const description = "Discover and buy fresh vegetables directly from Nigerian farmers. Farmgate Nigeria connects buyers with leafy and fruity vegetables at farm-gate prices.";
 
         // RENDER PAGE
@@ -174,7 +174,8 @@ router.get("/flowers", async function(req, res){
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = seedlings.map(plant => plant.name).join(", ");
         res.render("categories/flowers", {
-            seedlings, title: 'Floricultural and Environment', description: "We beautifies the nature", 
+            seedlings, title: 'Buy Fresh Flowers Online in Nigeria| Rose Bouquets & More', 
+            description: "Order fresh, beautiful flowers for delivery across Nigeria. Stunning roses, bouquets for birthdays, aniversaries & weddings.", 
             currentPage: page,
             totalPages,
             keywords,
@@ -276,8 +277,8 @@ router.get("/chef", async (req, res) => {
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = chef.map(ch => ch.name).join(", ");
 
-        const title = "Farmgate Chefs – Showcase Your Culinary Skills & Connect With Customers";
-        const description = "chefs specializing in both local and international cuisines";
+        const title = "Private Chef Services in Nigeria | Personal & Event Chef |Farmgate";
+        const description = "Hoost an unforgettable event with Farmgate's  private chef services. We provide professional chefs for dinners, parties % corporate events in lagos, Abuja & across Nigeria. Book your experience";
 
         // RENDER PAGE
         res.render("categories/chef", { 

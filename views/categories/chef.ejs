@@ -74,7 +74,7 @@
     delicious meals. Whether it’s for daily consumption, family gatherings, or large-scale events, 
     our culinary experts are prepared to deliver exceptional results.
     </p>
-    <h2>What Our Chefs Can Cook for You</h2>
+    <h2 class="aboutHead">What Our Chefs Can Cook for You</h2>
     <p>
     Cooking with farm-fresh ingredients is at the heart of what we do.
     Our chefs specialize in a wide variety of Nigerian and continental dishes, including:
@@ -127,7 +127,7 @@
         <li>You’ll be redirected to their personal chef page</li>
         <li>Pick up their contact phone number and begin negotiations</li>
         <li>Or click “Private Message” to chat directly with the chef</li>
-        <li>You can also contact the Farmgate Nigeria admin to help you choose the best chef for your needs</li>
+        <li>You can also contact the Farmgate Nigeria <a href="/user/67c39c643a2aaa5aa01a11f3">admin</> to help you choose the best chef for your needs</li>
     </ol>
 
     <h2 class="aboutHead">Frequently Asked Questions (FAQ)</h2>
@@ -198,7 +198,7 @@
                 <% chef.forEach(function(cook){ %>
                 <div class="content">
                     <a href="/<%=cook._id%>">
-                        <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="<%=cook.name%>"/>
+                        <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="professional Nigerian chef preparing<%=cook.name%>"/>
                         <div class="content-desc">
                             <h1><%=cook.name%></h1>
                             <p><%=cook.description%></p>

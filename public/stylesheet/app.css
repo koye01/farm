@@ -428,7 +428,7 @@ a {
     background-color: rgb(99, 150, 23);
     /* background-color: #a2a2a5; */
 }
-.profile h3 {
+.profile h3, .profile h1 {
     padding: 10px 0px;
     background-color: rgb(99, 150, 23);
 }
