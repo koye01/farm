@@ -30,7 +30,9 @@
     <meta name="twitter:image" content="https://farmgate.com.ng/pics/logo.png">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="pics/logo.png">
+     <link rel="icon" href="https://farmgate.com.ng/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="https://farmgate.com.ng/pics/logo.png">
+    <link rel="icon" type="image/png" href="/pics/logo.png">
 
     <!-- CSS -->
     <link rel="stylesheet" href="stylesheet/cover.css">
@@ -40,18 +42,33 @@
 
     <!-- JSON-LD Structured Data for Website & Homepage -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Farmgate Nigeria",
-      "url": "https://farmgate-market.onrender.com/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://farmgate-market.onrender.com/search?query={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
+        {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+            "@type": "Organization",
+            "name": "Farmgate Nigeria",
+            "url": "https://farmgate.com.ng/",
+            "logo": "https://farmgate.com.ng/pics/logo.png",
+            "sameAs": [
+                "https://facebook.com/Koyegarden",
+                "https://instagram.com/farmgatengr"
+            ]
+            },
+            {
+            "@type": "WebSite",
+            "url": "https://farmgate.com.ng/",
+            "name": "Farmgate Nigeria",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://farmgate.com.ng/search?query={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+            }
+        ]
+        }
+</script>
+
 </head>
 
 
@@ -154,7 +171,7 @@
                 </p></a>
             </li><hr>
             
-            <li><a class="frontline" href="/chef"><h3>Chef's Corner</h3>
+            <li><a class="frontline" href="/chef"><h3>Chef services</h3>
             <p>
                 Find premium farm-fresh ingredients, spices, and kitchen essentials curated for chefs, 
                 restaurants, and home cooks. Sourced directly from local farms for freshness and flavour.
@@ -217,10 +234,10 @@
     <a href="/faq">FAQ</a>
 </div>
 <div class="faq">
-       <a href="">For Farmers</a>
+       <a href="/farmers">For Farmers</a>
 </div>
 <div class="faq">
-    <a href="">For Buyers</a>
+    <a href="/buyers">For Buyers</a>
 </div>    
 
 </div>

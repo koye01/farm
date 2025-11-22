@@ -365,6 +365,56 @@ router.get("/talk", async function(req, res){
     }
 });
 
+
+//privacy policy
+router.get("/policy", async function(req, res){
+    try{
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        res.render("policy", {
+            title: 'privacy policy statement | Farmgate Nigeria', 
+            description: "privacy policy statement", 
+            keywords: "privacy policy",
+            image: "/pics/farmequip.jpg",
+            canonicalUrl
+        });
+    }catch(err){
+        console.log(err)
+    }
+});
+
+
+//For farmers
+router.get("/farmers", async function(req, res){
+    try{
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        res.render("farmers", {
+            title: 'Sell your farm produce directly to verified buyers without relying on middlemen', 
+            description: "Reach thousands of active buyers across Nigeria — including food processors, restaurants, retailers, exporters, and animal feed producers.", 
+            keywords: "Sellers of commodities at farmgate nigeria",
+            image: "/pics/farmequip.jpg",
+            canonicalUrl
+        });
+    }catch(err){
+        console.log(err)
+    }
+});
+
+//For buyers
+router.get("/buyers", async function(req, res){
+    try{
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        res.render("buyers", {
+            title: 'Source high-quality agricultural produce directly from verified farmers across Nigeria', 
+            description: "Buy in bulk with confidence, knowing every seller on Farmgate is screened and their listings are monitored for accuracy and authenticity.", 
+            keywords: "buyers of commodities at farmgate nigeria",
+            image: "/pics/farmequip.jpg",
+            canonicalUrl
+        });
+    }catch(err){
+        console.log(err)
+    }
+});
+
 //admin page
 router.get("/adminpost", async function(req, res){
     try{
