@@ -88,6 +88,11 @@
             <p>List of the available agrocommodities for sales</p>
         </div>
         <div class="general-content">
+            <%if(pets.length === 0){%>
+            <div class="no-products">
+                <p>No product at the moment, please check back later</p>
+            </div>
+        <%}else{%>
         <%pets.forEach(function(equips){%>
             <div class="content">
                 <a href="/<%=equips._id%>">
@@ -102,6 +107,7 @@
             </div>
             
         <%})%>
+        <%}%>
     
     </div>
     

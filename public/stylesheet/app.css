@@ -428,7 +428,7 @@ a {
     background-color: rgb(99, 150, 23);
     /* background-color: #a2a2a5; */
 }
-.profile h3, .profile h1 {
+.profile h3 {
     padding: 10px 0px;
     background-color: rgb(99, 150, 23);
 }
@@ -960,6 +960,10 @@ background-color: rgb(209, 132, 132);;
     background: #e6f5e6;
     border-color: #0d7c0d;
     color: #0d7c0d;
+}
+.no-products{
+    margin: 5px 3px;
+    padding: 5px auto;
 }
 
 /* RESPONSIVENESS */

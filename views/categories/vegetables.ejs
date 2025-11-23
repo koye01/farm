@@ -139,18 +139,24 @@
                 <p>List of the available agrocommodities for sales</p>
             </div>
             <div class="general-content">
+              <%if(veggies.length === 0){%>
+            <div class="no-products">
+                <p>No product at the moment, please check back later</p>
+            </div>
+        <%}else{%>
             <%veggies.forEach(function(veg){%>
                 <div class="content">
                     <a href="/<%=veg._id%>">
                         <img height="auto" width="100%" src="<%= veg.image[0].url%>" alt="a batch of farm fresh <%=veg.name%> for sell"/>
                         <div class="content-desc">
-                            <h2><%=veg.name%></h2>
+                            <h3><%=veg.name%></h3>
                             <p><%=veg.description%></p>
                         </div>
                         <button class="frontBtn">See more</button>
                     </a>
                     
                 </div>
+            <%}%>
             <%})%>
         </div>
         

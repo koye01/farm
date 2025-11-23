@@ -278,7 +278,7 @@ router.get("/chef", async (req, res) => {
         const keywords = chef.map(ch => ch.name).join(", ");
 
         const title = "Private Chef Services in Nigeria | Personal & Event Chef |Farmgate";
-        const description = "Hoost an unforgettable event with Farmgate's  private chef services. We provide professional chefs for dinners, parties % corporate events in lagos, Abuja & across Nigeria. Book your experience";
+        const description = "Host an unforgettable event with Farmgate's  private chef services. We provide professional chefs for dinners, parties % corporate events in lagos, Abuja & across Nigeria. Book your experience";
 
         // RENDER PAGE
         res.render("categories/chef", { 
