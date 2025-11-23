@@ -470,7 +470,7 @@ router.get("/approvepost/:id", async function(req, res){
 //index page
 router.get("/", async function(req, res){
     try{
-        var product = await Product.find({});
+        var product = await Product.find({adminpost: true });
         const user = await User.find({});
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         // Shuffle them randomly

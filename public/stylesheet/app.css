@@ -966,6 +966,10 @@ background-color: rgb(209, 132, 132);;
     padding: 5px auto;
 }
 
+.textarea-display {
+    white-space: pre-wrap;
+}
+
 /* RESPONSIVENESS */
 @media(max-width: 480px) {
     .pagination {
