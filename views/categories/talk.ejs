@@ -4,24 +4,26 @@
     <title>Agricultural Talk – Engage, Learn & Connect | Farmgate Nigeria</title>
     <meta name="description" content="Join Nigeria’s leading farm discussion hub for livestock management, animal health, feeding formulation, and disease control insights. Share your experiences and connect with other farmers.">
     <meta name="keywords" content="Agricultural Talk, Farmgate Nigeria, livestock management, animal health, pet care Nigeria, feeding formulation, livestock diseases, farm discussion, agricultural forum Nigeria, animal behavior, livestock solutions">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Agricultural Talk – Connect With Farmers & Share Insights">
     <meta property="og:description" content="Discuss livestock care, feeding tips, disease control, and farm best practices with farmers across Nigeria.">
-    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/Agrictalk.jpg">
-    <meta property="og:url" content="https://farmgate-market.onrender.com/talk">
+    <meta property="og:image" content="<%= image %>">
+    <meta property="og:url" content="https://farmgate.com.ng/talk">
     <meta property="og:type" content="website">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Agricultural Talk – Livestock Advice & Farm Insights">
     <meta name="twitter:description" content="Discuss animal health, feeding, disease solutions, and livestock best practices with farmers across Nigeria.">
-    <meta name="twitter:image" content="https://farmgate-market.onrender.com/pics/Agrictalk.jpg">
+    <meta name="twitter:image" content="<%= image %>">
 
-    <!-- Canonical -->
-    <link rel="canonical" href="https://farmgate-market.onrender.com/talk">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
 
-    <!-- Schema Markup for Listing Page -->
+    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -45,14 +47,13 @@
           {
             "@type": "ListItem",
             "position": <%= index + 1 %>,
-            "url": "https://farmgate-market.onrender.com/<%= talk._id %>"
+            "url": "https://farmgate.com.ng/<%= talk._id %>"
           }<% if (index !== Agricultural_talk.length - 1) { %>,<% } %>
           <% }); %>
         ]
       }
     }
     </script>
-
 </head>
 
 

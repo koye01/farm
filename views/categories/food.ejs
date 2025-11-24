@@ -13,43 +13,57 @@
     <meta property="og:url" content="https://farmgate.com.ng/feed">
     <meta property="og:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
     <meta property="og:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
-    <meta property="og:image" content="https://farmgate.com.ng/pics/feed.jpg">
+    <meta property="og:image" content="<%= image %>">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://farmgate.com.ng/feed">
     <meta name="twitter:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
     <meta name="twitter:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
-    <meta name="twitter:image" content="https://farmgate.com.ng/pics/feed.jpg">
+    <meta name="twitter:image" content="<%= image %>">
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
     <!-- JSON-LD Schema for Products -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Feed Ingredients and Grains for Sale",
-      "description": "List of feed ingredients, grains, and specialty agricultural products available for sale at farm-gate prices.",
-      "itemListElement": [
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Feed Ingredients and Grains for Sale",
+    "description": "List of feed ingredients, grains, and specialty agricultural products available for sale at farm-gate prices.",
+    "url": "https://farmgate.com.ng/feed",
+    "itemListElement": [
         <% food.forEach(function(eat, index) { %>
         {
-          "@type": "Product",
-          "position": <%= index + 1 %>,
-          "name": "<%= eat.name %>",
-          "image": "<%= eat.image[0].url %>",
-          "description": "<%= eat.description %>",
-          "offers": {
-            "@type": "Offer",
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "item": {
+            "@type": "Product",
+            "name": "<%= eat.name %>",
+            "image": "<%= eat.image[0].url %>",
+            "description": "<%= eat.description %>",
             "url": "https://farmgate.com.ng/<%= eat._id %>",
-            "availability": "https://schema.org/InStock"
-          }
+            "offers": {
+            "@type": "Offer",
+            "price": "<%= eat.price || 0 %>",
+            "priceCurrency": "NGN",
+            "availability": "https://schema.org/InStock",
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
+                "applicableCountry": "NG"
+            }
+            }
+        }
         }<% if(index < food.length - 1) { %>,<% } %>
         <% }) %>
-      ]
+    ]
     }
-    </script>
+</script>
+
 </head>
 
 
@@ -95,6 +109,8 @@
                     <div class="content-desc">
                         <h1><%=eat.name%></h1>
                         <p><%=eat.description%></p>
+                        <p>currency: Naira</p>
+                        <p><%=eat.price%></p>
                     </div>
                     <button class="frontBtn">See more</button>
                 </a>

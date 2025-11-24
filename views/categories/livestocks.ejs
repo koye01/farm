@@ -12,43 +12,56 @@
     <meta property="og:url" content="https://farmgate.com.ng/livestock">
     <meta property="og:title" content="Livestock and Poultry for Sale | Farmgate Global Marketplace">
     <meta property="og:description" content="Post and sell livestock and poultry across Nigeria at competitive farm-gate prices. Find goats, sheep, cattle, chickens, turkeys, eggs, and day-old chicks.">
-    <meta property="og:image" content="https://farmgate.com.ng/pics/livestock.jpg">
+    <meta property="og:image" content="<%= image %>">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://farmgate.com.ng/livestocks">
     <meta name="twitter:title" content="Livestock and Poultry for Sale | Farmgate Global Marketplace">
     <meta name="twitter:description" content="Post and sell livestock and poultry across Nigeria at competitive farm-gate prices. Find goats, sheep, cattle, chickens, turkeys, eggs, and day-old chicks.">
-    <meta name="twitter:image" content="https://farmgate.com.ng/pics/livestock.jpg">
+    <meta name="twitter:image" content="<%= image %>">
 
     <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Livestock and Poultry for Sale",
-      "description": "List of livestock and poultry products available for sale at farm-gate prices across Nigeria.",
-      "itemListElement": [
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Livestock and Poultry for Sale",
+    "description": "List of livestock and poultry products available for sale at farm-gate prices across Nigeria.",
+    "url": "https://farmgate.com.ng/livestock",
+    "itemListElement": [
         <% livestocks.forEach(function(live, index) { %>
         {
-          "@type": "Product",
-          "position": <%= index + 1 %>,
-          "name": "<%= live.name %>",
-          "image": "<%= live.image[0].url %>",
-          "description": "<%= live.description %>",
-          "offers": {
-            "@type": "Offer",
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "item": {
+            "@type": "Product",
+            "name": "<%= live.name %>",
+            "image": "<%= live.image[0].url %>",
+            "description": "<%= live.description %>",
             "url": "https://farmgate.com.ng/<%= live._id %>",
-            "availability": "https://schema.org/InStock"
-          }
+            "offers": {
+            "@type": "Offer",
+            "price": "<%= live.price || 0 %>",
+            "priceCurrency": "NGN",
+            "availability": "https://schema.org/InStock",
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
+                "applicableCountry": "NG"
+            }
+            }
+        }
         }<% if(index < livestocks.length - 1) { %>,<% } %>
         <% }) %>
-      ]
+    ]
     }
     </script>
+
 </head>
 
 <div class="category">
@@ -106,6 +119,8 @@
                 <div class="content-desc">
                     <h1><%=live.name%></h1>
                     <p><%=live.description%></p>
+                    <p>currency: Naira</p>
+                    <p><%=live.price%></p>
                 </div>
                 <button class="frontBtn">See more</button>
             </a>

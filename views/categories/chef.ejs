@@ -13,36 +13,77 @@
     <meta property="og:title" content="Farmgate Chef Showcase – Connect With Customers Nationwide">
     <meta property="og:description" content="Farmgate Global invites talented chefs to showcase their skills and reach a wider market. List your culinary services and get discovered.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/chef.jpg">
-    <meta property="og:url" content="https://farmgate-market.onrender.com/chef">
+    <meta property="og:image" content="<%= image %>">
+    <meta property="og:url" content="https://farmgate.com.ng/chef">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Farmgate Chefs – Showcase Your Culinary Skills">
     <meta name="twitter:description" content="Join Farmgate Nigerian Chef Marketplace to connect with clients nationwide and sell your local and international dishes.">
-    <meta name="twitter:image" content="https://farmgate-market.onrender.com/pics/chef.jpg">
-
+    <meta name="twitter:image" content="<%= image %>">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
     <!-- JSON-LD Schema Markup -->
     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Farmgate Nigeria",
+  "url": "https://farmgate.com.ng",
+  "logo": "https://farmgate.com.ng/pics/logo.png",
+  "sameAs": [
+    "https://www.facebook.com/Koyegarden",
+    "https://www.instagram.com/farmgatngr"
+  ],
+  "description": "Farmgate Nigeria connects chefs and culinary experts with customers nationwide. Showcase your skills, sell local and international dishes, and grow your culinary business online.",
+  "department": {
+    "@type": "Organization",
+    "name": "Chef Marketplace",
+    "url": "https://farmgate.com.ng/chef"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Farmgate Chef Marketplace",
+  "description": "A marketplace where Nigerian chefs showcase their culinary services for hire.",
+  "url": "https://farmgate.com.ng/chef",
+  "itemListElement": [
+    <% chef.forEach(function(cook, index){ %>
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Farmgate Global",
-      "url": "https://farmgate.com.ng",
-      "logo": "https://farmgate.com.ng/pics/logo.png",
-      "sameAs": [
-        "https://www.facebook.com/Koyegarden",
-        "https://twitter.com/farmgatengr",
-        "https://www.instagram.com/farmgatngr"
-      ],
-      "description": "Farmgate Nigeria connects chefs and culinary experts with customers nationwide. Showcase your skills, sell local and international dishes, and grow your culinary business online.",
-      "department": {
-        "@type": "Organization",
-        "name": "Chef Marketplace",
-        "url": "https://farmgate.com.ng/chef"
+      "@type": "ListItem",
+      "position": <%= index + 1 %>,
+      "item": {
+        "@type": "Service",
+        "name": "<%= cook.name %>",
+        "description": "<%= cook.description %>",
+        "image": "<%= cook.image[0].url %>",
+        "provider": {
+          "@type": "Person",
+          "name": "<%= cook.name %>"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "<%= cook.price %>",
+          "priceCurrency": "NGN",
+          "availability": "https://schema.org/InStock",
+          "url": "https://farmgate.com.ng/<%= cook._id %>",
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
+            "applicableCountry": "NG"
+          }
+        }
       }
-    }
-    </script>
+    }<% if (index !== chef.length - 1) { %>,<% } %>
+    <% }); %>
+  ]
+}
+</script>
+
 </head>
 
 <div class="category">
@@ -203,6 +244,8 @@
                         <div class="content-desc">
                             <h1><%=cook.name%></h1>
                             <p><%=cook.description%></p>
+                            <p>currency: Naira</p>
+                            <p>Price: <%=cook.price%></p>
                         </div>
                     <button class="frontBtn">See more</button>
                     </a>

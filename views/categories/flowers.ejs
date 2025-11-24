@@ -13,15 +13,17 @@
     <meta property="og:title" content="Farmgate Garden & Floriculture Services – Flowers & Landscaping">
     <meta property="og:description" content="Showcase your flowers and gardening expertise. Farmgate Nigeria helps florists connect with customers nationwide and sell flowers and landscaping services.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://farmgate.com.ng/pics/flowers.jpg">
+    <meta property="og:image" content="<%= image %>">
     <meta property="og:url" content="https://farmgate.com.ng/flowers">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Farmgate Garden & Floriculture Services">
     <meta name="twitter:description" content="Join Farmgate Nigeria to showcase flowers, artificial plants, and landscaping services. Connect with clients nationwide.">
-    <meta name="twitter:image" content="https://farmgate.com.ng/pics/flowers.jpg">
+    <meta property="og:image" content="<%= image %>">
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
     <!-- JSON-LD Schema -->
     <script type="application/ld+json">
     {
@@ -32,7 +34,6 @@
       "logo": "https://farmgate.com.ng/pics/logo.png",
       "sameAs": [
         "https://www.facebook.com/Koyegarden",
-        "https://twitter.com/farmgatengr",
         "https://www.instagram.com/farmgatngr"
       ],
       "description": "Farmgate Nigeria connects farmers and florists with customers nationwide. We offer garden and floriculture services, including landscaping, flower arrangement, pest control, and sales of natural and artificial flowers.",
@@ -95,6 +96,41 @@
       ]
     }
     </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Available Flowers for Sale",
+  "description": "A list of natural and artificial flowers available for sale on Farmgate Nigeria.",
+  "url": "https://farmgate.com.ng/flowers",
+  "itemListElement": [
+    <% seedlings.forEach(function(crops, index){ %>
+    {
+      "@type": "ListItem",
+      "position": <%= index + 1 %>,
+      "item": {
+        "@type": "Product",
+        "name": "<%= crops.name %>",
+        "image": "<%= crops.image[0].url %>",
+        "description": "<%= crops.description %>",
+        "url": "https://farmgate.com.ng/<%= crops._id %>",
+        "offers": {
+          "@type": "Offer",
+          "price": "<%= crops.price || 0 %>",
+          "priceCurrency": "NGN",
+          "availability": "https://schema.org/InStock",
+          "hasMerchantReturnPolicy": {
+            "@type": "MerchantReturnPolicy",
+            "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
+            "applicableCountry": "NG"
+          }
+        }
+      }
+    }<% if (index !== seedlings.length - 1) { %>,<% } %>
+    <% }) %>
+  ]
+}
+</script>
 
 </head>
 
@@ -213,6 +249,8 @@ You are guaranteed value, durability, and beauty with every purchase.
                         <div class="content-desc">
                             <h3><%=crops.name%></h3>
                             <p><%=crops.description%></p>
+                            <p>currency: Naira</p>
+                            <p><%=crops.price%></p>
                         </div>
                         <button class="frontBtn">See more</button>
                     </a>
