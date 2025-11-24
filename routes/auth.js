@@ -304,8 +304,7 @@ router.get("/user/:id", async function(req, res) {
             description: user.description, 
             keywords: allKeywords,  // Use the updated 'allKeywords' here
             image: user.image,
-            canonicalUrl,
-            noindex: true
+            canonicalUrl
         });
     } catch (err) {
         console.log(err);
