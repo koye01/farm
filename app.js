@@ -31,8 +31,8 @@ const helmet = require("helmet");
 // const onlineData = process.env.DATABASE;
 // const offlineData = "mongodb://localhost/Product"
 
-// mongoose.connect(process.env.DATABASE);
-mongoose.connect("mongodb://localhost/Product");
+mongoose.connect(process.env.DATABASE);
+// mongoose.connect("mongodb://localhost/Product");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));  // Serving static files from the "public" directory
