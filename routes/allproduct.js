@@ -79,6 +79,8 @@ router.get("/addnew", middleware.isLoggedIn, async function(req, res){
     }
 });
 
+
+
 // Function to upload images to Cloudinary
 async function uploadImages(req, res) {
   try {
@@ -194,6 +196,26 @@ router.get("/:id", async function(req, res) {
 });
 
 
+//deleted pages
+app.get("/:id", async (req, res, next) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        if (!product) {
+            // Product does not exist: 404 Not Found
+            return res.status(404).render('404', { message: 'Product not found' });
+        }
+
+        res.render('removed', { 
+            product,
+            title: 'temporary removed pages',
+            description: "temporary removed pages",
+            canonicalUrl, image: "/pics/logo.png" 
+        });
+    } catch (err) {
+        next(err);
+    }
+});
 // POST route for handling inquiries
 router.post("/order/:id", async function(req, res) {
     try {
