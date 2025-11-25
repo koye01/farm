@@ -20,8 +20,11 @@
             </select>
             <label>Name</label>
             <input type="text" name="name" placeholder="Product's name">
-            <label>Price</label>
-            <input type="text" name="price" placeholder="Product's price">
+            <%if(product.category !== Agricultural talk){%>
+                <label>Price</label>
+                <input type="text" name="price" placeholder="Product's price">
+           <% }%>
+            
             <label>Images</label>
             <input type="file" name="image" id="imageInput" multiple accept="image/*">
             <label>Product's description</label>

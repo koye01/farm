@@ -74,8 +74,8 @@
         "@type": "Person",
         "name": "<%= detailed.author.username %>"
       },
-      "url": "https://farmgate.com.ng/<%= detailed._id %>",
-      "datePublished": "<%= detailed.createdAt.toISOString() %>"
+      "url": "https://farmgate.com.ng/<%= detailed._id %>"
+      
     }
     </script>
     <% } %>
@@ -104,7 +104,10 @@
             
         <div class="descp">
                 <p><%= detailed.description %></p>
-                <p>Price: =N=<%= detailed.price %></p>
+                <% if(detailed.Category !== "Agricultural talk"){%>
+                    <p>Price: =N=<%= detailed.price %></p>
+                <%}%>
+                
                 <em>submitted by </em><a href="/user/<%=detailed.author.id%>"><strong> <%=detailed.author.username.toUpperCase()%> </strong></a>
                 <%=detailed.author.phone%>
                 <!-- <%=detailed.author.email%> -->

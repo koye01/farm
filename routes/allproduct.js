@@ -65,9 +65,10 @@ router.get("/allproduct", async function(req, res){
 
 router.get("/addnew", middleware.isLoggedIn, async function(req, res){
     try{
+        const product = await new Product.find({});
         // Build the canonical URL dynamically
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-        res.render("addnew", {title: 'add new product', description: "add new product", 
+        res.render("addnew", {title: 'add new product', description: "add new product", product,
             keywords: "add new product",
             image: "/pics/logo.png",
             canonicalUrl,

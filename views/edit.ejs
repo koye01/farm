@@ -4,8 +4,11 @@
     <div class="form-style">
         <label>Name</label>
         <input type="text" name="update[name]" value="<%= edit.name%>">
-        <label>Price</label>
-        <input type="text" name="update[price]" value="<%= edit.price%>">
+        <%if(edit.category !== Agricultural talk){%>
+            <label>Price</label>
+            <input type="text" name="update[price]" value="<%= edit.price%>">
+        <%}%>
+        
         <div class="clusterImage">
             <label>Image preview</label>
             <img src="<%=edit.image[0].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
