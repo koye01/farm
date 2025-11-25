@@ -118,13 +118,13 @@
           "@type": "Offer",
           "price": "<%= crops.price || 0 %>",
           "priceCurrency": "NGN",
-          "availability": "https://schema.org/InStock",
-          "hasMerchantReturnPolicy": {
-            "@type": "MerchantReturnPolicy",
-            "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-            "applicableCountry": "NG"
-          }
-        }
+          "availability": "https://schema.org/InStock"
+
+        },
+         "seller": {
+        "@type": "Person",
+        "name": "<%= bake.ownerName || 'Property Owner' %>"
+      }
       }
     }<% if (index !== seedlings.length - 1) { %>,<% } %>
     <% }) %>

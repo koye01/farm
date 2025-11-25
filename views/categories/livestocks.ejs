@@ -9,7 +9,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://farmgate.com.ng/livestock">
+    <meta property="og:url" content="https://farmgate.com.ng/livestocks">
     <meta property="og:title" content="Livestock and Poultry for Sale | Farmgate Global Marketplace">
     <meta property="og:description" content="Post and sell livestock and poultry across Nigeria at competitive farm-gate prices. Find goats, sheep, cattle, chickens, turkeys, eggs, and day-old chicks.">
     <meta property="og:image" content="<%= image %>">
@@ -32,7 +32,7 @@
     "@type": "ItemList",
     "name": "Livestock and Poultry for Sale",
     "description": "List of livestock and poultry products available for sale at farm-gate prices across Nigeria.",
-    "url": "https://farmgate.com.ng/livestock",
+    "url": "https://farmgate.com.ng/livestocks",
     "itemListElement": [
         <% livestocks.forEach(function(live, index) { %>
         {
@@ -48,12 +48,7 @@
             "@type": "Offer",
             "price": "<%= live.price || 0 %>",
             "priceCurrency": "NGN",
-            "availability": "https://schema.org/InStock",
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-                "applicableCountry": "NG"
-            }
+            "availability": "https://schema.org/InStock"
             }
         }
         }<% if(index < livestocks.length - 1) { %>,<% } %>

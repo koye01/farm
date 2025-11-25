@@ -10,14 +10,14 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://farmgate.com.ng/feed">
+    <meta property="og:url" content="https://farmgate.com.ng/food">
     <meta property="og:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
     <meta property="og:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
     <meta property="og:image" content="<%= image %>">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://farmgate.com.ng/feed">
+    <meta name="twitter:url" content="https://farmgate.com.ng/food">
     <meta name="twitter:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
     <meta name="twitter:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
     <meta name="twitter:image" content="<%= image %>">
@@ -34,7 +34,7 @@
     "@type": "ItemList",
     "name": "Feed Ingredients and Grains for Sale",
     "description": "List of feed ingredients, grains, and specialty agricultural products available for sale at farm-gate prices.",
-    "url": "https://farmgate.com.ng/feed",
+    "url": "https://farmgate.com.ng/food",
     "itemListElement": [
         <% food.forEach(function(eat, index) { %>
         {
@@ -50,12 +50,7 @@
             "@type": "Offer",
             "price": "<%= eat.price || 0 %>",
             "priceCurrency": "NGN",
-            "availability": "https://schema.org/InStock",
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-                "applicableCountry": "NG"
-            }
+            "availability": "https://schema.org/InStock"
             }
         }
         }<% if(index < food.length - 1) { %>,<% } %>

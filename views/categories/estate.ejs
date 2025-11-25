@@ -13,36 +13,39 @@
     <meta property="og:title" content="Farmgate Real Estate – Lease or Sell Agricultural Properties">
     <meta property="og:description" content="Connect with buyers and tenants for agricultural land, farm structures, and buildings. List your farm real estate on Farmgate Nigeria.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://farmgate-market.onrender.com/pics/estate.jpg">
-    <meta property="og:url" content="https://farmgate-market.onrender.com/estate">
+    <meta property="og:image" content="<%= image %>">>
+    <meta property="og:url" content="https://farmgate.com.ng/estate">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Farmgate Real Estate – Lease or Sell Agricultural Properties">
     <meta name="twitter:description" content="List your agricultural properties and reach the right audience across Nigeria. Lease or sell farmland, farm structures, and more.">
-    <meta name="twitter:image" content="https://farmgate-market.onrender.com/pics/estate.jpg">
+    <meta name="twitter:image" content="<%= image %>">>
 
-      <!-- JSON-LD Schema Markup -->
+       <!-- JSON-LD Structured Data -->
+    <% estate.forEach(function(bake){ %>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Farmgate Nigeria",
-      "url": "https://farmgate-market.onrender.com",
-      "logo": "https://farmgate-market.onrender.com/pics/logo.png",
-      "sameAs": [
-        "https://www.facebook.com/FarmgateNigeria",
-        "https://twitter.com/FarmgateNigeria",
-        "https://www.instagram.com/FarmgateNigeria"
-      ],
-      "description": "FarmgateGate connects chefs and culinary experts with customers nationwide. Showcase your skills, sell local and international dishes, and grow your culinary business online.",
-      "department": {
-        "@type": "Organization",
-        "name": "Chef Marketplace",
-        "url": "https://farmgate-market.onrender.com/chef"
+      "@type": "RealEstateListing",
+      "name": "<%= bake.name %>",
+      "description": "<%= bake.description %>",
+      "url": "https://farmgate.com.ng/<%= bake._id %>",
+      "image": ["<%= bake.image[0].url %>"],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "NGN",
+        "price": "<%= bake.price %>",
+        "availability": "https://schema.org/InStock"
+      },
+      "seller": {
+        "@type": "Person",
+        "name": "<%= bake.ownerName || 'Property Owner' %>"
       }
     }
     </script>
+    <% }) %>
+</head>
 
 <div class="category">
     <p>
@@ -80,6 +83,8 @@
                 <div class="content-desc">
                     <h1><%=bake.name%></h1>
                     <p><%=bake.description%></p>
+                    <p>currency: Naira</p>
+                    <p>Price: <%=bake.price%></p>
                 </div>
                 <button class="frontBtn">See more</button>
             </a>

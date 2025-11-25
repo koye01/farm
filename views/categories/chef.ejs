@@ -70,12 +70,7 @@
           "price": "<%= cook.price %>",
           "priceCurrency": "NGN",
           "availability": "https://schema.org/InStock",
-          "url": "https://farmgate.com.ng/<%= cook._id %>",
-          "hasMerchantReturnPolicy": {
-            "@type": "MerchantReturnPolicy",
-            "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted",
-            "applicableCountry": "NG"
-          }
+          "url": "https://farmgate.com.ng/<%= cook._id %>"
         }
       }
     }<% if (index !== chef.length - 1) { %>,<% } %>

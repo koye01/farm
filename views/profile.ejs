@@ -1,6 +1,20 @@
- 
-    <%- include("./partials/header") %>
-
+ <%- include("./partials/header") %>
+<head>
+     <!-- Generalized JSON-LD for Person -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "<%= user.fullname || user.username %>",
+      "url": "https://farmgate.com.ng/user/<%= user._id %>",
+      "image": "<%= user.image[0].url || '/default-profile.jpg' %>",
+      "sameAs": [],
+      "description": "<%= user.description || 'User profile on Farmgate Nigeria' %>",
+      "email": "<%= user.email %>",
+      "telephone": "<%= user.phone %>"
+    }
+    </script>
+</head>
     <div class="profile-body">
         <h1>Welcome to <%= user.username %>'s page </h1>
     

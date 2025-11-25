@@ -1,4 +1,85 @@
 <%-include("./partials/header")%>
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <% if(detailed.category != 'Agricultural talk'){ %>
+            <%= detailed.name %> for Sale | Farmgate Nigeria
+        <% } else { %>
+            Discussion: <%= detailed.name %> | Farmgate Nigeria
+        <% } %>
+    </title>
+    <meta name="description" content="<%= detailed.description %>">
+    <meta name="keywords" content="<%= detailed.name %>, farm products, agrocommodities, Nigeria, Farmgate Nigeria">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Farmgate Nigeria">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="<%= detailed.category != 'Agricultural talk' ? 'product' : 'article' %>">
+    <meta property="og:url" content="https://farmgate.com.ng/<%= detailed._id %>">
+    <meta property="og:title" content="<%= detailed.name %> | Farmgate Nigeria">
+    <meta property="og:description" content="<%= detailed.description %>">
+    <meta property="og:image" content="<%= detailed.image[0].url %>">
+    <meta property="og:site_name" content="Farmgate Nigeria">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/<%= detailed._id %>">
+    <meta name="twitter:title" content="<%= detailed.name %> | Farmgate Nigeria">
+    <meta name="twitter:description" content="<%= detailed.description %>">
+    <meta name="twitter:image" content="<%= detailed.image[0].url %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://farmgate.com.ng/<%= detailed._id %>">
+
+    <!-- JSON-LD Structured Data -->
+    <% if(detailed.category != 'Agricultural talk'){ %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "<%= detailed.name %>",
+      "image": [
+        "<%= detailed.image[0].url %>",
+        "<%= detailed.image[1] ? detailed.image[1].url : detailed.image[0].url %>",
+        "<%= detailed.image[2] ? detailed.image[2].url : detailed.image[0].url %>"
+      ],
+      "description": "<%= detailed.description %>",
+      "url": "https://farmgate.com.ng/<%= detailed._id %>",
+      "offers": {
+        "@type": "Offer",
+        "price": "<%= detailed.price || 0 %>",
+        "priceCurrency": "NGN",
+        "availability": "https://schema.org/InStock",
+        "url": "https://farmgate.com.ng/<%= detailed._id %>"
+      },
+      "seller": {
+        "@type": "Person",
+        "name": "<%= detailed.author.username %>"
+      }
+    }
+    </script>
+    <% } else { %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "DiscussionForumPosting",
+      "headline": "<%= detailed.name %>",
+      "articleBody": "<%= detailed.description %>",
+      "author": {
+        "@type": "Person",
+        "name": "<%= detailed.author.username %>"
+      },
+      "url": "https://farmgate.com.ng/<%= detailed._id %>",
+      "datePublished": "<%= detailed.createdAt.toISOString() %>"
+    }
+    </script>
+    <% } %>
+</head>
 
 <% if(detailed.category != 'Agricultural talk'){ %>
     <h1><%= detailed.name %> for sales</h1>
