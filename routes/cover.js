@@ -477,7 +477,7 @@ router.get("/", async function(req, res){
         const shuffled = product.sort(() => 0.5 - Math.random());
         // Pick only 3
         const featured = shuffled.slice(0, 3);
-        res.render("index",{product, featured, user, canonicalUrl});
+        res.render("index",{product, featured, user, canonicalUrl, image: "/pics/farmequip.jpg"});
     }catch(err){
         console.log(err)
     }
