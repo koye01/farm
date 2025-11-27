@@ -4,6 +4,7 @@ var middleware = require("../middleware/index");
 var Product = require("../models/produce");
 var Comment = require("../models/comment");
 var User = require("../models/user");
+var Review = require("../models/review");
 var passport = require("passport");
 var Notification = require("../models/notification");
 var middleware = require("../middleware/index");
@@ -34,6 +35,7 @@ var storage = multer.diskStorage({
 // });
 var upload = multer({storage: storage});
 var cloudinary = require("cloudinary");
+const review = require("../models/review");
 cloudinary.config({ 
     cloud_name: "djt5dffbq", 
     api_key: process.env.cloudinary_api_key, 
@@ -288,7 +290,12 @@ router.post("/reset/:token", async function(req, res) {
 router.get("/user/:id", async function(req, res) {
     try {
         var product = await Product.find({});
-        var user = await User.findById(req.params.id).populate('followers following').exec();  // Populate 'following' field as well
+        var user = await User.findById(req.params.id).populate('followers following')
+        .populate({
+                path: 'reviews',
+                populate: { path: 'author.id', model: 'User' }
+            })
+        .exec();  // Populate 'following' field as well
         var unique = user.followers.filter((value, index) => {
             return user.followers.indexOf(value) === index;
         });
@@ -565,5 +572,30 @@ router.delete("/notifications/chat/:id", middleware.isLoggedIn, async function(r
         console.log(error);
     }
 })
+
+
+//review line
+router.post("/user/:id/reviews", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).populate("reviews");
+
+        const review = await Review.create({
+            message: req.body.review.message,
+            author: {
+                id: req.user._id,
+                username: req.user.username
+            }
+        });
+
+        user.reviews.push(review._id);
+        await user.save();
+
+        res.redirect("/user/" + user._id);
+    } catch (err) {
+        console.log(err);
+        res.redirect("back");
+    }
+});
+
 
 module.exports = router;

@@ -83,15 +83,30 @@
                 <p>Brief description: <%= user.description %></p>
             </div>
         </div>
-<!-- 
-<form>
+
+<h2>User Reviews</h2>
+
+<% if (!user.reviews || user.reviews.length === 0) { %>
+    <p>No reviews yet.</p>
+<% } else { %>
+
+    <% user.reviews.forEach(review => { %>
+        <div style="border:1px solid #ddd; padding:10px; margin-bottom:10px;">
+            <strong><%= review.author.username %></strong>
+            <p><%= review.message %></p>
+        </div>
+    <% }) %>
+
+<% } %>
+
+
+<form action="/user/<%=user._id%>/reviews" method="POST">
 <div>
     <h2>user review section</h2>
-    <h3><%=currentUser.username%></h3>
-    <textarea placeholder="write about your experience with this user"></textarea>
+    <textarea name = "review[message]" placeholder="write about your experience"></textarea>
     <button>submit</button>
 </div>
-</form> -->
+</form>
         <div class="profile-bottom">
             <% product.forEach(function(pro){ %>
                 <% if(pro.adminpost === true){ %>

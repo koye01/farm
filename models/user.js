@@ -13,6 +13,12 @@ var userSchema = new mongoose.Schema({
     phone: String,
     description: String,
     isAdmin: {type: Boolean, default: false},
+    reviews: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ],
     notifications: [
         {
             type: mongoose.Schema.Types.ObjectId,
