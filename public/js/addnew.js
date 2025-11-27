@@ -1,16 +1,29 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('form');
-    
-    form.addEventListener('submit', function(event) {
-        const category = form.querySelector('select[name="category"]');
-        const name = form.querySelector('input[name="name"]');
-        const price = form.querySelector('input[name="price"]');
-        const imageInput = form.querySelector('input[name="image"]');
-        const description = form.querySelector('textarea[name="description"]');
+    const categorySelect = form.querySelector('select[name="category"]');
+    const priceWrapper = document.getElementById('priceWrapper');
+    const name = form.querySelector('input[name="name"]');
+    const price = form.querySelector('input[name="price"]');
+    const imageInput = form.querySelector('input[name="image"]');
+    const description = form.querySelector('textarea[name="description"]');
 
-        if (!category.value) {
+    function togglePriceInput() {
+        if (categorySelect.value === "Agricultural talk") {
+            priceWrapper.style.display = "none";
+        } else {
+            priceWrapper.style.display = "block";
+        }
+    }
+
+    // Run on load
+    togglePriceInput();
+
+    // Run when category changes
+    categorySelect.addEventListener("change", togglePriceInput);
+
+    form.addEventListener('submit', function(event) {
+
+        if (!categorySelect.value) {
             alert("Please select a category.");
             event.preventDefault();
             return;
@@ -22,8 +35,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Price validation only for "product" posts
-        if (category.value !== "Agricultural talk") {
+        // Price validation only for non-Agricultural Talk
+        if (categorySelect.value !== "Agricultural talk") {
             const priceValue = parseFloat(price.value);
             if (isNaN(priceValue) || priceValue <= 0) {
                 alert("Please enter a valid price.");
@@ -32,8 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        const files = imageInput.files;
-        if (files.length !== 3) {
+        if (imageInput.files.length !== 3) {
             alert("You must upload exactly 3 images.");
             event.preventDefault();
             return;
@@ -46,3 +58,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+

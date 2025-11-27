@@ -20,9 +20,11 @@
             </select>
             <label>Name</label>
             <input type="text" name="name" placeholder="Product's name">
-            <%if(product.category !== 'Agricultural talk'){%>
-                <label>Price</label>
-                <input type="text" name="price" placeholder="Product's price">
+            <%if(!product || product.category !== 'Agricultural talk'){%>
+                <div id="priceWrapper">
+                    <label>Price</label>
+                    <input type="text" name="price" placeholder="Product's price">
+                </div>
            <% }%>
             
             <label>Images</label>

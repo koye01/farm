@@ -33,7 +33,7 @@ router.get("/livestocks", async function(req, res){
         const livestocks = await Product.find({"category": "Livestocks", "adminpost": "true"})
         .skip(skip)
         .limit(limit)
-        .sort({ _id: -1 });
+        .sort({ _id: 1 });
         const totalPages = Math.ceil(total / limit);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = livestocks.map(animals => animals.name).join(", ");
@@ -66,7 +66,7 @@ router.get("/pets", async function(req, res){
         const pets = await Product.find({"category": "Pets", "adminpost": "true"})
         .skip(skip)
         .limit(limit)
-        .sort({ _id: -1 });
+        .sort({ _id: 1 });
         const totalPages = Math.ceil(total / limit);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = pets.map(other => other.name).join(", ");
@@ -120,7 +120,7 @@ router.get("/vegetables", async (req, res) => {
         })
         .skip(skip)
         .limit(limit)
-        .sort({ _id: -1 });
+        .sort({ _id: 1 });
 
         const totalPages = Math.ceil(total / limit);
 
@@ -170,7 +170,7 @@ router.get("/flowers", async function(req, res){
         var seedlings = await Product.find({"category": "Seedlings", "adminpost": "true"})
         .skip(skip)
         .limit(limit)
-        .sort({ _id: -1 });
+        .sort({ _id: 1 });
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = seedlings.map(plant => plant.name).join(", ");
         res.render("categories/flowers", {
@@ -269,7 +269,7 @@ router.get("/chef", async (req, res) => {
         })
         .skip(skip)
         .limit(limit)
-        .sort({ _id: -1 });
+        .sort({ _id: 1 });
 
         const totalPages = Math.ceil(total / limit);
 
@@ -348,7 +348,7 @@ router.get("/talk", async function(req, res){
         const Agricultural_talk = await Product.find({"category": "Agricultural talk", "adminpost": "true"})
         .skip(skip)
         .limit(limit)
-        .sort({ _id: -1 });
+        .sort({ _id: 1 });
         const totalPages = Math.ceil(total / limit);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         const keywords = Agricultural_talk.map(blog => blog.name).join(", ");
