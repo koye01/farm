@@ -3,10 +3,12 @@
 <form action="/<%= edit.id%>?_method=PUT" method="POST" enctype="multipart/form-data">
     <div class="form-style">
         <label>Name</label>
-        <input type="text" name="update[name]" value="<%= edit.name%>">
-        <%if(edit.category !== Agricultural talk){%>
-            <label>Price</label>
-            <input type="text" name="update[price]" value="<%= edit.price%>">
+        <input type="text" name="update[name]" value="<%= edit.name%>" required>
+        <%if(edit.category !== "Agricultural talk"){%>
+            <div id="priceWrapper">
+                <label>Price</label>
+                <input type="text" name="update[price]" value="<%= edit.price%>">
+            </div>
         <%}%>
         
         <div class="clusterImage">

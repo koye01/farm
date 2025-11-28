@@ -24,7 +24,13 @@ var productSchema = new mongoose.Schema({
             },
             username: String,
             phone: String,
-            email: String
+            email: String,
+            reviews: [
+                    {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'Review'
+                    }
+                ],
         },
     
 });

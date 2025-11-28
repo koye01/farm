@@ -38,8 +38,7 @@
             <% } else if(!currentUser) { %>
                 <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
                 <div class="follow-info">
-                    <!-- <button id="listfollowers"><%= user.followers.length %> followers</button>
-                    <button id="listfollowing">Following <%= user.following.length %></button> -->
+                    
                     <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
                     <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
                 </div>

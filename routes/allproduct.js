@@ -59,7 +59,7 @@ router.get("/allproduct", async function(req, res){
             noindex: true   // <--- ADD THI
         });
     }catch(err){
-        console.log(err)
+        res.redirect('back');
     }
 });
 
@@ -75,7 +75,7 @@ router.get("/addnew", middleware.isLoggedIn, async function(req, res){
             noindex: true   // <--- ADD THI
         });
     }catch(err){
-        console.log(err)
+        res.redirect('back');
     }
 });
 
@@ -136,7 +136,7 @@ async function uploadImages(req, res) {
     return res.redirect("/");  // <-- redirect works safely now
 
   } catch (err) {
-    console.error(err);
+    res.redirect('back');
     return res.status(500).json({
       message: "An error occurred",
       error: err.message
@@ -191,7 +191,7 @@ router.get("/:id", async function(req, res) {
         });
 
     } catch (err) {
-        console.log(err);
+        res.redirect('back');
     }
 });
 
@@ -255,7 +255,7 @@ router.post("/order/:id", async function(req, res) {
             res.redirect("/"+ req.params.id);  // Redirect back to the post page
         });
     } catch (err) {
-        console.log(err);
+        res.redirect('back');
         res.status(500).send("An error occurred while handling your request.");
     }
 });
@@ -274,7 +274,7 @@ router.get("/:id/edit", middleware.isOwner, async function(req, res){
             noindex: true   // <--- ADD THI
         });
     }catch(err){
-        console.log(err)
+        return res.redirect("back");
     }
 });
 
@@ -304,7 +304,7 @@ router.put("/:id", middleware.isOwner, multiUpload.array('image', 10), async fun
             fs.unlinkSync(file.path);
         } catch (error) {
             hasError = true;
-            console.error('Error uploading image:', error);
+            res.redirect('back');
             res.status(500).json({ message: 'Error uploading image', error });
             break;
         }
@@ -320,7 +320,7 @@ router.put("/:id", middleware.isOwner, multiUpload.array('image', 10), async fun
         req.flash("success", "your status was successfully updated")
         res.redirect("/" + req.params.id);
     }catch(err){
-        console.log(err)
+        res.redirect("back");
     }
 });
 

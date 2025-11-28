@@ -258,7 +258,7 @@ router.post("/reset/:token", async function(req, res) {
         res.redirect("/");
 
     } catch (err) {
-        console.error(err);
+        res.redirect('back');
         next(err);  // Pass the error to the next middleware for handling
     }
 });
@@ -314,7 +314,6 @@ router.get("/user/:id", async function(req, res) {
             canonicalUrl
         });
     } catch (err) {
-        console.log(err);
         return res.redirect('back');
     }
 });
@@ -336,7 +335,7 @@ router.get("/user/:id/edit", middlewareObj.userAuthor, async function(req, res){
             noindex: true
         });
     }catch(err){
-        console.log(err);
+        res.redirect('back');
     }
 });
 
@@ -390,7 +389,6 @@ router.get('/follow/:id', middleware.isLoggedIn, async function(req, res) {
         req.flash("success", unique.username, "started following you");
         res.redirect('/user/' + req.params.id);
     } catch(err) {
-        console.log(err);
         res.redirect('back');
     }
 });
@@ -413,7 +411,7 @@ router.get('/user/:id/followers', async function(req, res) {
         }
     );
     }catch(err){
-        console.log(err);
+        res.redirect('back');
     }
     
 });
@@ -435,7 +433,7 @@ router.get('/user/:id/following', async function(req, res) {
             noindex: true
         });
     }catch(err){
-        console.log(err);
+        res.redirect('back');
     }
     
 });
@@ -451,7 +449,6 @@ router.get('/unfollow/:id', middleware.isLoggedIn, async function(req, res) {
         req.flash("success", "you successfully unfollowed", user.username);
         res.redirect('/user/' + req.params.id);
     } catch(err) {
-        console.log(err);
         res.redirect('back');
     }
 });
@@ -473,7 +470,7 @@ router.get("/notifications", middleware.isLoggedIn, async function(req, res){
             noindex: true   // <--- ADD THIS
         });
     }catch(error){
-        console.log(error);
+        res.redirect('back');
     }
 });
 
@@ -487,7 +484,7 @@ router.get('/notifications/:id', middleware.isLoggedIn, async function(req, res)
         notification.save();
         res.redirect("/" +notification.post.productId);
     } catch(err) {
-        console.log(err);
+        res.redirect('back');
     }
 });
 
@@ -498,7 +495,7 @@ router.delete("/notifications/:id", middleware.isLoggedIn, async function(req, r
         req.flash("success", "notification link deleted successfully");
         res.redirect("/notifications")
     }catch(error){
-        console.log(error);
+        res.redirect('back');
     }
 })
 
@@ -511,7 +508,7 @@ router.get('/notifications/com/:id', middleware.isLoggedIn, async function(req, 
         notification.save();
         res.redirect("/" +notification.comment.productId);
     } catch(err) {
-        console.log(err);
+        res.redirect('back');
     }
 });
 
@@ -522,7 +519,7 @@ router.delete("/notifications/com/:id", middleware.isLoggedIn, async function(re
         req.flash("success", "notification link deleted successfully");
         res.redirect("/notifications")
     }catch(error){
-        console.log(error);
+        res.redirect('back');
     }
 })
 
@@ -535,7 +532,7 @@ router.get('/notifications/reply/:id', middleware.isLoggedIn, async function(req
         notification.save();
         res.redirect("/" +notification.reply.productId);
     } catch(err) {
-        console.log(err);
+        res.redirect("back");
     }
 });
 // remove reply notification
@@ -545,7 +542,7 @@ router.delete("/notifications/reply/:id", middleware.isLoggedIn, async function(
         req.flash("success", "notification link deleted successfully");
         res.redirect("/notifications")
     }catch(error){
-        console.log(error);
+        res.redirect('back');
     }
 })
 
@@ -558,7 +555,7 @@ router.get('/notifications/chat/:id', middleware.isLoggedIn, async function(req,
         notification.save();
         res.redirect("/chat" +"/" +notification.chat.userID);
     } catch(err) {
-        console.log(err);
+        res.redirect('back');
     }
 });
 
@@ -569,7 +566,7 @@ router.delete("/notifications/chat/:id", middleware.isLoggedIn, async function(r
         req.flash("success", "notification link deleted successfully");
         res.redirect("/notifications")
     }catch(error){
-        console.log(error);
+        res.redirect('back');
     }
 })
 
