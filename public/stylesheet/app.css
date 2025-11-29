@@ -420,6 +420,13 @@ a {
     /* display: flex; */
     /* flex-wrap: wrap; */
 }
+.profile textarea{
+    width: 98%;
+}
+.profile button{
+    
+    width: 98%;
+}
 .profile img{
     width: 100%;
 }
@@ -968,6 +975,73 @@ background-color: rgb(209, 132, 132);;
 
 .textarea-display {
     white-space: pre-wrap;
+}
+.star {
+    color: gold;
+    font-size: 18px;
+}
+
+.star.inactive {
+    color: #ccc;
+}
+
+.review-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+    border: 1px solid #f1f1f1;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.review-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ddd;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-username {
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+}
+
+.review-date {
+    font-size: 13px;
+    color: #888;
+    margin-left: 5px;
+}
+
+.review-stars {
+    margin: 5px 0 8px;
+}
+
+.review-stars .star {
+    color: #f4c430; /* gold */
+    font-size: 18px;
+    margin-right: 2px;
+}
+
+.review-message {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.5;
+}
+
+.review-box:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transition: 0.2s ease-in-out;
 }
 
 /* RESPONSIVENESS */

@@ -83,29 +83,59 @@
             </div>
         </div>
 
-<h2>User Reviews</h2>
+       
+        <div class="profile">
+            <h3>previous reviews</h3>
+            <% if (user.reviews.length === 0) { %>
+                <p>No reviews for this user yet.</p>
+            <% } else { %>
+                <% user.reviews.forEach(review => { %>
+                    <div class="review-item">
 
-<% if (!user.reviews || user.reviews.length === 0) { %>
-    <p>No reviews yet.</p>
-<% } else { %>
+                        <strong><%= review.author.username %></strong>
+                        
+                        <div class="review-stars">
+                            <% for (let i = 1; i <= 5; i++) { %>
+                                <% if (i <= review.rating) { %>
+                                    <span class="star">★</span>
+                                <% } else { %>
+                                    <span class="star inactive">☆</span>
+                                <% } %>
+                            <% } %>
+                        </div>
 
-    <% user.reviews.forEach(review => { %>
-        <div style="border:1px solid #ddd; padding:10px; margin-bottom:10px;">
-            <strong><%= review.author.username %></strong>
-            <p><%= review.message %></p>
+                        <p><%= review.message %></p>
+
+                    </div>
+                <% }) %>
+            <% } %>
+
         </div>
-    <% }) %>
-
-<% } %>
+            
 
 
-<form action="/user/<%=user._id%>/reviews" method="POST">
-<div>
-    <h2>user review section</h2>
-    <textarea name = "review[message]" placeholder="write about your experience"></textarea>
-    <button>submit</button>
-</div>
-</form>
+<% if(currentUser && user.username == currentUser.username){%>
+    <div class="profile">
+        <h3>Review form here</h3>
+    </div>
+    
+<%} else{%>
+    <form action="/user/<%=user._id%>/reviews" method="POST">
+    <div class="profile">
+        <h3>review <%=user.username%></h3>
+        <textarea name = "review[message]" rows="4" placeholder="write about your experience"></textarea><br>
+        <h3>rate <%=user.username%></h3>
+        <select name="review[rating]" required>
+            <option value="5">★★★★★</option>
+            <option value="4">★★★★☆</option>
+            <option value="3">★★★☆☆</option>
+            <option value="2">★★☆☆☆</option>
+            <option value="1">★☆☆☆☆</option>
+        </select>
+        <button>submit</button>
+    </div>
+    </form>
+<%}%>
         <div class="profile-bottom">
             <% product.forEach(function(pro){ %>
                 <% if(pro.adminpost === true){ %>

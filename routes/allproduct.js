@@ -164,7 +164,26 @@ router.get("/:id", async function(req, res) {
         const detailed = await Product.findById(req.params.id).populate({
             path: 'comments',
             populate: { path: 'replies' }
+        })
+            .populate({
+            path: 'author.id',        // Populate seller
+            populate: {
+                path: 'reviews',      // Populate seller's reviews
+                model: 'Review',
+                options: { sort: { _id: -1 } },
+                populate: {
+                    path: 'author.id',  // Populate reviewer (optional)
+                    model: 'User'
+                }
+            }
         });
+            let seller = detailed.author.id;
+            let avgRating = 0;
+            if (seller && seller.reviews.length > 0) {
+                const total = seller.reviews.reduce((sum, r) => sum + (r.rating || 0), 0);
+                avgRating = (total / seller.reviews.length).toFixed(1);
+            }
+
         // Build the canonical URL dynamically
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         let title, description, keywords;
@@ -183,6 +202,7 @@ router.get("/:id", async function(req, res) {
 
         res.render("details", {
             detailed,
+            avgRating,
             title,
             description,
             keywords,

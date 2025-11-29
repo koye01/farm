@@ -299,7 +299,11 @@ router.get("/user/:id", async function(req, res) {
         var unique = user.followers.filter((value, index) => {
             return user.followers.indexOf(value) === index;
         });
-        
+        let avgRating = 0;
+        if (user.reviews.length > 0) {
+            const total = user.reviews.reduce((sum, r) => sum + (r.rating || 0), 0);
+            avgRating = (total / user.reviews.length).toFixed(1);
+        }
         // Create a comma-separated list of product names
         const keywords = product.map(pro => pro.name).join(", ");
         
@@ -307,7 +311,7 @@ router.get("/user/:id", async function(req, res) {
         const allKeywords = `${keywords}, ${user.username}`;
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render('profile', {
-            user, product, unique, title: user.username + ' profile',
+            user, product, avgRating, unique, title: user.username + ' profile',
             description: user.description, 
             keywords: allKeywords,  // Use the updated 'allKeywords' here
             image: user.image,
@@ -572,27 +576,39 @@ router.delete("/notifications/chat/:id", middleware.isLoggedIn, async function(r
 
 
 //review line
-router.post("/user/:id/reviews", async (req, res) => {
+router.post("/user/:id/reviews", middleware.isLoggedIn, async (req, res) => {
     try {
         const user = await User.findById(req.params.id).populate("reviews");
 
+        // Check if this reviewer already reviewed the seller
+        const existingReview = user.reviews.find(r => r.author.id.equals(req.user._id));
+
+        if (existingReview) {
+            req.flash("error", "You have already reviewed this seller.");
+            return res.redirect("/user/" + user._id);
+        }
+
+        // Create a new review
         const review = await Review.create({
             message: req.body.review.message,
+            rating: req.body.review.rating,
             author: {
                 id: req.user._id,
                 username: req.user.username
             }
         });
 
+        // Push review to seller
         user.reviews.push(review._id);
         await user.save();
 
         res.redirect("/user/" + user._id);
+
     } catch (err) {
-        console.log(err);
         res.redirect("back");
     }
 });
+
 
 
 module.exports = router;

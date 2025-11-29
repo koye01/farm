@@ -25,13 +25,7 @@ var productSchema = new mongoose.Schema({
             username: String,
             phone: String,
             email: String,
-            reviews: [
-                    {
-                        type: mongoose.Schema.Types.ObjectId,
-                        ref: 'Review'
-                    }
-                ],
-        },
+        }
     
 });
 module.exports = mongoose.model("Product", productSchema);
