@@ -5,6 +5,8 @@ var Comment = require("../models/comment");
 var User    = require("../models/user");
 var Notification = require("../models/notification");
 const ChatMessage = require("../models/ChatMessage");
+const { SitemapStream, streamToPromise } = require('sitemap');
+const { createGzip } = require('zlib');
 
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
@@ -576,6 +578,69 @@ router.get("/faq", async function(req, res){
         res.redirect("/")
     }
 });
+
+
+// Example array of URLs for your site
+router.get('/sitemap.xml', async (req, res) => {
+  try {
+    res.header('Content-Type', 'application/xml');
+
+    // Static URLs first
+    const urls = [
+      { url: '/', changefreq: 'daily', priority: 1.0 },
+      { url: '/livestocks', changefreq: 'weekly', priority: 0.8 },
+      { url: '/pets', changefreq: 'weekly', priority: 0.7 },
+      { url: '/vegetables', changefreq: 'weekly', priority: 0.7 },
+      { url: '/food', changefreq: 'weekly', priority: 0.7 },
+      { url: '/farmequips', changefreq: 'weekly', priority: 0.7 },
+      { url: '/estate', changefreq: 'weekly', priority: 0.7 },
+      { url: '/flowers', changefreq: 'weekly', priority: 0.7 },
+      { url: '/talk', changefreq: 'weekly', priority: 0.7 },
+      { url: '/buyers', changefreq: 'weekly', priority: 0.7 },
+      { url: '/farmers', changefreq: 'weekly', priority: 0.7 },
+      { url: '/policy', changefreq: 'weekly', priority: 0.7 },
+      { url: '/about', changefreq: 'monthly', priority: 0.5 },
+      { url: '/contact', changefreq: 'monthly', priority: 0.5 },
+      { url: '/faq', changefreq: 'monthly', priority: 0.5 },
+    ];
+
+    // 👉 Fetch dynamic product URLs
+    const allProducts = await Product.find({});
+    allProducts.forEach(product => {
+      urls.push({
+        url: `/${product.slug}`,  // adjust the path if needed
+        lastmod: product.updatedAt?.toISOString() || undefined,
+        changefreq: 'weekly',
+        priority: 0.6
+      });
+    });
+
+    const users = await User.find({});
+    users.forEach(function(user){
+        urls.push({
+            url: `/user/${user.slug}`,
+            lastmod: user.updatedAt?.toISOString() || undefined,
+            changefreq: 'weekly',
+            priority: 0.6
+        });
+    });
+
+    // Create sitemap
+    const sitemap = new SitemapStream({ hostname: 'https://www.farmgate.com.ng' });
+    const pipeline = sitemap;
+
+    urls.forEach((item) => sitemap.write(item));
+    sitemap.end();
+
+    const data = await streamToPromise(pipeline);
+    res.status(200).send(data);
+
+  } catch (err) {
+    res.status(500).end();
+  }
+});
+
+
 
 //web chat interface
 router.get("/chat/:id", async (req, res) => {

@@ -14,6 +14,8 @@ var express = require("express"),
     localStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
     expressSession = require("express-session");
+    const bcrypt = require("bcryptjs");
+
 
 var coverRoute   = require("./routes/cover");
 var productRoute = require("./routes/auth");
@@ -50,7 +52,38 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-passport.use(new localStrategy(User.authenticate()));
+const LocalStrategy = require("passport-local").Strategy;
+
+passport.use(
+  new LocalStrategy(
+    { usernameField: "username", passwordField: "password" },
+    async (username, password, done) => {
+      try {
+        // Determine if input is email or username
+        const query = username.includes("@")
+          ? { email: username.toLowerCase() }
+          : { username: username.toLowerCase() };
+
+        const user = await User.findOne(query);
+
+        if (!user) {
+          return done(null, false, { message: "User not found" });
+        }
+
+        // Use passport-local-mongoose's authenticate method
+        User.authenticate()(user.username, password, (err, authenticatedUser, info) => {
+          if (err) return done(err);
+          if (!authenticatedUser) return done(null, false, { message: "Incorrect password" });
+          return done(null, authenticatedUser);
+        });
+      } catch (err) {
+        return done(err);
+      }
+    }
+  )
+);
+
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 

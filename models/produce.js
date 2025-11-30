@@ -25,7 +25,7 @@ var productSchema = new mongoose.Schema({
             username: String,
             phone: String,
             email: String,
-        }
-    
+        },
+timestamp: { type: Date, default: Date.now },
 });
 module.exports = mongoose.model("Product", productSchema);
