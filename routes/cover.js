@@ -581,10 +581,6 @@ router.get("/faq", async function(req, res){
 });
 
 
-// Sitemap route
-const { SitemapStream, streamToPromise } = require('sitemap');
-const { createGzip } = require('zlib');
-
 // Sitemap route - Production version
 router.get('/sitemap.xml', async (req, res) => {
   try {
