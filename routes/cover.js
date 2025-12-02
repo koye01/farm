@@ -7,6 +7,7 @@ var Notification = require("../models/notification");
 const ChatMessage = require("../models/ChatMessage");
 const { SitemapStream, streamToPromise } = require('sitemap');
 const { createGzip } = require('zlib');
+const { Readable } = require('stream');
 
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
@@ -579,98 +580,125 @@ router.get("/faq", async function(req, res){
     }
 });
 
-//sitemap
+
+// Sitemap route
+const { SitemapStream, streamToPromise } = require('sitemap');
+const { createGzip } = require('zlib');
+
+// Sitemap route - Production version
 router.get('/sitemap.xml', async (req, res) => {
   try {
     res.header('Content-Type', 'application/xml');
+    res.header('Content-Encoding', 'gzip');
 
-    // Static URLs first
-    const urls = [
-      { url: '/', changefreq: 'daily', priority: 1.0 },
-      { url: '/livestocks', changefreq: 'weekly', priority: 0.8 },
-      { url: '/pets', changefreq: 'weekly', priority: 0.7 },
-      { url: '/vegetables', changefreq: 'weekly', priority: 0.7 },
-      { url: '/food', changefreq: 'weekly', priority: 0.7 },
-      { url: '/farmequips', changefreq: 'weekly', priority: 0.7 },
-      { url: '/estate', changefreq: 'weekly', priority: 0.7 },
-      { url: '/flowers', changefreq: 'weekly', priority: 0.7 },
-      { url: '/talk', changefreq: 'weekly', priority: 0.7 },
-      { url: '/buyers', changefreq: 'weekly', priority: 0.7 },
-      { url: '/farmers', changefreq: 'weekly', priority: 0.7 },
-      { url: '/policy', changefreq: 'weekly', priority: 0.7 },
-      { url: '/about', changefreq: 'monthly', priority: 0.5 },
-      { url: '/contact', changefreq: 'monthly', priority: 0.5 },
-      { url: '/faq', changefreq: 'monthly', priority: 0.5 },
-    ];
-
-    // Add category listing pages
-    const categories = ['livestocks', 'pets', 'vegetables', 'food', 'farmequips', 'estate', 'flowers', 'talk'];
-    categories.forEach(category => {
-      urls.push({
-        url: `/${category}`,
-        changefreq: 'weekly',
-        priority: 0.7
-      });
+    // Create sitemap stream
+    const smStream = new SitemapStream({ 
+      hostname: 'https://www.farmgate.com.ng'
     });
 
-    // 👉 Calculate pagination for each category
-    const itemsPerPage = 10; // Adjust based on your actual pagination limit
+    // Pipe through gzip
+    const pipeline = smStream.pipe(createGzip());
+
+    // Static URLs first
+    smStream.write({ url: '/', changefreq: 'daily', priority: 1.0 });
+    smStream.write({ url: '/livestocks', changefreq: 'weekly', priority: 0.8 });
+    smStream.write({ url: '/pets', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/vegetables', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/food', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/farmequips', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/estate', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/flowers', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/talk', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/buyers', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/farmers', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/policy', changefreq: 'weekly', priority: 0.7 });
+    smStream.write({ url: '/about', changefreq: 'monthly', priority: 0.5 });
+    smStream.write({ url: '/contact', changefreq: 'monthly', priority: 0.5 });
+    smStream.write({ url: '/faq', changefreq: 'monthly', priority: 0.5 });
+
+    // Add pagination for categories
+    const categories = ['livestocks', 'pets', 'vegetables', 'food', 'farmequips', 'estate', 'flowers', 'talk'];
+    const itemsPerPage = 6;
     
     for (const category of categories) {
-      // Count total products in this category
-      const productCount = await Product.countDocuments({ category: category });
-      
-      // Calculate total pages for this category
-      const totalPages = Math.ceil(productCount / itemsPerPage);
-      
-      // Add paginated URLs for this category
-      for (let page = 1; page <= Math.min(totalPages, 10); page++) { // Limit to 10 pages per category
-        urls.push({
-          url: `/${category}?page=${page}`,
-          changefreq: 'daily',
-          priority: 0.5
-        });
+      try {
+        const productCount = await Product.countDocuments({ category: category });
+        const totalPages = Math.ceil(productCount / itemsPerPage);
+        
+        for (let page = 1; page <= Math.min(totalPages, 6); page++) {
+          smStream.write({
+            url: `/${category}?page=${page}`,
+            changefreq: 'daily',
+            priority: 0.5
+          });
+        }
+      } catch (err) {
+        // Silently continue with other categories
       }
     }
 
-    // 👉 Fetch dynamic product URLs
-    const allProducts = await Product.find({});
-    
-    allProducts.forEach(product => {
-      urls.push({
-        url: `/${product.category}/${product._id}`,
-        lastmod: product.updatedAt?.toISOString() || product.createdAt?.toISOString(),
-        changefreq: 'weekly',
-        priority: 0.6
+    // Fetch and add product URLs
+    try {
+      const allProducts = await Product.find({}).select('_id category updatedAt createdAt').lean();
+      
+      allProducts.forEach(product => {
+        smStream.write({
+          url: `/${product.category}/${product._id}`,
+          lastmod: product.updatedAt || product.createdAt,
+          changefreq: 'weekly',
+          priority: 0.6
+        });
       });
-    });
+    } catch (err) {
+      // Silently continue if products can't be fetched
+    }
 
     // Add user profile URLs
-    const users = await User.find({});
-    users.forEach(function(user){
-        urls.push({
-            url: `/user/${user._id}`,
-            lastmod: user.updatedAt?.toISOString() || user.createdAt?.toISOString(),
-            changefreq: 'monthly',
-            priority: 0.4
+    try {
+      const users = await User.find({}).select('_id updatedAt createdAt').lean();
+      
+      users.forEach(user => {
+        smStream.write({
+          url: `/user/${user._id}`,
+          lastmod: user.updatedAt || user.createdAt,
+          changefreq: 'monthly',
+          priority: 0.4
         });
-    });
+      });
+    } catch (err) {
+      // Silently continue if users can't be fetched
+    }
 
-    // Create sitemap with your actual domain
-    const sitemap = new SitemapStream({ 
-      hostname: 'https://www.farmgate.com.ng'  // Make sure this is your real domain
-    });
+    // End the stream
+    smStream.end();
 
-    urls.forEach((item) => sitemap.write(item));
-    sitemap.end();
-
-    const data = await streamToPromise(sitemap.pipe(new Stringify()));
-    res.status(200).send(data);
+    // Pipe to response
+    pipeline.pipe(res);
 
   } catch (err) {
-    res.status(500).end();
+    // Fallback to simple sitemap on critical error
+    res.header('Content-Encoding', 'identity');
+    res.send(`<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url>
+        <loc>https://www.farmgate.com.ng/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+      </url>
+      <url>
+        <loc>https://www.farmgate.com.ng/products</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://www.farmgate.com.ng/about</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    </urlset>`);
   }
 });
+
 
 
 //web chat interface
