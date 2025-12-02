@@ -579,8 +579,7 @@ router.get("/faq", async function(req, res){
     }
 });
 
-
-// Example array of URLs for your site
+//sitemap
 router.get('/sitemap.xml', async (req, res) => {
   try {
     res.header('Content-Type', 'application/xml');
@@ -604,42 +603,74 @@ router.get('/sitemap.xml', async (req, res) => {
       { url: '/faq', changefreq: 'monthly', priority: 0.5 },
     ];
 
+    // Add category listing pages
+    const categories = ['livestocks', 'pets', 'vegetables', 'food', 'farmequips', 'estate', 'flowers', 'talk'];
+    categories.forEach(category => {
+      urls.push({
+        url: `/${category}`,
+        changefreq: 'weekly',
+        priority: 0.7
+      });
+    });
+
+    // 👉 Calculate pagination for each category
+    const itemsPerPage = 10; // Adjust based on your actual pagination limit
+    
+    for (const category of categories) {
+      // Count total products in this category
+      const productCount = await Product.countDocuments({ category: category });
+      
+      // Calculate total pages for this category
+      const totalPages = Math.ceil(productCount / itemsPerPage);
+      
+      // Add paginated URLs for this category
+      for (let page = 1; page <= Math.min(totalPages, 10); page++) { // Limit to 10 pages per category
+        urls.push({
+          url: `/${category}?page=${page}`,
+          changefreq: 'daily',
+          priority: 0.5
+        });
+      }
+    }
+
     // 👉 Fetch dynamic product URLs
     const allProducts = await Product.find({});
+    
     allProducts.forEach(product => {
       urls.push({
-        url: `/${product.slug}`,  // adjust the path if needed
-        lastmod: product.updatedAt?.toISOString() || undefined,
+        url: `/${product.category}/${product._id}`,
+        lastmod: product.updatedAt?.toISOString() || product.createdAt?.toISOString(),
         changefreq: 'weekly',
         priority: 0.6
       });
     });
 
+    // Add user profile URLs
     const users = await User.find({});
     users.forEach(function(user){
         urls.push({
-            url: `/user/${user.slug}`,
-            lastmod: user.updatedAt?.toISOString() || undefined,
-            changefreq: 'weekly',
-            priority: 0.6
+            url: `/user/${user._id}`,
+            lastmod: user.updatedAt?.toISOString() || user.createdAt?.toISOString(),
+            changefreq: 'monthly',
+            priority: 0.4
         });
     });
 
-    // Create sitemap
-    const sitemap = new SitemapStream({ hostname: 'https://www.farmgate.com.ng' });
-    const pipeline = sitemap;
+    // Create sitemap with your actual domain
+    const sitemap = new SitemapStream({ 
+      hostname: 'https://www.farmgate.com.ng'  // Make sure this is your real domain
+    });
 
     urls.forEach((item) => sitemap.write(item));
     sitemap.end();
 
-    const data = await streamToPromise(pipeline);
+    const data = await streamToPromise(sitemap.pipe(new Stringify()));
     res.status(200).send(data);
 
   } catch (err) {
     res.status(500).end();
   }
 });
-
 
 
 //web chat interface

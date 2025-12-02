@@ -7,7 +7,7 @@
     
 
 <h4>reply to <%= parentComment.author.username %>'s comment</h4>
-<form action="/<%=product._id%>/comment/<%=parentComment._id%>/reply" method="post" >
+<form action="/<%=product.category%>/<%=product._id%>/comment/<%=parentComment._id%>/reply" method="post" >
     <div class="form-style">
         
         <label>comment</label>

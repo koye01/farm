@@ -152,7 +152,7 @@
         <%}else{%>
             <%veggies.forEach(function(veg){%>
                 <div class="content">
-                    <a href="/<%=veg._id%>">
+                    <a href="/vegetables/<%=veg._id%>">
                         <img height="auto" width="100%" src="<%= veg.image[0].url%>" alt="a batch of farm fresh <%=veg.name%> for sell"/>
                         <div class="content-desc">
                             <h3><%=veg.name%></h3>

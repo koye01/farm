@@ -113,8 +113,8 @@
                 <!-- <%=detailed.author.email%> -->
                 <div class="control-button">
                     <%if(currentUser && detailed.author.id._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){%>
-                        <a href="/<%= detailed.id%>/edit"><button id="button-float" class="edit-button">Edit</button></a>
-                        <form action="/<%= detailed.id%>" method="POST">
+                        <a href="/<%=detailed.category%>/<%= detailed.id%>/edit"><button id="button-float" class="edit-button">Edit</button></a>
+                        <form action="/<%=detailed.category%>/<%= detailed.id%>" method="POST">
                             <button id="button-float" class="delete-button">Delete</button>
                         </form>
                     <%}%>
@@ -198,10 +198,10 @@
     
     <div class="comment-session">
         <button class="frontBtn">
-            <a href="/<%=detailed.id%>/comment/new">Add comment</a>
+            <a href="/<%=detailed.category%>/<%=detailed.id%>/comment/new">Add comment</a>
         </button>
         <% detailed.comments.forEach(function(comment){ %>
-            <div class="comment-block">
+            <div id="comment-<%= comment._id %>" class="comment-block">
             <!-- <h3><%=detailed.comments.length + comment.replies.length%> comment(s)</h3>  -->
                 <p class="comment-link">
                     <b>
@@ -214,7 +214,7 @@
                 <% if(comment.replies && comment.replies.length > 0){ %>
                     <div class="replies">
                         <% comment.replies.forEach(function(reply){ %>
-                            <div class="reply-block">
+                            <div id="reply-<%= reply._id %>" class="reply-block">
                                 <p class="comment-link">
                                     <b>
                                         <a href="/user/<%= reply.author.id %>"><%= reply.author.username %>:</a>
@@ -225,12 +225,12 @@
                                 <!-- edit button for reply post -->
                                     <% if(currentUser && (reply.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
                                 <button class="reply-btn-edit">
-                                    <a href="/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>/edit"> 
+                                    <a href="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>/edit"> 
                                     edit </a> 
                                 </button>
 
                                 <!-- delete button for reply post -->
-                                <form action="/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>?_method=delete" method="POST">
+                                <form action="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>?_method=delete" method="POST">
                                     <button class="reply-btn-delete">Delete</button>
                                 </form>
                                     <%}%>
@@ -242,15 +242,15 @@
     
                 <!-- Reply Button -->
                 <div class="reply">
-                    <button><a href="/<%= detailed.id %>/comment/<%= comment._id %>/reply">
+                    <button><a href="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/reply">
                         reply comment</a></button>
                 </div>
     
                 <!-- Comment Control (Edit/Delete) -->
                 <div class="control-button">
                     <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
-                        <a href="/<%= detailed.id %>/comment/<%= comment._id %>/edit"><button class="edit-button">Edit</button></a>
-                        <form action="/<%= detailed.id %>/comment/<%= comment._id %>?_method=delete" method="POST">
+                        <a href="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/edit"><button class="edit-button">Edit</button></a>
+                        <form action="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>?_method=delete" method="POST">
                             <button class="delete-button">Delete</button>
                         </form>
                     <% } %>

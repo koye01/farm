@@ -1,6 +1,6 @@
 <%- include("../partials/header")%>
 <h3>edit comment</h3>
-<form action="/<%=product_id%>/comment/<%=edit._id%>?_method=PUT" method="POST">
+<form action="/<%=category%>/<%=product_id%>/comment/<%=edit._id%>?_method=PUT" method="POST">
     <div class="form-style">
         <textarea name="comment[post]"><%=edit.post%></textarea><br>
         <button>update</button>

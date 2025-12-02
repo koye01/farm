@@ -1,6 +1,6 @@
 <%-include("../partials/header")%>
 <h2>Add comment to <%=product.name%></h2>
-<form action="/<%=product._id%>/comment" method="POST">
+<form action="/<%=product.category%>/<%=product._id%>/comment" method="POST">
     <div class="form-style">
         
         <label>comment</label>

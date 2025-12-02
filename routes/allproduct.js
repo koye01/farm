@@ -159,7 +159,7 @@ const transporter = nodemailer.createTransport({
 
 
 // the show page
-router.get("/:id", async function(req, res) {
+router.get("/:category/:id?", async function(req, res) {
     try {
         const detailed = await Product.findById(req.params.id).populate({
             path: 'comments',
@@ -236,58 +236,66 @@ router.get("/:id", async (req, res, next) => {
         next(err);
     }
 });
-// POST route for handling inquiries
+
+// POST route for handling inquiries - Callback version
 router.post("/order/:id", async function(req, res) {
     try {
         const { name, telephone, enquiry } = req.body;
-        const postId = req.params.id;  // Retrieve the detailed product data (the product post)
+        const postId = req.params.id;
 
-        // Find the product details by ID to get the author's email
+        // Find the product details by ID
         const detailed = await Product.findById(postId);
 
-        // Ensure that the author and email exist
-        if (!detailed || !detailed.author || !detailed.author.email) {
-            return res.status(400).send('Author email is missing');
+        if (!detailed) {
+            req.flash("error", "Product not found");
+            return res.redirect("back");
+        }
+        
+        if (!detailed.author || !detailed.author.email) {
+            req.flash("error", "Seller email is not available");
+            return res.redirect("back");
         }
 
-        // Retrieve the author's email
         const authorEmail = detailed.author.email;
 
         // Set up the email options
         const mailOptions = {
-            from: process.env.EMAIL_USER,  // Replace with your email
-            to: authorEmail,  // Send email to the author of the post
-            subject: `Inquiry about ${detailed.name}`,  // Correct subject string
+            from: process.env.EMAIL_USER,
+            to: authorEmail,
+            subject: `Inquiry about ${detailed.name}`,
             text: `You have received an inquiry about your post titled: ${detailed.name}\n\n
                    Name: ${name}\n
                    Telephone: ${telephone}\n
                    Enquiry: ${enquiry}`
         };
 
-        // Send the email
+        // Send the email with callback
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log('Error sending email:', error);
-                return res.status(500).send('Error sending inquiry');
+                req.flash("error", "Failed to send enquiry. Please try again.");
+                return res.redirect("back");
             }
-            req.flash("success", "Your enquiry has been received");
-            console.log('Email sent:', info.response);
-            res.redirect("/"+ req.params.id);  // Redirect back to the post page
+            
+            req.flash("success", "Your enquiry has been sent successfully");
+            
+            // Redirect to the product detail page WITH CATEGORY
+            res.redirect("/" + detailed.category + "/" + detailed._id);
         });
+        
     } catch (err) {
-        res.redirect('back');
-        res.status(500).send("An error occurred while handling your request.");
+        req.flash("error", "An error occurred. Please try again.");
+        res.redirect("back");
     }
 });
 
-
 //edit page
-router.get("/:id/edit", middleware.isOwner, async function(req, res){
+router.get("/:category/:id/edit", middleware.isOwner, async function(req, res){
     try{
+        var category = await Product.find({category: req.params.category});
         var edit = await Product.findById(req.params.id);
         // Build the canonical URL dynamically
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-        res.render("edit", {edit, title: 'edit page', description: edit.description, 
+        res.render("edit", {category, edit, title: 'edit page', description: edit.description, 
             keywords: edit.name,
             image: "/pics/logo.png",
             canonicalUrl,
@@ -300,7 +308,7 @@ router.get("/:id/edit", middleware.isOwner, async function(req, res){
 
 
 //Post Update route
-router.put("/:id", middleware.isOwner, multiUpload.array('image', 10), async function(req, res){
+router.put("/:category/:id", middleware.isOwner, multiUpload.array('image', 10), async function(req, res){
     try{
         const { id } = req.params;
         // Find the existing image set in MongoDB
@@ -346,7 +354,7 @@ router.put("/:id", middleware.isOwner, multiUpload.array('image', 10), async fun
 
 
 //Post delete route
-router.post("/:id", middleware.isOwner, async function(req, res){
+router.post("/:category/:id", middleware.isOwner, async function(req, res){
     const { id } = req.params;
     try{
         const deletePic = await Product.findById(id);
