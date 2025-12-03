@@ -112,13 +112,13 @@ router.get("/vegetables", async (req, res) => {
 
         // FETCH TOTAL COUNT
         const total = await Product.countDocuments({
-            category: "Vegetable",
+            category: "Vegetables",
             adminpost: "true"
         });
 
         // FETCH CURRENT PAGE PRODUCTS
         const veggies = await Product.find({
-            category: "Vegetable",
+            category: "Vegetables",
             adminpost: "true"
         })
         .skip(skip)
