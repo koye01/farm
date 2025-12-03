@@ -217,8 +217,9 @@ router.get("/:category/:id?", async function(req, res) {
 
 
 //deleted pages
-router.get("/:id", async (req, res, next) => {
+router.get("/:category/:id", async (req, res, next) => {
     try {
+        var category = await Product.find({category: req.params.category});
         const product = await Product.findById(req.params.id);
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         if (!product) {
@@ -227,6 +228,7 @@ router.get("/:id", async (req, res, next) => {
         }
 
         res.render('removed', { 
+            category,
             product,
             title: 'temporary removed pages',
             description: "temporary removed pages",
@@ -309,49 +311,77 @@ router.get("/:category/:id/edit", middleware.isOwner, async function(req, res){
 
 //Post Update route
 router.put("/:category/:id", middleware.isOwner, multiUpload.array('image', 10), async function(req, res){
-    try{
-        const { id } = req.params;
-        // Find the existing image set in MongoDB
-        const newEdit = await Product.findById(id);
-        if (!newEdit) return res.status(404).json({ message: 'Image set not found' });
-
-        // Delete old images from Cloudinary
-        const deletePromises = newEdit.image.map(img => cloudinary.uploader.destroy(img.public_id));
-        await Promise.all(deletePromises);
-
-        // Upload new images to Cloudinary
-        const newImages = [];
-        let hasError = false;
-
-        for (const file of req.files) {
-        try {
-            const result = await cloudinary.uploader.upload(file.path);
-            newImages.push({ url: result.secure_url, public_id: result.public_id });
-
-            // Delete the file from local storage after upload
-            fs.unlinkSync(file.path);
-        } catch (error) {
-            hasError = true;
-            res.redirect('back');
-            res.status(500).json({ message: 'Error uploading image', error });
-            break;
-        }
+    try {
+        const { id, category } = req.params;
+        
+        // Find the existing product
+        const existingProduct = await Product.findById(id);
+        if (!existingProduct) {
+            req.flash("error", "Product not found");
+            return res.redirect("back");
         }
 
-        if (hasError) return;
+        // Delete old images from Cloudinary if new images were uploaded
+        if (req.files && req.files.length > 0) {
+            try {
+                // Delete old images from Cloudinary
+                const deletePromises = existingProduct.image.map(img => 
+                    cloudinary.uploader.destroy(img.public_id)
+                );
+                await Promise.all(deletePromises);
+            } catch (cloudinaryErr) {
+                console.error('Cloudinary delete error:', cloudinaryErr);
+                // Continue anyway - don't stop the update
+            }
 
-        // Update MongoDB record with new data
-        var image = newImages;
-        var {name, price, description} = req.body.update;
-        var update = {image: image, name: name, price: price, description: description};
-        var edit = await Product.findByIdAndUpdate(req.params.id, update);
-        req.flash("success", "your status was successfully updated")
-        res.redirect("/" + req.params.id);
-    }catch(err){
+            // Upload new images to Cloudinary
+            const newImages = [];
+            
+            for (const file of req.files) {
+                try {
+                    const result = await cloudinary.uploader.upload(file.path);
+                    newImages.push({ 
+                        url: result.secure_url, 
+                        public_id: result.public_id 
+                    });
+                    
+                    // Delete the file from local storage after upload
+                    fs.unlinkSync(file.path);
+                } catch (uploadErr) {
+                    console.error('Upload error:', uploadErr);
+                    // Remove the uploaded files if there's an error
+                    for (const img of newImages) {
+                        await cloudinary.uploader.destroy(img.public_id);
+                    }
+                    req.flash("error", "Error uploading images");
+                    return res.redirect("back");
+                }
+            }
+            
+            // Update the images array
+            existingProduct.image = newImages;
+        }
+
+        // Update other fields
+        const { name, price, description } = req.body.update || {};
+        
+        if (name) existingProduct.name = name;
+        if (price !== undefined) existingProduct.price = price;
+        if (description) existingProduct.description = description;
+        
+        // Save the updated product
+        await existingProduct.save();
+        
+        req.flash("success", "Your product was successfully updated");
+        
+        // FIXED: Redirect to the correct product detail URL with category
+        res.redirect("/" + category + "/" + id);
+        
+    } catch(err) {
+        req.flash("error", "Failed to update product");
         res.redirect("back");
     }
 });
-
 
 //Post delete route
 router.post("/:category/:id", middleware.isOwner, async function(req, res){
