@@ -470,21 +470,23 @@ router.get("/approvepost/:id", async function(req, res){
     }
 });
 
+
 //index page
 router.get("/", async function(req, res){
     try{
+        const category = req.params.category;
         var product = await Product.find({adminpost: true });
         const user = await User.find({});
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-        // Shuffle them randomly
         const shuffled = product.sort(() => 0.5 - Math.random());
-        // Pick only 3
         const featured = shuffled.slice(0, 3);
-        res.render("index",{product, featured, user, canonicalUrl, image: "/pics/farmequip.jpg"});
+        res.render("index",{category, featured, product, user, canonicalUrl, image: "/pics/farmequip.jpg"});
     }catch(err){
         console.log(err)
     }
 });
+
+
 // router.post("/search", async function(req, res){
 //     try{
 //         var regex = new RegExp(["", req.body.productSearch, "$"].join(""), "i");

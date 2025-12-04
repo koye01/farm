@@ -63,18 +63,20 @@ router.get("/allproduct", async function(req, res){
     }
 });
 
-router.get("/addnew", middleware.isLoggedIn, async function(req, res){
+router.get("/:category/addnew", middleware.isLoggedIn, async function(req, res){
     try{
+        const category = req.params.category;
         const product = await Product.find({});
         // Build the canonical URL dynamically
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-        res.render("addnew", {title: 'add new product', description: "add new product", product,
+        res.render("addnew", {title: 'add new product', description: "add new product", product, category,
             keywords: "add new product",
             image: "/pics/logo.png",
             canonicalUrl,
             noindex: true   // <--- ADD THI
         });
     }catch(err){
+        console.log(err);
         res.redirect('back');
     }
 });
@@ -133,7 +135,7 @@ async function uploadImages(req, res) {
     }
 
     req.flash("success", "Your request was successful and is being processed");
-    return res.redirect("/");  // <-- redirect works safely now
+    return res.redirect("/" + category );  // <-- redirect works safely now
 
   } catch (err) {
     res.redirect('back');
@@ -146,7 +148,7 @@ async function uploadImages(req, res) {
 
 
 //Adding new post (post request)
-router.post("/", multiUpload.array('image', 10), uploadImages);
+router.post("/:category", multiUpload.array('image', 10), uploadImages);
 
 // Set up the email transport using the default SMTP transport
 const transporter = nodemailer.createTransport({
@@ -304,6 +306,7 @@ router.get("/:category/:id/edit", middleware.isOwner, async function(req, res){
             noindex: true   // <--- ADD THI
         });
     }catch(err){
+        console.log(err);
         return res.redirect("back");
     }
 });
@@ -378,6 +381,7 @@ router.put("/:category/:id", middleware.isOwner, multiUpload.array('image', 10),
         res.redirect("/" + category + "/" + id);
         
     } catch(err) {
+        console.log(err);
         req.flash("error", "Failed to update product");
         res.redirect("back");
     }
