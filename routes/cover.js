@@ -503,10 +503,12 @@ router.get("/", async function(req, res){
 // });
 router.post("/search", async function(req, res) {
     try {
+        const category = req.params.category;
         const regex = new RegExp(req.body.productSearch, "i");
         const products = await Product.find({ name: regex });
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render("productsearch", {
+            category,
             product: products,
             title: "Find Product",
             description: "Product search bar",

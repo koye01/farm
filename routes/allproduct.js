@@ -137,13 +137,11 @@ async function uploadImages(req, res) {
     req.flash("success", "Your request was successful and is being processed");
     return res.redirect("/" + category );  // <-- redirect works safely now
 
-  } catch (err) {
-    res.redirect('back');
-    return res.status(500).json({
-      message: "An error occurred",
-      error: err.message
-    });
-  }
+ } catch (err) {
+  req.flash("error", "An error occurred: " + err.message);
+  return res.redirect("back");
+}
+
 }
 
 
@@ -333,7 +331,7 @@ router.put("/:category/:id", middleware.isOwner, multiUpload.array('image', 10),
                 );
                 await Promise.all(deletePromises);
             } catch (cloudinaryErr) {
-                console.error('Cloudinary delete error:', cloudinaryErr);
+                // console.error('Cloudinary delete error:', cloudinaryErr);
                 // Continue anyway - don't stop the update
             }
 
@@ -381,7 +379,6 @@ router.put("/:category/:id", middleware.isOwner, multiUpload.array('image', 10),
         res.redirect("/" + category + "/" + id);
         
     } catch(err) {
-        console.log(err);
         req.flash("error", "Failed to update product");
         res.redirect("back");
     }
