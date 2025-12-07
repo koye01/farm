@@ -1,0 +1,265 @@
+<%-include("./partials/header")%>
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <% if(detailed.category != 'Agricultural talk'){ %>
+            <%= detailed.name %> for Sale | Farmgate Nigeria
+        <% } else { %>
+            Discussion: <%= detailed.name %> | Farmgate Nigeria
+        <% } %>
+    </title>
+    <meta name="description" content="<%= detailed.description %>">
+    <meta name="keywords" content="<%= detailed.name %>, farm products, agrocommodities, Nigeria, Farmgate Nigeria">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Farmgate Nigeria">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="<%= detailed.category != 'Agricultural talk' ? 'product' : 'article' %>">
+    <meta property="og:url" content="https://farmgate.com.ng/<%= detailed._id %>">
+    <meta property="og:title" content="<%= detailed.name %> | Farmgate Nigeria">
+    <meta property="og:description" content="<%= detailed.description %>">
+    <meta property="og:image" content="<%= detailed.image[0].url %>">
+    <meta property="og:site_name" content="Farmgate Nigeria">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/<%= detailed._id %>">
+    <meta name="twitter:title" content="<%= detailed.name %> | Farmgate Nigeria">
+    <meta name="twitter:description" content="<%= detailed.description %>">
+    <meta name="twitter:image" content="<%= detailed.image[0].url %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://farmgate.com.ng/<%= detailed._id %>">
+
+    <!-- JSON-LD Structured Data -->
+    <% if(detailed.category != 'Agricultural talk'){ %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "<%= detailed.name %>",
+      "image": [
+        "<%= detailed.image[0].url %>",
+        "<%= detailed.image[1] ? detailed.image[1].url : detailed.image[0].url %>",
+        "<%= detailed.image[2] ? detailed.image[2].url : detailed.image[0].url %>"
+      ],
+      "description": "<%= detailed.description %>",
+      "url": "https://farmgate.com.ng/<%= detailed._id %>",
+      "offers": {
+        "@type": "Offer",
+        "price": "<%= detailed.price || 0 %>",
+        "priceCurrency": "NGN",
+        "availability": "https://schema.org/InStock",
+        "url": "https://farmgate.com.ng/<%= detailed._id %>"
+      },
+      "seller": {
+        "@type": "Person",
+        "name": "<%= detailed.author.username %>"
+      }
+    }
+    </script>
+    <% } else { %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "DiscussionForumPosting",
+      "headline": "<%= detailed.name %>",
+      "articleBody": "<%= detailed.description %>",
+      "author": {
+        "@type": "Person",
+        "name": "<%= detailed.author.username %>"
+      },
+      "url": "https://farmgate.com.ng/<%= detailed._id %>"
+      
+    }
+    </script>
+    <% } %>
+</head>
+
+<% if(detailed.category != 'Agricultural talk'){ %>
+    <h1><%= detailed.name %> for sales</h1>
+<% }else{ %>
+ <h1>open discussion on <%= detailed.name %></h1>
+<% }%>
+
+<div class="koye">
+    <div class="showpage">
+        <div class="slider">
+            <div>
+                <img src="<%= detailed.image[0].url %>" alt="<%= detailed.name %> 1" class="active" />
+                <img src="<%= detailed.image[1].url %>" alt="<%= detailed.name %> 2" />
+                <img src="<%= detailed.image[2].url %>" alt="<%= detailed.name %> 3" />
+            </div>
+            <div class="navigation-button">
+                <span class="dot active" onclick="changeSlide(0)"></span>
+                <span class="dot" onclick="changeSlide(1)"></span>
+                <span class="dot" onclick="changeSlide(2)"></span>
+            </div>
+        </div>
+            
+        <div class="descp">
+                <p><%= detailed.description %></p>
+                <% if(detailed.category !== "Agricultural talk"){%>
+                    <p>Price: =N=<%= detailed.price %></p>
+                <%}%>
+                
+                <em>submitted by </em><a href="/user/<%=detailed.author.id._id%>"><strong> <%=detailed.author.username.toUpperCase()%> </strong></a>
+                <%=detailed.author.phone%>
+                <!-- <%=detailed.author.email%> -->
+                <div class="control-button">
+                    <%if(currentUser && detailed.author.id._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){%>
+                        <a href="/<%=detailed.category%>/<%= detailed.id%>/edit"><button id="button-float" class="edit-button">Edit</button></a>
+                        <form action="/<%=detailed.category%>/<%= detailed.id%>" method="POST">
+                            <button id="button-float" class="delete-button">Delete</button>
+                        </form>
+                    <%}%>
+                
+            </div>
+              <div class="rating">
+                <h3>Seller Rating: </h3>
+                    <% if (avgRating > 0) { %>
+                    <div>
+                        <% for (let i = 1; i <= 5; i++) { %>
+                            <% if (i <= Math.round(avgRating)) { %>
+                                ★
+                            <% } else { %>
+                                ☆
+                            <% } %>
+                        <% } %>
+                        <span>(<%= avgRating %> out of 5)</span>
+                    </div>
+                    <% } else { %>
+                    <p>No ratings yet</p>
+                    <% } %>
+              </div>
+            
+              <div class="review">
+                <h3>Recent Reviews</h3>
+                <% const seller = detailed.author.id; %>
+                <% if (!seller || seller.reviews.length === 0) { %>
+                <p>No reviews yet.</p>
+                <% } else { %>
+
+                <% seller.reviews.slice(0, 3).forEach(review => { %>
+                    <div class="review-box">
+                        <strong><%= review.author.username %></strong>
+                        <div>
+                        <% for (let i = 1; i <= 5; i++) { %>
+                            <% if (i <= review.rating) { %> ★ <% } else { %> ☆ <% } %>
+                        <% } %>
+                        </div>
+                        <p><%= review.message %></p>
+                    </div>
+                <% }) %>
+
+                <% if (seller.reviews.length > 3) { %>
+                    <a href="/user/<%= seller._id %>">View all reviews →</a>
+                <% } %>
+
+                <% } %>
+              </div>
+
+
+        </div>    
+           
+    </div>
+
+<!-- Inquiry Form -->
+    
+        
+                <div class="inquiry-form">
+                <h3>Send Inquiry to <%= detailed.author.username %></h3>
+                <form action="/order/<%= detailed.id %>" method="POST">
+                   <!-- <div class="inquiry-form>  -->
+                    <div class="form-set">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" placeholder="Your full name here" required>
+
+                        <label for="telephone">Telephone:</label>
+                        <input type="tel" id="telephone" name="telephone" placeholder="phone number" required>
+
+                        <label for="enquiry">Enquiry:</label>
+                        <textarea placeholder="write your message..." id="enquiry" name="enquiry" rows="4" required></textarea>
+
+                        <button type="submit">Send Inquiry</button>
+                   </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        
+
+    
+    <div class="comment-session">
+        <button class="frontBtn">
+            <a href="/<%=detailed.category%>/<%=detailed.id%>/comment/new">Add comment</a>
+        </button>
+        <% detailed.comments.forEach(function(comment){ %>
+            <div id="comment-<%= comment._id %>" class="comment-block">
+            <!-- <h3><%=detailed.comments.length + comment.replies.length%> comment(s)</h3>  -->
+                <p class="comment-link">
+                    <b>
+                        <a href="/user/<%= comment.author.id._id %>"><%= comment.author.username %>:</a>
+                    </b>
+                </p>
+                <p><%= comment.post %></p>
+    
+                <!-- Loop through replies for the current comment -->
+                <% if(comment.replies && comment.replies.length > 0){ %>
+                    <div class="replies">
+                        <% comment.replies.forEach(function(reply){ %>
+                            <div id="reply-<%= reply._id %>" class="reply-block">
+                                <p class="comment-link">
+                                    <b>
+                                        <a href="/user/<%= reply.author.id %>"><%= reply.author.username %>:</a>
+                                    </b>
+                                </p>
+                                <p><%= reply.post %></p>
+                            <div class="response">
+                                <!-- edit button for reply post -->
+                                    <% if(currentUser && (reply.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                                <button class="reply-btn-edit">
+                                    <a href="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>/edit"> 
+                                    edit </a> 
+                                </button>
+
+                                <!-- delete button for reply post -->
+                                <form action="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/reply/<%=reply._id%>?_method=delete" method="POST">
+                                    <button class="reply-btn-delete">Delete</button>
+                                </form>
+                                    <%}%>
+                            </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } %>
+    
+                <!-- Reply Button -->
+                <div class="reply">
+                    <button><a href="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/reply">
+                        reply comment</a></button>
+                </div>
+    
+                <!-- Comment Control (Edit/Delete) -->
+                <div class="control-button">
+                    <% if(currentUser && (comment.author.id.equals(currentUser._id) || currentUser.isAdmin)){ %>
+                        <a href="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>/edit"><button class="edit-button">Edit</button></a>
+                        <form action="/<%=detailed.category%>/<%= detailed.id %>/comment/<%= comment._id %>?_method=delete" method="POST">
+                            <button class="delete-button">Delete</button>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+   <script src="/js/myjs.js" ></script>
+   
+    
+</div>
+<%- include("./partials/footer") %>

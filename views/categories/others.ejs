@@ -1,0 +1,107 @@
+<%- include("../partials/header")%>
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrocommodities for Sale | Farmgate Nigeria Marketplace</title>
+    <meta name="description" content="Sell and buy farm products across Nigeria. Display your agrocommodities like crops, vegetables, grains, and more on Farmgate Nigeria's marketplace.">
+    <meta name="keywords" content="agrocommodities for sale, farm products, crops, vegetables, grains, farm-gate prices, Farmgate Nigeria">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Farmgate Nigeria">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate.com.ng/others">
+    <meta property="og:title" content="Agrocommodities for Sale | Farmgate Nigeria Marketplace">
+    <meta property="og:description" content="Post and sell farm products across Nigeria at competitive farm-gate prices. Find crops, vegetables, grains, and other agrocommodities.">
+    <meta property="og:image" content="<%= image || 'https://farmgate.com.ng/pics/logo.png' %>">
+    <meta property="og:site_name" content="Farmgate Nigeria">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/others">
+    <meta name="twitter:title" content="Agrocommodities for Sale | Farmgate Nigeria Marketplace">
+    <meta name="twitter:description" content="Post and sell farm products across Nigeria at competitive farm-gate prices. Find crops, vegetables, grains, and other agrocommodities.">
+    <meta name="twitter:image" content="<%= image || 'https://farmgate.com.ng/pics/logo.png' %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl || 'https://farmgate.com.ng/others' %>">
+
+    <!-- JSON-LD Structured Data: Website -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Farmgate Nigeria",
+      "url": "https://farmgate.com.ng",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://farmgate.com.ng/search?query={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD Structured Data: ItemList of Agrocommodities -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Agrocommodities for Sale",
+      "description": "List of farm products available for sale across Nigeria.",
+      "url": "https://farmgate.com.ng/others",
+      "itemListElement": [
+        <% others.forEach(function(item, index){ %>
+        {
+          "@type": "ListItem",
+          "position": <%= index + 1 %>,
+          "item": {
+            "@type": "Product",
+            "name": "<%= item.name %>",
+            "image": "<%= item.image[0].url %>",
+            "description": "<%= item.description %>",
+            "url": "https://farmgate.com.ng/<%= item._id %>",
+            "offers": {
+              "@type": "Offer",
+              "price": "<%= item.price || 0 %>",
+              "priceCurrency": "NGN",
+              "availability": "https://schema.org/InStock",
+              "url": "https://farmgate.com.ng/<%= item._id %>"
+            }
+          }
+        }<% if(index < others.length - 1){ %>,<% } %>
+        <% }) %>
+      ]
+    }
+    </script>
+</head>
+
+    <p>
+        We are open for business all across the nation, 
+        if you have any farm product to display for sales, 
+        kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
+    </p>
+    <div class="add-new">
+        <button><a href="/others/addnew">Add to other commodities</a></button>
+        <p>List of the available agrocommodities for sales</p>
+    </div>
+    <div class="general-content">
+    <%others.forEach(function(aside){%>
+        <div class="content">
+            <a href="/others/<%=aside._id%>">
+                <img height="auto" width="100%" src="<%= aside.image[0].url%>" alt="<%=aside.name%> for sales"/>
+                <div class="content-desc">
+                    <h1><%=aside.name%></h1>
+                    <p><%=aside.description%></p>
+                </div>
+                <button class="frontBtn">See more</button>
+            </a>
+            
+        </div>
+        
+    <%})%>
+</div>
+<%- include("../partials/footer") %>

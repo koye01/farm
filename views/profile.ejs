@@ -1,0 +1,199 @@
+<%- include("./partials/header") %>
+
+<head>
+    <!-- Seller Profile JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+
+      "name": "<%= user.fullname || user.username %>",
+      "url": "https://farmgate.com.ng/user/<%= user._id %>",
+      "image": "<%= user.image && user.image[0] ? user.image[0].url : '/default-profile.jpg' %>",
+      "description": "<%= user.description || 'Farmgate Nigeria seller profile' %>",
+      "email": "<%= user.email %>",
+      "telephone": "<%= user.phone %>",
+
+      <% let totalReviews = user.reviews.length; %>
+      <% let avgRating = totalReviews > 0 ? (user.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1) : 0; %>
+
+      <% if (totalReviews > 0) { %>
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "<%= avgRating %>",
+        "reviewCount": "<%= totalReviews %>"
+      },
+      "review": [
+        <% user.reviews.forEach(function(review, index) { %>
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "<%= review.author.username %>"
+          },
+          "reviewBody": "<%= review.message %>",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "<%= review.rating %>",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }<%= index < totalReviews - 1 ? "," : "" %>
+        <% }) %>
+      ]
+      <% } %>
+
+    }
+    </script>
+</head>
+
+    <div class="profile-body">
+        <h1>Welcome to <%= user.username %>'s page </h1>
+    
+        <div>
+            <% for(var checkFollower of unique){ %>
+                <% if(currentUser && checkFollower.username == currentUser.username){ %>
+                    <a disabled="disabled">already following <%= user.username %></a>
+                    <p id="danger">
+                        <a href="/unfollow/<%= user.id %>"><button class="delete-button">Unfollow <%= user.username %></button></a>
+                    </p>
+                <% } %>
+            <% } %>
+        </div>
+        <p>
+            <% if(currentUser && user.username == currentUser.username){ %>
+                <a disabled="disabled"><button disabled class="edit-button">Follow <%= user.username %></button></a>
+                <div class="follow-info">
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
+                </div>
+            <% } else if(!currentUser) { %>
+                <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
+                <div class="follow-info">
+                    
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
+                </div>
+            <% } else if(currentUser && unique.username != currentUser.username && user.username != currentUser.username){ %>
+                <a href="/follow/<%= user.id %>"><button class="edit-button">Follow <%= user.username %></button></a>
+                <div class="follow-info">
+                    <button id="listfollowers"><a href="/user/<%=user.id%>/followers"> <%= user.followers.length %> followers</a></button>
+                    <button id="listfollowing"><a href="/user/<%=user.id%>/following"> following <%= user.following.length %></a></button>
+                </div>
+            <% } %> 
+        </p>
+    
+        <% if (currentUser && user.username == currentUser.username) { %>
+            chat
+        <% }else if(currentUser){%>
+            <p><a href="/chat/<%= user._id %>">💬 Message <%= user.username %></a></p>
+        <%} %>
+        
+        
+    
+        
+
+        <div class="profilePicture">
+            <img src="<%= user.image[0].url %>" alt="<%= user.username %>'s picture">
+            <h3><i>Profile Picture</i></h3>
+        </div>
+    
+        <div class="profile-info">
+            <%if(currentUser && user.username === currentUser.username ){%>
+            <div>
+                <button class="edit-profile"> 
+                    <a href="<%= user._id %>/edit">Edit Profile</a>
+                </button>
+            </div>
+            <%}%>
+            
+            <div class="profile-details">
+                <p>Phone number: <%= user.phone %></p>
+                <p>Email: <%= user.email %></p>
+                <p>Full name: <%= user.fullname %></p>
+                <p>Brief description: <%= user.description %></p>
+            </div>
+        </div>
+
+       
+        <div class="profile">
+            <h3>previous reviews</h3>
+            <% if (user.reviews.length === 0) { %>
+                <p>No reviews for this user yet.</p>
+            <% } else { %>
+                <% user.reviews.forEach(review => { %>
+                    <div class="review-item">
+
+                        <strong><%= review.author.username %></strong>
+                        
+                        <div class="review-stars">
+                            <% for (let i = 1; i <= 5; i++) { %>
+                                <% if (i <= review.rating) { %>
+                                    <span class="star">★</span>
+                                <% } else { %>
+                                    <span class="star inactive">☆</span>
+                                <% } %>
+                            <% } %>
+                        </div>
+
+                        <p><%= review.message %></p>
+
+                    </div>
+                <% }) %>
+            <% } %>
+
+        </div>
+            
+
+
+<% if(currentUser && user.username == currentUser.username){%>
+    <div class="profile">
+        <h3>Review form here</h3>
+    </div>
+    
+<%} else{%>
+    <form action="/user/<%=user._id%>/reviews" method="POST">
+    <div class="profile">
+        <h3>review <%=user.username%></h3>
+        <textarea name = "review[message]" rows="4" placeholder="write about your experience"></textarea><br>
+        <h3>rate <%=user.username%></h3>
+        <select name="review[rating]" required>
+            <option value="5">★★★★★</option>
+            <option value="4">★★★★☆</option>
+            <option value="3">★★★☆☆</option>
+            <option value="2">★★☆☆☆</option>
+            <option value="1">★☆☆☆☆</option>
+        </select>
+        <button>submit</button>
+    </div>
+    </form>
+<%}%>
+        <div class="profile-bottom">
+            <% product.forEach(function(pro){ %>
+                <% if(pro.adminpost === true){ %>
+                    <% if(user.username === pro.author.username){ %>
+                        <div class="profile">
+                            <h3>
+                                <% if(pro.category == "Agricultural talk"){ %>
+                                    matters arising on<%= pro.name %>
+                                <% } else { %>
+                                    <%= pro.name %> for sales
+                                <% } %>
+                            </h3>
+                            <img src="<%= pro.image[0].url %>" alt="<%= pro.name %>">
+                            <div class="descLink">
+                                <p><%= pro.description.substring(0, 100)+ "..." %></p>
+                                <h3><a href="/<%= pro._id %>">Click to view more</a></h3>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } else if(pro.adminpost === false && user.username === pro.author.username){ %>
+                    <div class="profile">
+                        <h3>Your <%= pro.name %>'s post is under review</h3>
+                    </div>
+                <% } %>
+            <% }) %>
+        </div>
+    </div>
+    
+    <%- include("./partials/footer") %>

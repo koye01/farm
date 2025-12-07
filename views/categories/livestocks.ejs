@@ -1,0 +1,147 @@
+<%- include("../partials/header")%>
+<head>
+    <!-- SEO Keywords -->
+    <meta name="description" content="Connect with buyers nationwide and sell livestock and poultry at competitive farm-gate prices on Farmgate Nigeria. Post live goats, sheep, cattle, chickens, turkeys, eggs, and day-old chicks.">
+    <meta name="keywords" content="livestock for sale, poultry for sale, live goats, sheep, cattle, broilers, turkeys, eggs, day-old chicks, farm-gate prices, Farmgate Nigeria">
+    <meta name="robots" content="index, follow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate.com.ng/livestocks">
+    <meta property="og:title" content="Livestock and Poultry for Sale | Farmgate Global Marketplace">
+    <meta property="og:description" content="Post and sell livestock and poultry across Nigeria at competitive farm-gate prices. Find goats, sheep, cattle, chickens, turkeys, eggs, and day-old chicks.">
+    <meta property="og:image" content="<%= image %>">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/livestocks">
+    <meta name="twitter:title" content="Livestock and Poultry for Sale | Farmgate Global Marketplace">
+    <meta name="twitter:description" content="Post and sell livestock and poultry across Nigeria at competitive farm-gate prices. Find goats, sheep, cattle, chickens, turkeys, eggs, and day-old chicks.">
+    <meta name="twitter:image" content="<%= image %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Livestock and Poultry for Sale",
+    "description": "List of livestock and poultry products available for sale at farm-gate prices across Nigeria.",
+    "url": "https://farmgate.com.ng/livestocks",
+    "itemListElement": [
+        <% livestocks.forEach(function(live, index) { %>
+        {
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "item": {
+            "@type": "Product",
+            "name": "<%= live.name %>",
+            "image": "<%= live.image[0].url %>",
+            "description": "<%= live.description %>",
+            "url": "https://farmgate.com.ng/<%= live._id %>",
+            "offers": {
+            "@type": "Offer",
+            "price": "<%= live.price || 0 %>",
+            "priceCurrency": "NGN",
+            "availability": "https://schema.org/InStock"
+            }
+        }
+        }<% if(index < livestocks.length - 1) { %>,<% } %>
+        <% }) %>
+    ]
+    }
+    </script>
+
+</head>
+
+<div class="category">
+
+    
+    <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+    <div class="livestock">   
+   </div>
+    
+        <h1 class="aboutHead"> Livestock</h1>
+        <h3>
+            Farmers Nationwide Invited to Post Livestock and Poultry Products for Sale at Competitive 
+            Farm Gate Prices.
+        </h3>
+        <p>
+        We invite farmers from across the country to participate in this interactive 
+        platform where you can post and sell your livestock and poultry at farm gate prices. 
+        If you're looking to sell ruminant animals like live goats, sheep, or cattle, this is the 
+        perfect place for quick and efficient transactions. Farmers dealing in live poultry, such as live 
+        turkeys, live broilers, live cockerels, and other poultry birds, are also encouraged to showcase their
+         stock. Whether you're selling spent layers or any poultry-related product, this platform is designed 
+         to connect you with potential buyers. Additionally, farmers selling poultry products such as 
+         eggs and day-old chicks are also welcome to display their offerings for interested buyers.
+        </p> 
+         <h3 class="aboutHead">Day-Old Chicks for Sale </h3>
+    <div class="category">
+    <p>
+         When posting day-old chicks for sale, make sure to clearly indicate the brand name 
+         so your buyers can easily identify your products. Popular day-old chicks brands include, 
+         but are not limited to:<br>
+        
+
+        CHI Brand<br>
+        Zartech Brand<br>
+        Amo Brand<br>
+        Agrited Brand<br>
+        Seyyed Brand<br>
+
+        This ensures that your potential clients are well-informed and can make confident purchasing 
+        decisions. Let’s connect and grow together through this valuable platform, facilitating quicker sales 
+        and access to top-quality livestock and poultry products.
+        kindly click this <a href="/pets">link</a> to explore our pet category.
+    </p>
+    </div>
+    <div class="add-new">
+        <button><a href="/livestocks/addnew">Add to Livestocks</a></button>
+        <p>List of the available agrocommodities for sales</p>
+    </div>
+
+    <div class="general-content">
+    <%livestocks.forEach(function(live){%>
+        <div class="content">
+            <a href="/livestocks/<%=live._id%>">
+                <img height="auto" width="100%" src="<%= live.image[0].url%>" alt="<%=live.name%> for sales"/>
+                <div class="content-desc">
+                    <h1><%=live.name%></h1>
+                    <p><%=live.description%></p>
+                    <p>currency: Naira</p>
+                    <p>price: =N=<%=live.price%></p>
+                </div>
+                <button class="frontBtn">See more</button>
+            </a>
+            
+        </div>
+
+        
+    <%})%>
+    </div>
+            
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/livestocks?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+            <% } %>
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/livestocks?page=<%= i %>" 
+                class="page-number <%= i === currentPage ? 'active' : '' %>">
+                    <%= i %>
+                </a>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+                <a href="/livestocks?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+            <% } %>
+        </div>
+
+</div>
+<%- include("../partials/footer") %>

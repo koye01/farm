@@ -1,0 +1,141 @@
+<%- include("../partials/header")%>
+<head>
+    <head>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Buy and sell pets across Nigeria. Showcase dogs, cats, birds, and other pet animals on Farmgate Nigeria and connect with pet lovers nationwide.">
+    <meta name="keywords" content="pets for sale, pet animals, dogs, cats, birds, farm pets, livestock pets, Farmgate Global">
+    <meta name="robots" content="index, follow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate.com.ng/pets">
+    <meta property="og:title" content="Pet Animals for Sale | Farmgate Global Marketplace">
+    <meta property="og:description" content="Buy and sell pets across Nigeria. Showcase dogs, cats, birds, and other pet animals on Farmgate Global and connect with pet lovers nationwide.">
+    <meta property="og:image" content="<%= image %>">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/pets">
+    <meta name="twitter:title" content="Pet Animals for Sale | Farmgate Global Marketplace">
+    <meta name="twitter:description" content="Buy and sell pets across Nigeria. Showcase dogs, cats, birds, and other pet animals on Farmgate Global and connect with pet lovers nationwide.">
+    <meta name="twitter:image" content="<%= image %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Pet Animals for Sale",
+      "description": "List of pet animals available for sale across Nigeria.",
+      "url": "https://farmgate.com.ng/pets",
+      "itemListElement": [
+        <% pets.forEach(function(equips, index) { %>
+        {
+          "@type": "ListItem",
+          "position": <%= index + 1 %>,
+          "item": {
+            "@type": "Product",
+            "name": "<%= equips.name %>",
+            "image": "<%= equips.image[0].url %>",
+            "description": "<%= equips.description %>",
+            "url": "https://farmgate.com.ng/<%= equips._id %>",
+            "offers": {
+              "@type": "Offer",
+              "price": "<%= equips.price || 0 %>",
+              "priceCurrency": "NGN",
+              "availability": "https://schema.org/InStock"
+            }
+          }
+        }<% if(index < pets.length - 1) { %>,<% } %>
+        <% }) %>
+      ]
+    }
+    </script>
+</head>
+
+</head>
+<div class="category">
+            <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+            <div class="pets"></div>
+        <p>
+            At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
+            We are committed to helping agricultural businesses connect with new customers and expand their reach 
+            nationwide. 
+                if you have any farm product to display for sales, 
+            kindly click the "add to pets" button below for your product's display and expect a call to action 
+            in some moment later
+        </p>
+        
+            <h1 class="aboutHead">Pet Animals</h1>
+        <div class="category">
+        
+            <h3>Pet Animals</h3>
+            Pets are an integral part of the biotic components that enhance the environment of human life. 
+            Many pets have exhibited life-saving behaviors and unwavering loyalty to their owners, 
+            even in the face of danger or death, solidifying their role as devoted companions.
+            This platform is dedicated to pet lovers worldwide, providing a space to showcase pets for 
+            sale and share fascinating experiences through our <a href="/talk">"Agricultural Talk" section</a>. Here, you 
+            can highlight the remarkable behaviors you have witnessed in your pets and connect with others 
+            who share your passion.
+            Use our platform to engage with fellow pet enthusiasts, buy or sell pets, and participate in 
+            discussions by sharing your thoughts and experiences in the comment section.
+            kindly click this <a href="/livestocks">link</a> to explore our livestock category.
+        </div>
+    
+    
+        <div class="add-new">
+            <button><a href="/pets/addnew">Add to pets</a></button>
+            <p>List of the available agrocommodities for sales</p>
+        </div>
+        <div class="general-content">
+            <%if(pets.length === 0){%>
+            <div class="no-products">
+                <p>No product at the moment, please check back later</p>
+            </div>
+        <%}else{%>
+        <%pets.forEach(function(equips){%>
+            <div class="content">
+                <a href="/pets/<%=equips._id%>">
+                    <img height="auto" width="100%" src="<%= equips.image[0].url%>" alt="<%=equips.name%> for sales near me"/>
+                    <div class="content-desc">
+                        <h1><%=equips.name%></h1>
+                        <p><%=equips.description%></p>
+                        <p>currency: Naira</p>
+                        <p>Price: =N=<%=equips.price%></p>
+                    </div>
+                    <button class="frontBtn">See more</button>
+                </a>
+                
+            </div>
+            
+        <%})%>
+        <%}%>
+    
+    </div>
+    
+        <div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/pets?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+            <% } %>
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/pets?page=<%= i %>" 
+                class="page-number <%= i === currentPage ? 'active' : '' %>">
+                    <%= i %>
+                </a>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+                <a href="/pets?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+            <% } %>
+        </div>
+</div>
+<%- include("../partials/footer") %>
+    

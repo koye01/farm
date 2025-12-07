@@ -1,0 +1,44 @@
+<%- include("./partials/header") %>
+<h2>Add a new product here</h2>
+<form id="form" action="/<%= category %>" method="post" enctype="multipart/form-data">
+    <div class="form-style">
+        <div class="form-set">
+            <label>Product's category</label>
+            <select name="category" required>
+                <option disabled selected value> -- select an option -- </option>
+                <option value="Agricultural talk">Agricultural talk</option>
+                <option value="Livestocks">Livestocks</option>
+                <option value="Pets">Pets</option>
+                <option value="Seedlings">Garden /Floriculture</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Food">Feed Ingredients</option>
+                <option value="Chef">Chef</option>
+                <option value="Farm Real Estate">Farm Real Estate</option>
+                <option value="Farm equipments">Farm equipments</option>
+                <option value="Others">Others</option>
+            </select>
+            <label>Name</label>
+            <input type="number" name="name" placeholder="Product's name">
+            <%if(!product || product.category !== 'Agricultural talk'){%>
+                <div id="priceWrapper">
+                    <label>Price</label>
+                    <input type="text" name="price" placeholder="Product's price">
+                </div>
+           <% }%>
+            
+            <label>Images</label>
+            <input type="file" name="image" id="imageInput" multiple accept="image/*">
+            <label>Product's description</label>
+            <textarea name="description" rows="3" placeholder="Brief description about product" style="resize: vertical; width: 100%;"></textarea> 
+            <div class="show">
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+<%- include("./partials/footer") %>
+
+<!-- Link to the external JavaScript file -->
+<script src="/js/addnew.js"></script>
+
+

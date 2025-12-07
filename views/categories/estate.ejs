@@ -1,0 +1,99 @@
+<%- include("../partials/header")%>
+<head>
+    <title>Farmgate Real Estate – Lease or Sell Agricultural Properties Nationwide</title>
+    <meta name="title" content="Farmgate Real Estate – Lease or Sell Agricultural Properties Nationwide">
+    <!-- Meta Tags -->
+    <meta name="description" 
+          content="Farmgate Nigeria connects farmers with buyers and tenants for agricultural land, farm structures, and buildings. List your farm real estate to reach the right audience nationwide.">
+    <meta name="keywords" 
+          content="farm real estate Nigeria, lease farm land, sell farm property, agricultural buildings, farm assets, Farmgate Nigeria">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Farmgate Real Estate – Lease or Sell Agricultural Properties">
+    <meta property="og:description" content="Connect with buyers and tenants for agricultural land, farm structures, and buildings. List your farm real estate on Farmgate Nigeria.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<%= image %>">>
+    <meta property="og:url" content="https://farmgate.com.ng/estate">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Farmgate Real Estate – Lease or Sell Agricultural Properties">
+    <meta name="twitter:description" content="List your agricultural properties and reach the right audience across Nigeria. Lease or sell farmland, farm structures, and more.">
+    <meta name="twitter:image" content="<%= image %>">>
+
+       <!-- JSON-LD Structured Data -->
+    <% estate.forEach(function(bake){ %>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateListing",
+      "name": "<%= bake.name %>",
+      "description": "<%= bake.description %>",
+      "url": "https://farmgate.com.ng/<%= bake._id %>",
+      "image": ["<%= bake.image[0].url %>"],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "NGN",
+        "price": "<%= bake.price %>",
+        "availability": "https://schema.org/InStock"
+      },
+      "seller": {
+        "@type": "Person",
+        "name": "<%= bake.ownerName || 'Property Owner' %>"
+      }
+    }
+    </script>
+    <% }) %>
+</head>
+
+<div class="category">
+    <p>
+        <h3  class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+        <div class="estate">  </div>
+        At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
+        We are committed to helping agricultural businesses connect with new customers and expand their reach 
+        nationwide.
+        if you have any farm product to display for sales, 
+        kindly click the "add to real estate" button below for your product's display and expect a call to action in some moment later
+    </p>
+    
+        <h3 class="aboutHead">Farm Real Estate</h3>
+    <div class="category">
+
+        In this section, we invite farmers who wish to lease or sell agricultural land, farm structures, 
+        and buildings in specific locations to list their properties with us. Our goal is to connect you with 
+        suitable farmers who are the perfect fit for your properties.
+        Whether you are leasing or selling your farm assets, we can help you reach the right audience, 
+        ensuring a smooth transaction and peace of mind regarding your real estate investments.
+        Furthermore, abandoned farm properties present an excellent opportunity for emerging farmers, 
+        providing them with a solid foundation to grow and thrive in the agricultural sector.
+    </div>
+
+
+    <div class="add-new">
+        <button><a href="/estate/addnew">Add to real estate</a></button>
+        <p>List of the available properties at reach</p>
+    </div>
+    <div class="general-content">
+    <%estate.forEach(function(bake){%>
+        <div class="content">
+            <a href="/estate/<%=eat._id%>">
+                <img height="auto" width="100%" src="<%= bake.image[0].url%>" alt="<%=bake.name%>"/>
+                <div class="content-desc">
+                    <h1><%=bake.name%></h1>
+                    <p><%=bake.description%></p>
+                    <p>currency: Naira</p>
+                    <p>Price: =N=<%=bake.price%></p>
+                </div>
+                <button class="frontBtn">See more</button>
+            </a>
+            
+        </div>
+        
+    <%})%>
+</div>
+</div>
+
+<%- include("../partials/footer") %>
+    

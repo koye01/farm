@@ -1,0 +1,24 @@
+<%-include("../partials/header") %>
+<form action="/reset/<%=token%>" method="POST">
+<legend>Reset password</legend>
+    <div class="form-style">
+        <div class="form-set">
+            <div>
+                <label for="password">New password</label>
+                <input id="tog" type="password" name="password" placeholder="password">
+            </div>
+            <div>
+                <label for="password">confirm password</label>
+                <input id="tog" type="password" name="password" placeholder="password">
+            </div>
+            <div>
+                <button type="submit">Update password</button>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+
+<%-include("../partials/footer") %>

@@ -1,0 +1,21 @@
+<%- include("../partials/header") %>
+<h1>login page</h1>
+        <form action="/login" method="POST">
+            <div class="form-style">
+                <div class="form-set">
+                        <label><strong>Username</strong></label>
+                        <input type="text" name="username" placeholder="username or email">
+                        <label><strong>password</strong></label>
+                        <input id="tog" type="password" name="password" placeholder="password">
+                        <div class="show">
+                            <button>Submit</button>
+                            <button><a href="/forgot">forgot password</a></button><br>
+                            <button><a href="/register">sign-up</a></button>
+                        </div>
+                </div>
+                
+            </div>
+            
+        </form>
+    
+<script src="/js/form.js"></script>

@@ -1,0 +1,106 @@
+<%- include("../partials/header")%>
+<head>
+    <head>
+    <!-- Primary Meta Tags -->
+    <title>Farm Equipment for Sale | Connect Farmers to Global Markets</title>
+    <meta name="title" content="Farm Equipment for Sale | Connect Farmers to Global Markets - Farmgate Nigeria">
+    <meta name="description" content="Explore modern farm equipment for sale at Farmgate Nigeria. Connect with global markets, boost your agricultural business, and access advanced tools like drones, harvesters, planters, and livestock management aids.">
+
+    <!-- SEO Keywords -->
+    <meta name="keywords" content="farm equipment for sale, modern farming tools, agricultural machinery, connect farmers to markets, farm technology, automated feeders, farm drones, livestock management, Farmgate Nigeria, agro commodities, sustainable farming">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate.com.ng/farmequips">
+    <meta property="og:title" content="Farm Equipment for Sale | Connect Farmers to Global Markets - Farmgate Nigeria">
+    <meta property="og:description" content="Discover modern farm equipment and tools for sale at Farmgate Nigeria. Boost your farming business and connect with global markets today.">
+    <meta property="og:image" content="<%= image %>">>
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://farmgate.com.ng/farmequips">
+    <meta property="twitter:title" content="Farm Equipment for Sale | Connect Farmers to Global Markets - Farmgate Nigeria">
+    <meta property="twitter:description" content="Discover modern farm equipment and tools for sale at Farmgate Nigeria. Boost your farming business and connect with global markets today.">
+    <meta property="twitter:image" content="<%= image %>">>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Farm Equipment for Sale | Farmgate Nigeria",
+    "url": "https://farmgate.com.ng",
+    "description": "Explore modern farm equipment for sale at Farmgate Nigeria. Connect with global markets, boost your agricultural business, and access advanced tools like drones, harvesters, planters, and livestock management aids.",
+    "mainEntity": [
+        <% farmequips.slice().reverse().forEach(function(equip, index) { %>
+        {
+        "@type": "Product",
+        "name": "<%= equip.name %>",
+        "image": "<%= equip.image[0].url %>",
+        "description": "<%= equip.description %>",
+        "url": "https://farmgate.com.ng/<%= equip._id %>",
+        "offers": {
+            "@type": "Offer",
+            "url": "https://farmgate.com.ng/<%= equip._id %>",
+            "availability": "https://schema.org/InStock",
+            "priceCurrency": "NGN",
+            "price": "<%= equip.price ? equip.price : 'Contact for price' %>"
+        }
+        }<% if(index !== farmequips.length - 1) { %>,<% } %>
+        <% }) %>
+    ]
+    }
+</script>
+
+</head>
+
+</head>
+<div class="category">
+            <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+            <div class="farmequips">   
+            </div>
+        
+            <h3 class="aboutHead">Farm Equipment</h3>
+    <div class="category">
+            The sale of farm equipment is rapidly emerging as a highly profitable business, particularly for 
+            those with strong access to and connections with the target market. At Farmgate Nigeria, our mission 
+            is to connect you with the ideal audience to drive your sales and business success.
+            Modern farmers no longer rely on traditional tools such as cutlasses and hoes. Thanks to advancements 
+            in agricultural technology, 21st-century farming now incorporates sophisticated tools, including watering 
+            drones, manual and automated weed removal devices, surveillance cameras, automated feeders and waterers, 
+            combined harvesters and planters, farm scooters, tricycles, and much more.
+            Additionally, agricultural biotechnology plays a crucial role in the evolution of modern farming. 
+            Today, farmers are utilizing <a href="/pets">pets and animals</a> to assist with livestock management, allowing for greater 
+            efficiency. Animals such as monkeys, donkeys, dogs, geese, ladybugs, and others help reduce the need 
+            for human labor, making farming operations more efficient and sustainable.
+            Showcase your available farm tools and equipment for sale, and let us help you reach your target 
+            audience, ensuring you make a significant impact in this thriving industry.
+    </div>
+    
+        <div class="add-new">
+            <button><a href="/farmequips/addnew">Add to farm equipments</a></button>
+            <p>List of the available agrocommodities for sales</p>
+        </div>
+
+        <div class="general-content">
+        <%farmequips.forEach(function(equips){%>
+            <div class="content">
+                <a href="/farmequips/<%=equips._id%>">
+                    <img height="auto" width="100%" src="<%= equips.image[0].url%>" alt="<%=equips.name%> for sales"/>
+                    <div class="content-desc">
+                        <h1><%=equips.name%></h1>
+                        <p><%=equips.description%></p>
+                    </div>
+                    <button class="frontBtn">See more</button>
+                </a>
+                
+            </div>
+            
+        <%})%>
+    </div>
+</div>
+
+<%- include("../partials/footer") %>
+    

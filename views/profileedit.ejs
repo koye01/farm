@@ -1,0 +1,43 @@
+<%- include("./partials/header") %>
+<h1>edit <%=editProf.username%>'s profile</h1>
+<form action="/user/<%=editProf.id%>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <div class="form-style">
+        <div>
+            <label>username</label>
+            <input type="text" name="username" value="<%=editProf.username%>" disabled>
+        </div>
+        <div>
+            <label>fullname</label>
+            <input type="text" name="fullname" value="<%=editProf.fullname%>" disabled>
+        </div>
+        <div>
+            <label>email</label>
+            <input type="email" name="email" value="<%=editProf.email%>" disabled>
+        </div>
+        <div>
+            <label>Phone number</label>
+            <input type="number" name="phone" value="<%=editProf.phone%>">
+        </div>
+        <div>
+            <label>profile picture preview</label>
+            <img src="<%=editProf.image[0].url%>" name="image" height="300px" width="auto" alt="<%=editProf.username%>">
+        </div>
+        <div>
+            <label>profile picture</label>
+            <input type="file" name="image" placeholder="user.username" alt="<%=editProf.username%>" required>
+        </div>
+        
+        <div>
+            <label>description</label>
+            <textarea type="text" name="description"> <%=editProf.description%> </textarea>
+        </div>
+        <div>
+            <button>
+                update
+            </button>
+        </div>
+    </div>
+  
+    
+    
+</form>

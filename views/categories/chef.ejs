@@ -1,0 +1,324 @@
+<%- include("../partials/header")%>
+<head>
+    <title>Private Chef Services in Nigeria | Personal & Event Chef |Farmgate</title>
+    <meta name="title" content="Private Chef Services in Nigeria | Personal & Event Chef |Farmgat">
+    <!-- Meta Tags -->
+    <meta name="description" 
+          content="Join Farmgate Global and showcase your culinary skills. Chefs specializing in local & international cuisines—jollof, small chops, cakes, amala, asun & more—can list their services and reach customers nationwide.">
+    <meta name="keywords" 
+          content="chef marketplace Nigeria, hire a chef, catering services, culinary skills, local cuisine, international cuisine, party jollof, small chops, cake maker, amala, asun, Farmgate Global">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Farmgate Chef Showcase – Connect With Customers Nationwide">
+    <meta property="og:description" content="Farmgate Global invites talented chefs to showcase their skills and reach a wider market. List your culinary services and get discovered.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<%= image %>">
+    <meta property="og:url" content="https://farmgate.com.ng/chef">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Farmgate Chefs – Showcase Your Culinary Skills">
+    <meta name="twitter:description" content="Join Farmgate Nigerian Chef Marketplace to connect with clients nationwide and sell your local and international dishes.">
+    <meta name="twitter:image" content="<%= image %>">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+    <!-- JSON-LD Schema Markup -->
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Farmgate Nigeria",
+    "url": "https://farmgate.com.ng",
+    "logo": "https://farmgate.com.ng/pics/logo.png",
+    "sameAs": [
+        "https://www.facebook.com/Koyegarden",
+        "https://www.instagram.com/farmgatngr"
+    ],
+    "description": "Farmgate Nigeria connects chefs and culinary experts with customers nationwide. Showcase your skills, sell local and international dishes, and grow your culinary business online.",
+    "department": {
+        "@type": "Organization",
+        "name": "Chef Marketplace",
+        "url": "https://farmgate.com.ng/chef"
+    }
+    }
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Farmgate Chef Marketplace",
+  "description": "A marketplace where Nigerian chefs showcase their culinary services for hire.",
+  "url": "https://farmgate.com.ng/chef",
+  "itemListElement": [
+    <% chef.forEach(function(cook, index){ %>
+    {
+      "@type": "ListItem",
+      "position": <%= index + 1 %>,
+      "item": {
+        "@type": "Service",
+        "name": "<%= cook.name %>",
+        "description": "<%= cook.description %>",
+        "image": "<%= cook.image[0].url %>",
+        "provider": {
+          "@type": "Person",
+          "name": "<%= cook.name %>"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "<%= cook.price %>",
+          "priceCurrency": "NGN",
+          "availability": "https://schema.org/InStock",
+          "url": "https://farmgate.com.ng/<%= cook._id %>"
+        }
+      }
+    }<% if (index !== chef.length - 1) { %>,<% } %>
+    <% }); %>
+  ]
+}
+</script>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who can hire a chef through Farmgate Nigeria?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anyone: farmers, households, event planners, and organizations can hire a chef through our platform."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do the chefs cook with only farm-fresh ingredients?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Our chefs specialize in using fresh produce supplied by farmers to ensure high-quality, healthy, 
+            and flavorful meals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I hire a chef for large events?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. Our chefs handle weddings, birthdays, corporate events, and large community gatherings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I contact a chef directly?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Simply click on the chef’s name, visit their profile, and use the contact number or the Private 
+            Message feature."
+          }
+        },
+
+        {
+          "@type": "Question",
+          "name": "Can Farmgate recommend a chef for me?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You can chat with the Farmgate Nigeria admin to get matched with a suitable chef based on 
+            your event size and food needs."
+          }
+        }
+      ]
+    }
+    </script>
+
+</head>
+
+<div class="category">
+        <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKET - Your Digital Marketing Solution</h3>
+            <div class="chef"></div>
+        <p>
+            We are open for business all across the nation, 
+            if you have any form of culinary skills to offer for sales, 
+            kindly click the "add to chef" button below for your product's display and expect a call to action in some moment later
+        </p>
+<div class="category">
+     <h1 class="aboutHead">Chef Services - Connecting Fresh Farm Produce With Exceptional Culinary Talent</h1>
+     <p>
+    At Farmgate Nigeria, we believe that every farmer deserves a delicious and nourishing meal after a 
+    long day of hard work. Fresh produce should not end its journey on the farm; it should be transformed
+    into flavorful dishes prepared by chefs who understand and respect the value of locally sourced 
+     ingredients.
+    Our Chef Showcase service was created to connect farmers, households, and event hosts with skilled 
+    chefs who specialize in turning raw agricultural produce into meals that are wholesome, satisfying, 
+    and beautifully prepared.
+    We invite passionate chefs, cooks, caterers, and culinary experts to join our platform and contribute 
+    to the growth of this vibrant food community.
+    </p>
+    <h2 class="aboutHead">Transform Your Raw Ingredients Into Ready-Made Meals</h2>
+    <p>
+    Do you have bags of rice, beans, maize, or millet stored away?
+    Do you have flours such as elubo, garri, wheat, tuwo, or semo waiting to be used?
+    Are you hosting an event and need experienced chefs who work with fresh farm produce?
+    Farmgate Nigeria is here to connect you with chefs who understand how to turn raw ingredients into 
+    delicious meals. Whether it’s for daily consumption, family gatherings, or large-scale events, 
+    our culinary experts are prepared to deliver exceptional results.
+    </p>
+    <h2 class="aboutHead">What Our Chefs Can Cook for You</h2>
+    <p>
+    Cooking with farm-fresh ingredients is at the heart of what we do.
+    Our chefs specialize in a wide variety of Nigerian and continental dishes, including:
+    Party jollof rice, Fried rice, Barbecue, Assorted meat delicacies, Efo-Riro, Egusi soup, Oha soup, 
+    Fisherman’s soup, Okra and Ogbono soup.<br>
+
+    We guarantee rich flavors, great presentation, and a taste that will leave you asking for more.<br>
+    We have also handled special event requests for cakes, small chops, and Asun. 
+    In one memorable event, a host requested chopped Asun — but our talented chefs exceeded expectations 
+    by preparing a beautifully presented hanging Asun, expertly marinated and smoked to perfection.
+    </p>
+    <h2 class="aboutHead">Pastries, Small Chops & Bakery Items</h2>
+        <h3>Our chefs also excel in preparing a wide range of baked and fried snacks such as:</h3>
+        <ul>
+            <li>Scotch eggs</li>
+            <li>Puff-puff</li>
+            <li>Chin-chin</li>
+            <li>Meat pies</li>
+            <li>Spring rolls</li>
+            <li>Samosa</li>
+            <li>And other delicious pastries</li>
+        </ul>
+
+    <h2>Healthy Drink Options for Events</h2>
+    <p>
+        Farmgate Nigeria promotes healthy living for farmers and consumers alike.
+        For this reason, we do not support the provision of carbonated drinks at events. Instead, 
+        we source and produce healthy alternatives such as:
+    </p>
+    <ul>
+        <li>Zobo drink</li>
+        <li>Yogurt</li>
+        <li>Tiger-nut drink</li>
+        <li>Soya milk</li>
+    </ul>
+
+    <p>These drinks reflect the natural, healthy lifestyle of the farming community.</p>
+
+    <h2>How We Prepare Our Signature Tiger-Nut Drink</h2>
+    <ol>
+        <li>We source high-quality, fresh tiger nuts directly from trusted farms</li>
+        <li>We use date fruits as a natural sweetener</li>
+        <li>The mixture is washed, soaked, and blended to a smooth, creamy finish</li>
+        <li>Connect with any of our chefs to learn more about the full preparation process</li>
+    </ol>
+
+    <h2 class="aboutHead">How to Hire a Chef on Farmgate Nigeria</h2>
+    <ol>
+        <li>Click on the profile of any chef you'd like to hire</li>
+        <li>You’ll be redirected to their personal chef page</li>
+        <li>Pick up their contact phone number and begin negotiations</li>
+        <li>Or click “Private Message” to chat directly with the chef</li>
+        <li>You can also contact the Farmgate Nigeria <a href="/user/67c39c643a2aaa5aa01a11f3">admin</a>
+             to help you choose the best chef for your needs</li>
+    </ol>
+
+    <h2 class="aboutHead">Frequently Asked Questions (FAQ)</h2>
+    <ol>
+        <li>
+            <b>Who can hire a chef through Farmgate Nigeria?</b><br>
+            Anyone: farmers, households, event planners, and organizations can hire a chef through our platform.
+        </li>
+        <li>
+            <b>Do the chefs cook with only farm-fresh ingredients?</b><br>
+            Yes. Our chefs specialize in using fresh produce supplied by farmers to ensure high-quality, healthy, 
+            and flavorful meals.
+        </li>
+        <li>
+            <b>Can I hire a chef for large events?</b></br>
+            Absolutely. Our chefs handle weddings, birthdays, corporate events, and large community gatherings.
+        </li>
+        <li>
+            <b>What if I only need pastries or small chops?</b>
+            You can still hire a chef. Many of our chefs specialize in baking, pastries, and small chops.
+        </li>
+        <li>
+            <b>How do I contact a chef directly?</b>
+            Simply click on the chef’s name, visit their profile, and use the contact number or the Private 
+            Message feature.
+        </li>
+        <li>
+            <b>Can Farmgate recommend a chef for me?</b>
+            Yes. You can chat with the Farmgate Nigeria admin to get matched with a suitable chef based on 
+            your event size and food needs.
+        </li>
+        <li>
+            <b>Do you provide drinks for events?</b>
+            We provide healthy drink options like Zobo, yogurt, tiger-nut milk, and soya milk. We do not 
+            support carbonated drinks.
+        </li>
+        <li>
+            <b>Are your chefs trained professionals?</b>
+            Yes. All listed chefs have proven culinary experience, and many have handled both small and 
+            large-scale events.
+        </li>
+        <li>
+            <b>Can I learn how to prepare tiger-nut drink or other recipes?</b>
+            Yes. Simply connect with any of our chefs to learn more about the preparation process.
+        </li>
+
+        <li>
+            <b>How do I join as a chef?</b>
+            If you’re a chef, you can register on the platform by clicking the “Add to Chef” button and 
+            completing your profile.
+        </li>
+    </ol>
+    
+
+</div>
+
+        <div class="add-new">
+            <button><a href="/chef/addnew">Add to Chef</a></button>
+            <p>List of the available agrocommodities for sales</p>
+        </div>
+
+        <div class="general-content">
+            <% if (chef.length === 0) { %>
+                <div class="no-products">
+                    <p>No chefs found at the moment. Check back later!</p>
+                </div>
+            <% } else { %>
+                <% chef.forEach(function(cook){ %>
+                <div class="content">
+                    <a href="/chef/<%=cook._id%>">
+                        <img height="auto" width="100%" src="<%= cook.image[0].url%>" alt="professional Nigerian chef preparing<%=cook.name%>"/>
+                        <div class="content-desc">
+                            <h1><%=cook.name%></h1>
+                            <p><%=cook.description%></p>
+                            <p>currency: Naira</p>
+                            <p>Price: =N=<%=cook.price%></p>
+                        </div>
+                    <button class="frontBtn">See more</button>
+                    </a>
+                
+                </div>
+                <% }) %>
+            <% } %>
+        </div>
+
+            <div class="pagination">
+                  <% if (currentPage > 1) { %>
+                      <a href="/chef?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+                  <% } %>
+
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                      <a href="/chef?page=<%= i %>" 
+                        class="page-number <%= i === currentPage ? 'active' : '' %>">
+                          <%= i %>
+                      </a>
+                  <% } %>
+
+                  <% if (currentPage < totalPages) { %>
+                      <a href="/chef?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+                  <% } %>
+              </div>
+</div>
+<%- include("../partials/footer") %>
+    

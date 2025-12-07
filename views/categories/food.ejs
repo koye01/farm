@@ -1,0 +1,118 @@
+<%- include("../partials/header")%>
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed Ingredients and Grains for Sale | Farmgate Global Marketplace</title>
+    <meta name="description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
+    <meta name="keywords" content="feed ingredients for sale, grains for sale, agricultural products, farm-gate prices, soybean, rice, beans, maize, sorghum, groundnut cake, rice bran, wheat offal, dried brewery waste, blood meal, sweeteners, Farmgate Global">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate.com.ng/food">
+    <meta property="og:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
+    <meta property="og:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
+    <meta property="og:image" content="<%= image %>">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/food">
+    <meta name="twitter:title" content="Feed Ingredients and Grains for Sale | Farmgate Global Marketplace">
+    <meta name="twitter:description" content="Connect with buyers nationwide and sell feed ingredients, grains, and specialty products at competitive farm-gate prices on Farmgate Global.">
+    <meta name="twitter:image" content="<%= image %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+    <!-- JSON-LD Schema for Products -->
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Feed Ingredients and Grains for Sale",
+    "description": "List of feed ingredients, grains, and specialty agricultural products available for sale at farm-gate prices.",
+    "url": "https://farmgate.com.ng/food",
+    "itemListElement": [
+        <% food.forEach(function(eat, index) { %>
+        {
+        "@type": "ListItem",
+        "position": <%= index + 1 %>,
+        "item": {
+            "@type": "Product",
+            "name": "<%= eat.name %>",
+            "image": "<%= eat.image[0].url %>",
+            "description": "<%= eat.description %>",
+            "url": "https://farmgate.com.ng/<%= eat._id %>",
+            "offers": {
+            "@type": "Offer",
+            "price": "<%= eat.price || 0 %>",
+            "priceCurrency": "NGN",
+            "availability": "https://schema.org/InStock"
+            }
+        }
+        }<% if(index < food.length - 1) { %>,<% } %>
+        <% }) %>
+    ]
+    }
+</script>
+
+</head>
+
+
+<div class="category">
+    <p>
+    <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+    <div class="feed"></div>
+    At Farmgate Global, we specialize in linking farmers with their target audience across the globe. 
+    We are committed to helping agricultural businesses connect with new customers and expand their reach 
+    nationwide.
+    if you have any farm product to display for sales, 
+    kindly click the "add to Feed ingredients" button below for your product's display and expect a call to action in 
+    some moment later
+    </p>
+    <div class="category">
+        <h3 class="aboutHead">Feed Ingredients and Grains for Sale at Farm-Gate Prices</h3>
+        We invite you to use our platform to display a variety of feed ingredients, grains, and food items 
+        at competitive farm-gate prices. Whether you have rice, beans, maize, soybeans, or other agricultural 
+        products, this platform is the perfect place to connect with buyers. Farmers selling feed ingredients 
+        like sorghum, guinea corn, soybeans, Groundnut cake (GNC), rice bran, wheat offal, dried brewery waste
+         (DBG), blood meal, and more are also encouraged to list their products here. You’ll reach a wide 
+         audience of interested buyers looking for high-quality products at farm-gate prices. Additionally, 
+         we’ve heard exciting news about nutritionists specializing in alternative kitchen supplements and 
+         sweeteners that differs from; Maggi, potassium chloride, and saccharin. If you're involved in the production or 
+         sale of these items, we invite you to connect with other professionals through this platform. 
+         Let Farmgate Global be your go-to marketplace for all your feed ingredients, grains, and specialty 
+         sweeteners like Maggi, potassium chloride, and saccharin. If you're involved in the production or 
+         sale of these items, we invite you to connect with other professionals through this platform. 
+         Let Farmgate Nigeria be your go-to marketplace for all your feed ingredients, grains, and specialty 
+         products!
+    </div>
+
+    <div class="add-new">
+        <button><a href="/food/addnew">Add to Feed Ingredients</a></button>
+        <p>List of the available agrocommodities for sales</p>
+    </div>
+
+    <div class="general-content">
+        <%food.forEach(function(eat){%>
+            <div class="content">
+                <a href="/food/<%=eat._id%>">
+                    <img height="auto" width="100%" src="<%= eat.image[0].url%>" alt="<%=eat.name%> for sales"/>
+                    <div class="content-desc">
+                        <h1><%=eat.name%></h1>
+                        <p><%=eat.description%></p>
+                        <p>currency: Naira</p>
+                        <p>price: =N=<%=eat.price%></p>
+                    </div>
+                    <button class="frontBtn">See more</button>
+                </a>
+                
+            </div>
+            
+        <%})%>
+    </div>
+</div>
+<%- include("../partials/footer") %>

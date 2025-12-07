@@ -1,0 +1,237 @@
+<%- include("./partials/header") %>
+
+<!-- Add this notification container -->
+<div id="notification-container" class="notification-container"></div>
+
+<div id="chat-container">
+    <h2>Private Chat with <a href="/user/<%=recipient.id%>"> <%= recipient.username %> </a> </h2>
+    <ul id="messages"></ul>
+    
+    <form id="chat-form">
+        You: <%= user.username %><br>
+        <textarea id="m" name="message" rows="2" placeholder="Type a message..." autocomplete="off" style="resize: vertical; width: 90%;"></textarea>
+        <p><button type="submit">Send</button></p>
+    </form>
+</div>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const senderId = "<%= user._id %>";
+    const senderUsername = "<%= user.username %>";
+    const recipientId = "<%= recipient._id %>";
+    const recipientUsername = "<%= recipient.username %>";
+
+    // Notification system variables
+    let notificationCounter = 0;
+    let notificationCount = 0;
+
+    // Register user + load chat history
+    socket.emit("register user", {
+        userId: senderId,
+        recipientId: recipientId
+    });
+
+    // Mark current active chat for notifications
+    socket.emit("user in chat with", {
+        userId: senderId,
+        chattingWith: recipientId
+    });
+
+    const form = document.getElementById("chat-form");
+    const input = document.getElementById("m");
+    const messages = document.getElementById("messages");
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const message = input.value.trim();
+
+        if (message) {
+            socket.emit("private message", {
+                from: senderId,
+                to: recipientId,
+                message: message
+            });
+            input.value = "";
+        }
+    });
+
+    // You need to track all users you're chatting with
+let chatUsers = {}; // Store username mappings
+
+// When loading chat history or receiving messages, store user info
+socket.on("chat history", function(history) {
+    messages.innerHTML = "";
+    history.forEach((msg) => {
+        const item = document.createElement("li");
+        if (msg.from === senderId) {
+            item.textContent = `You: ${msg.message}`;
+            item.classList.add("my-message");
+        } else {
+            // Store the actual sender's username
+            if (!chatUsers[msg.from]) {
+                // You might need to fetch this from your backend
+                chatUsers[msg.from] = msg.fromUsername || `User ${msg.from}`;
+            }
+            item.textContent = `${chatUsers[msg.from]}: ${msg.message}`;
+            item.classList.add("their-message");
+        }
+        messages.appendChild(item);
+    });
+    messages.scrollTop = messages.scrollHeight;
+});
+
+socket.on("private message", function(msg) {
+    // Only display messages that are part of the current chat
+    const isFromCurrentRecipient = (msg.from === recipientId);
+    const isFromCurrentUser = (msg.from === senderId);
+    const isToCurrentUser = (msg.to === senderId);
+    
+    // Only show if: 
+    // - It's from the current recipient OR 
+    // - It's from current user to current recipient OR
+    // - It's to current user from current recipient
+    if (isFromCurrentRecipient || 
+        (isFromCurrentUser && msg.to === recipientId) || 
+        (isToCurrentUser && isFromCurrentRecipient)) {
+        
+        const item = document.createElement("li");
+        if (msg.from === senderId) {
+            item.textContent = `You: ${msg.message}`;
+            item.classList.add("my-message");
+        } else {
+            const displayName = msg.fromUsername || `User ${msg.from}`;
+            item.textContent = `${displayName}: ${msg.message}`;
+            item.classList.add("their-message");
+        }
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+    } else {
+        console.log(`🚫 Filtered out message from ${msg.from} - not in current chat context`);
+        // This message is from someone else - it will be handled by notifications
+    }
+});
+socket.on("new inbox notification", (data) => {
+    console.log("🎯 NOTIFICATION RECEIVED IN FRONTEND:", data);
+    showInboxNotification(data);
+});
+
+    // Notification functions (moved outside the socket listener)
+    function showInboxNotification(data) {
+        const notificationId = `notification-${notificationCounter++}`;
+        
+        const notification = document.createElement('div');
+        notification.id = notificationId;
+        notification.className = 'notification notification-chat';
+        notification.style.cursor = 'pointer';
+        
+        const time = new Date(data.timestamp).toLocaleTimeString([], { 
+            hour: '2-digit', minute: '2-digit' 
+        });
+
+        notification.innerHTML = `
+            <div class="notification-icon">💬</div>
+            <div class="notification-content">
+                <div class="notification-title">New message from ${data.fromUsername || 'User'}</div>
+                <div class="notification-message">${escapeHtml(data.message)}</div>
+                <div class="notification-time">${time}</div>
+            </div>
+            <button class="notification-close" onclick="event.stopPropagation(); removeNotification('${notificationId}')">×</button>
+        `;
+
+        // Click to go to chat
+        notification.addEventListener('click', function() {
+            // Navigate to the chat with this user
+            // You might need to adjust this URL based on your routes
+            window.location.href = `/chat/${data.from}`;
+            removeNotification(notificationId);
+        });
+
+        const container = document.getElementById('notification-container');
+        if (container) {
+            container.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                removeNotification(notificationId);
+            }, 5000);
+
+            playNotificationSound();
+            updateTabTitle(true);
+        }
+    }
+
+    function removeNotification(notificationId) {
+        const notification = document.getElementById(notificationId);
+        if (notification) {
+            notification.classList.remove('show');
+            notification.classList.add('hide');
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                    updateTabTitle(false);
+                }
+            }, 300);
+        }
+    }
+
+    function updateTabTitle(isNew) {
+        if (isNew) {
+            notificationCount++;
+        } else {
+            notificationCount = Math.max(0, notificationCount - 1);
+        }
+        
+        const baseTitle = document.title.replace(/^\(\d+\)\s*/, '');
+        if (notificationCount > 0) {
+            document.title = `(${notificationCount}) ${baseTitle}`;
+        } else {
+            document.title = baseTitle;
+        }
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function playNotificationSound() {
+        // Simple notification sound
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        } catch (e) {
+            console.log('Audio context not supported');
+        }
+    }
+
+    // Make removeNotification available globally for the onclick handler
+    window.removeNotification = removeNotification;
+</script>
+
+<%- include("./partials/footer") %>
+
+
+

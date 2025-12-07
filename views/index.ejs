@@ -1,0 +1,244 @@
+<head>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3065HDSTE3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3065HDSTE3');
+    </script>
+
+    <!-- Meta Tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Farmgate Nigeria – Buy and Sell Agricultural Commodities at Farm Gate Prices</title>
+    <meta name="description" content="Discover Farmgate Nigeria — your trusted platform to buy and sell farm produce, livestock, and equipment directly from farmers nationwide at fair farm gate prices.">
+    <meta name="keywords" content="Farmgate Nigeria, agricultural marketplace, buy farm produce online, sell farm produce Nigeria, livestock market, farm equipment, farm gate price, Nigerian farmers, agribusiness, vegetables, feed ingredients, floriculture, agricultural talk, farm products, agriculture in Nigeria">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Farmgate Nigeria | Nigeria’s Trusted Online Agricultural Marketplace">
+    <meta property="og:description" content="Join Farmgate Nigeria – the online marketplace connecting farmers, buyers, and traders nationwide. Buy and sell fresh produce, livestock, and farm equipment directly from trusted local farmers at true farm gate prices.">
+    <meta property="og:image" content="<%= image %>">
+    <meta property="og:url" content="https://farmgate.com.ng/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Farmgate Nigeria | Nigeria’s Trusted Online Agricultural Marketplace">
+    <meta name="twitter:description" content="Join Farmgate Nigeria – the online marketplace connecting farmers, buyers, and traders nationwide. Buy and sell fresh produce, livestock, and farm equipment directly from trusted local farmers at true farm gate prices.">
+    <meta name="twitter:image" content="<%= image %>">
+
+    <!-- Favicon -->
+     <link rel="icon" href="https://farmgate.com.ng/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="https://farmgate.com.ng/pics/logo.png">
+    <link rel="icon" type="image/png" href="/pics/logo.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="stylesheet/cover.css">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+
+    <!-- JSON-LD Structured Data for Website & Homepage -->
+    <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+            "@type": "Organization",
+            "name": "Farmgate Nigeria",
+            "url": "https://farmgate.com.ng/",
+            "logo": "https://farmgate.com.ng/pics/logo.png",
+            "sameAs": [
+                "https://facebook.com/Koyegarden",
+                "https://instagram.com/farmgatengr"
+            ]
+            },
+            {
+            "@type": "WebSite",
+            "url": "https://farmgate.com.ng/",
+            "name": "Farmgate Nigeria",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://farmgate.com.ng/search?query={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+            }
+        ]
+        }
+</script>
+
+</head>
+
+
+<div class="productUser">
+        <form action="/search" method="POST">
+            <input type="text" name="productSearch" placeholder="search for a product">
+            <button>search</button>
+        </form>
+        <form action="/usersearch" method="POST">
+            <input type="text" name="userSearch" placeholder="search for a user">
+            <button>search</button>
+        </form>
+</div>
+<% if(currentUser){%>
+    <div class="success">
+         logged in as <%= currentUser.username %>
+    </div>
+    <div class="success">
+        <%= user.length%> users online
+   </div>
+<%}%>
+<div>
+    <div class="rectangle">
+        <div class="welcome">
+            <h2>Welcome to Farmgate Nigeria</h2>
+           <% if(! currentUser){%>
+                <p><a href="/register">sign-up here</a></p>
+                <p><a href="/login">login here</a></p>
+           <% }%>
+            
+        </div>
+    </div>
+</div>
+<div class="cover">
+    <div class="headings">
+        <h1>Your number one hub for the sales of Agricultural commodities in Nigeria</h1>
+        <p>
+            Farmgate Market connects farmers, buyers, and traders across Nigeria with a seamless online
+            platform to buy and sell agricultural produce, livestock, farm equipment and more. weather you
+            are looking to sell your farm produce or purchase fresh commodities directly from trusted local
+            farmers, we make it simple, fast and secure.
+        </p>
+        <p>
+            Serving farmers and businesses nationwide, Farmgate Market is your go-to marketplace for 
+            high-quality agricultural products, competitive farm gate prices, and reliable transactions
+        </p>
+            <h3>Browse hundreds of listings or post your produce in minutes</h3>
+            <h4>How it works</h4>
+        <ol>
+            <li>register as a farmer or buyer</li>
+            <li>post or browse available produce listings</li>
+            <li>Connect directly to negotiate and confirm deals</li>
+            <li>Arrange delivery through verified logistics partners</li>
+            <li>Complete transactions securely with FarmGate trusted system</li>
+        </ol>
+     </div>   
+        <h2>Available categories of Agricultural commodities at farm gate price</h2>
+        <ul>
+            <li><a class="frontline" href="/talk"><h3>Agricultural talk</h3>
+                <p>
+                    Join discussions, and read expert insights, and stay updated on agricultural innovations,
+                    policies, and market trends in Nigeria. Perfect for farmers, agripreneurs, and agricultural
+                    enthusiasts.
+                </p></a>
+            </li><hr>
+
+
+            <li><a class="frontline" href="/livestocks"><h3>Livestocks</h3>
+            <p>
+                Buy and sell cattle, goats, poultry, and other livestock from trusted farmers across Nigeria.
+                Ensure quality and fair pricing with every transaction.
+            </p><hr></a>
+            </li>
+            
+            <li><a class="frontline" href="/pets"><h3>Pets</h3>
+            <p>
+                Explore a wide variety of pets including dogs, cats, birds, and more. Connect with reputable
+                breeders and pet owners across Nigeria to find healthy, well-cared-for animals.
+            </p><hr></a>
+            </li>
+          
+            <li><a class="frontline" href="/flowers"><h3>Garden / Floriculture</h3>
+                <p>
+                    Discover ornamental plants, flowers, garden tools, and landscaping supplies to beautify
+                    your home, business, or farm environment. Ideal for horticulture enthusiasts and
+                    professionals alike.
+                </p></a>
+            </li><hr>
+            <li><a class="frontline" href="/vegetables"><h3>Vegetables</h3>
+                <p>
+                    Fresh farm-grown vegetables and crops delivered directly from farmers. Seasonal, high-quality,
+                    and affordable produce for your farm or market needs.
+                </p><hr></a>
+            </li>
+            
+            <li><a class="frontline" href="/food"><h3>Feed ingredients</h3>
+                <p>
+                    Access essential feed ingredients for livestock and poultry. Quality-tested and locally
+                    sourced to boost productivity on your farm.
+                </p></a>
+            </li><hr>
+            
+            <li><a class="frontline" href="/chef"><h3>Chef services</h3>
+            <p>
+                Find premium farm-fresh ingredients, spices, and kitchen essentials curated for chefs, 
+                restaurants, and home cooks. Sourced directly from local farms for freshness and flavour.
+            </p></a>
+            </li><hr>
+            <li><a class="frontline" href="/farmequips"><h3>Farm equipments</h3>
+            <p>
+                purchase affordable and durable machinery, tools, and equipment designed to make 
+                farming more efficient and profitable.
+            </p></a><hr>
+            </li>
+            <li><a class="frontline" href="/estate"><h3>Farm Real Estate</h3>
+            <p>
+                Find farmland, agricultural plots, and properties for lease or sale across Nigeria. Trusted
+                listings for farmers and investors.
+            </p></a><hr>
+            </li>
+            <li><a class="frontline" href="/others"><h3>Others</h3>
+            <p>
+                Explore additional products, including seeds, fertilizers, and miscellaneous farm-related
+                items for sale online.
+            </p></a>
+            </li>
+        </ul>
+<div >
+    <div class="featured">
+    <h3>Featured products for sales</h3>
+    <%featured.forEach(function(random){%>
+        <div class="featuredFr">
+            <a href="<%=random.category%>/<%=random.id%>">
+            <img height="150px" width="200px" alt="<%=random.name%> for sales" src="<%=random.image[0].url%>"/>
+            </a>
+            <div><a href="<%=random.category%>/<%=random.id%>">
+                    <p><%=random.name%></p>
+                    <p>=N=<%=random.price%></p>
+                </a>  
+            </div>
+        </div>
+        
+            
+    <%})%>
+    </div>
+</div>
+
+        
+</div>
+
+<h3>FarmGate Market</h3>
+<h4>Why choose us?</h4>
+<ol>
+    <li>Transparent pricing and direct negotiation</li>
+    <li>Pay on delivery service</li>
+    <li>Reliable delivery and logistics partners</li>
+    <li>Secure payment and transaction protection</li>
+    <li>Verified farmers and produce quality checks</li>
+    <li>Real time updates on availability and prices</li>
+</ol>
+<div class="faqContainer">
+<div class="faq">
+    <a href="/faq">FAQ</a>
+</div>
+<div class="faq">
+       <a href="/farmers">For Farmers</a>
+</div>
+<div class="faq">
+    <a href="/buyers">For Buyers</a>
+</div>    
+
+</div>
+

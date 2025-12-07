@@ -1,0 +1,51 @@
+<%-include("./partials/header")%>
+<h2>list of all the available notification</h2>
+
+    <% allNotification.forEach(function(newUpload){%>
+        <ul>
+            <%if(newUpload.post.username){%>
+                <div class="notifResponse">
+                    <li class="reply-btn-edit">
+                        <li><a href="/notifications/<%=newUpload.id%>"><%=newUpload.post.username%> Uploaded new product for sales</a></li>
+                    </li>
+                    <!-- delete product's upload notification -->
+                    <form action="/notifications/<%=newUpload.id%>?_method=delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?')";>
+                        <button class="reply-btn-delete">clear notification</button>
+                    </form>
+                </div>
+                
+            <%}else if(newUpload.comment.username){%>
+                <div class="notifResponse">
+                    <li class="reply-btn-edit">
+                        <a href="/notifications/com/<%=newUpload._id%>"><%=newUpload.comment.username%> commented on your post</a>
+                    </li>
+                    <!-- delete product's comment notification -->
+                    <form action="/notifications/com/<%=newUpload.id%>?_method=delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?')">
+                        <button class="reply-btn-delete">clear notification</button>
+                    </form>
+                </div>
+                
+            <%}else if(newUpload.reply.username){%>
+                <div class="notifResponse">
+                    <li class="reply-btn-edit">
+                        <a href="/notifications/reply/<%=newUpload._id%>"><%=newUpload.reply.username%> replied to your comment</a> 
+                    </li>
+                    <!-- delete reply notification -->
+                    <form action="/notifications/reply/<%=newUpload.id%>?_method=delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?')">
+                        <button class="reply-btn-delete">clear notification</button>
+                    </form>
+                </div>
+            <%}else if(newUpload.chat.username){%>
+                <div class="notifResponse">
+                <li class="reply-btn-edit">
+                    <a href="/notifications/chat/<%=newUpload._id%>"><%=newUpload.chat.username%> messaged you</a> 
+                </li>
+                <!-- delete chat notification -->
+                    <form action="/notifications/chat/<%=newUpload.id%>?_method=delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?')">
+                        <button class="reply-btn-delete">clear chat</button>
+                    </form>
+                </div>
+            <%}%>
+        </ul>
+        
+    <%})%>

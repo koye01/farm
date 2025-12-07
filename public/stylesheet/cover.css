@@ -1,0 +1,202 @@
+body {
+    text-align: center;
+    background-color: black;
+    /* background-color: rgb(207, 183, 183); */
+    /* background-image: url("/pics/chicks.jpg"); */
+    color: whitesmoke;
+    margin: 0px;
+}
+a {
+    color: black;
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+li a {
+    color: white;
+}
+.headings li{
+    list-style-type: decimal;
+}
+ol li{
+    list-style-type: decimal;
+}
+
+.cover {
+    width: 80%;
+    height: auto;
+    margin: 20px auto;
+    padding: 5px 5px;
+    border: thin solid rgb(28, 29, 27);
+    box-shadow: 5px 5px 20px white;
+    margin-top: 10vh;
+}
+.headings{
+    background-image: url("/pics/banana.jpg");
+    background-position-x: center ;
+    background-color: rgb(226, 223, 233);
+    /* background-color: rgb(116, 110, 110); */
+    border-radius: 4px;
+    padding: 5px;
+    color: black;
+}
+.headings h1{
+    color: black;
+}
+h3{
+    /* width: 50%; */
+    text-align: center;
+    color: white;
+    margin: 0px auto;
+    padding: 5px 8px;
+    /* border-radius: 20%; */
+    background-color: black;
+    /* border: thin solid white; */
+}
+input {
+    color: rgb(243, 111, 111);
+    height: 40px;
+    width: 70%;
+}
+button{
+    height: 40px;
+    width: 55px;
+}
+.productUser {
+    /* color: white; */
+    margin-top: 20px;
+}
+ul {
+    background-position: center;
+    padding: 15px 0px;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.rectangle {
+    width: 75%;
+    margin: 30px auto;
+    padding: 0px 0px;
+    height: 25%;
+    text-align: center;
+    position: relative;
+    z-index: 0;
+}
+.welcome a {
+    color: white;
+    margin: 0px 0px;
+    padding: 5px 8px;
+    border-radius: 20%;
+    background-color: black;
+    animation: callback;
+}
+.welcome {
+    border: thin solid white;
+    background-image: url("/pics/kitten.jpg");
+    height: 100%;
+    width: 100%;
+    margin: 0px 0px;
+    padding: 0px 0px;
+    animation: frontPageAnimation;
+    animation-duration: 5s;
+    position: absolute;
+}
+.welcome h2{
+    color: white;
+    position: relative;
+    opacity: 1;
+}
+.frontline li {
+    text-align: center;
+    margin: 0px auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: thin solid black;
+    box-shadow: 5px 5px 5px;
+}
+/* .frontline h1{
+    color: whitesmoke;
+} */
+.frontline h1:hover{
+    /* border: thin solid green; */
+    color: rgb(197, 240, 6);
+}
+.success{
+    margin: 2px auto;
+    height: 30px;
+    width: 70%;
+    color: white;
+    border-color: thin solid white;
+}
+.error{
+    margin: 2px auto;
+    height: 30px;
+    width: 70%;
+    background-color: red;
+    color: white;
+    border: white;
+}
+/* .featuredCover{
+
+} */
+.featured {
+    text-align: center;
+    width: 50%;
+    color: rgb(228, 223, 223);
+    display: inline;
+}
+.featuredFr{
+    display: inline-block;
+    margin: 4px auto;
+    width: 200px;
+    border: thin solid white;
+}
+.featured h3 {
+    width: 50%;
+    color: red;
+    border-bottom: 5px solid red;
+}
+.featuredFr a{
+    color: white;
+}
+.faqContainer{
+    margin: 3px 3px;
+    text-align: center;
+    width: 100%;
+}
+.faq{
+    width: 150px;
+    display: inline-block;
+    margin-bottom: 20px;
+    border: thin solid blue;
+}
+.faq a{
+    color: white;
+}
+
+
+@keyframes frontPageAnimation {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        border: 10px solid white;
+    }
+    
+    75%{
+        border-radius: 50%;
+    }
+    100% {
+        background-image: url("/pics/insect.jpg");
+        border: thin solid white;
+    }
+}
+
+
+/* .frontline {
+    
+    margin-top: 40px;
+    background-color: sienna;
+} */

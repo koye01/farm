@@ -1,0 +1,19 @@
+<%-include("../partials/header")%>
+<div class="comment-block">
+    <h4>Original Comment</h4>
+    <p>By <%= parentComment.author.username %></p>
+    <p><%= parentComment.post %></p>
+</div>
+    
+
+<h4>reply to <%= parentComment.author.username %>'s comment</h4>
+<form action="/<%=product.category%>/<%=product._id%>/comment/<%=parentComment._id%>/reply" method="post" >
+    <div class="form-style">
+        
+        <label>comment</label>
+        <textarea name="comment[post]" placeholder="write your reply here"></textarea>
+        <button>submit</button>
+    </div>
+    
+</form>
+<%-include("../partials/footer")%>

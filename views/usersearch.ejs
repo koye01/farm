@@ -1,0 +1,22 @@
+<%- include("./partials/header") %>
+
+<%if(findUser.length > 0){%>
+    <% findUser.forEach(function(usersearch){%>
+        <a href="/user/<%=usersearch.id%>">
+            <div class="profile">
+                <h2><%=usersearch.username%></h2>
+                <p> <img src="<%=usersearch.image[0].url%>" height="250px" width="auto" alt="<%=usersearch.username%>"> </p>
+                    <div class="descLink">
+                        <p><%=usersearch.description%></p>
+                        <h3><%=usersearch.fullname%></h3>
+                        
+                    </div>
+                
+            </div>
+        </a>
+       
+
+    <%})%>
+<%}else{%>
+    <h1>User not found</h1>
+<%}%>

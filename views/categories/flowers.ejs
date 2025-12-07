@@ -1,0 +1,279 @@
+<%- include("../partials/header")%>
+<div class="category">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmgate Garden & Floriculture Services – Flowers, Landscaping & More</title>
+    <meta name="description" content="Farmgate Nigeria connects farmers and florists with customers nationwide. We offer landscaping, floriculture services, and sell natural & artificial flowers.">
+    <meta name="keywords" content="farmgate Nigeria, floriculture services, landscaping, flower shop Nigeria, natural flowers, artificial flowers, garden maintenance, ornamental flowers">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Farmgate Garden & Floriculture Services – Flowers & Landscaping">
+    <meta property="og:description" content="Showcase your flowers and gardening expertise. Farmgate Nigeria helps florists connect with customers nationwide and sell flowers and landscaping services.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="<%= image %>">
+    <meta property="og:url" content="https://farmgate.com.ng/flowers">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Farmgate Garden & Floriculture Services">
+    <meta name="twitter:description" content="Join Farmgate Nigeria to showcase flowers, artificial plants, and landscaping services. Connect with clients nationwide.">
+    <meta property="og:image" content="<%= image %>">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Farmgate Nigeria",
+      "url": "https://farmgate.com.ng",
+      "logo": "https://farmgate.com.ng/pics/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Koyegarden",
+        "https://www.instagram.com/farmgatngr"
+      ],
+      "description": "Farmgate Nigeria connects farmers and florists with customers nationwide. We offer garden and floriculture services, including landscaping, flower arrangement, pest control, and sales of natural and artificial flowers.",
+      "department": {
+        "@type": "Organization",
+        "name": "Garden & Floriculture Services",
+        "url": "https://farmgate.com.ng/flowers",
+        "description": "Providing landscaping, garden maintenance, natural and artificial flowers for homes, offices, and events."
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Garden & Floriculture Services",
+      "description": "Expert landscaping, flower arrangements, maintenance of indoor and outdoor plants, and pest-control services across Nigeria.",
+      "provider": {
+        "@type": "Organization",
+        "name": "Farmgate Nigeria",
+        "url": "https://farmgate.com.ng"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Nigeria"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What do we specialise in doing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Planting and propagation of flowers; Maintenance and landscaping of flower gardens; Sales of natural and artificial flowers; Fumigation and pest-control services."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How quick do you handle delivery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All deliveries within South-west region (Lagos, Oyo, Osun, Ogun, Ondo, Ekiti) occur within 1 to 3 days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will I need to pay for flowers before delivery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, you do not need to make payment before delivery, but a maximum of 2000 Naira may be required for delivery logistics."
+          }
+        }
+      ]
+    }
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Available Flowers for Sale",
+  "description": "A list of natural and artificial flowers available for sale on Farmgate Nigeria.",
+  "url": "https://farmgate.com.ng/flowers",
+  "itemListElement": [
+    <% seedlings.forEach(function(crops, index){ %>
+    {
+      "@type": "ListItem",
+      "position": <%= index + 1 %>,
+      "item": {
+        "@type": "Product",
+        "name": "<%= crops.name %>",
+        "image": "<%= crops.image[0].url %>",
+        "description": "<%= crops.description %>",
+        "url": "https://farmgate.com.ng/<%= crops._id %>",
+        "offers": {
+          "@type": "Offer",
+          "price": "<%= crops.price || 0 %>",
+          "priceCurrency": "NGN",
+          "availability": "https://schema.org/InStock"
+
+        },
+         "seller": {
+        "@type": "Person"
+      }
+      }
+    }<% if (index !== seedlings.length - 1) { %>,<% } %>
+    <% }) %>
+  ]
+}
+</script>
+
+</head>
+
+    
+        <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+        <div class="flourist"></div>
+    <p>
+        At Farmgate Nigeria, we specialize in linking farmers with their target audience across the globe. 
+        We are committed to helping agricultural businesses connect with new customers and expand their reach 
+        nationwide.
+        if you have any farm product to display for sales, 
+        kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
+    </p>
+        <h1 class="aboutHead">Garden and Floriculture Services</h1>
+    <div class="category">
+        <h3>Garden and Floriculture Services</h3>
+        At Farmgate Nigeria, our garden and floriculture services are designed to enhance the natural beauty 
+        of your environment, ensuring it remains clean, healthy, and free from harmful elements such as dirt, 
+        pests, and weeds. This section focuses on key services, including the establishment and maintenance 
+        of ornamental flowers, urban pest fumigation, as well as the cleaning and fumigation of both 
+        residential and commercial properties.
+        We invite skilled florists with impressive portfolios in landscape design, flower wreath making, 
+        and other related areas to join our interactive platform. As a member of our network, florists can 
+        leverage the Farmgate Nigerian platform to showcase their expertise and secure transformative projects 
+        from a wide audience of site visitors. Florists will have the opportunity to display a variety of 
+        ornamental plants, from indoor plants to hanging plants, wall plants, and more, giving them the chance
+         to reach potential clients looking for high-quality floriculture services.
+        <h3 class="aboutHead">Transform Your Space with Elegant Flower Designs and Expert Floriculture Services</h3>
+        Do you dream of an aesthetically pleasing environment filled with beautifully arranged flowers?
+        Are you looking for unique floral designs for your living room, office, or outdoor space?
+        Or perhaps you simply desire a dependable flower hub within your reach? You may not know it yet 
+        but your ideal flower shop is now closer than ever.
+        Farmgate Nigeria has been launched to serve all your needs in flower arrangement, landscaping, 
+        and indoor–outdoor beautification. Whether you prefer natural plants or low-maintenance 
+        artificial flowers, we have the perfect solution tailored to your style and budget.
+<h3 class="aboutHead">Artificial Flowers for Effortless Beauty — Imported, Durable, and Always Vibrant</h3>
+Many people worry about the stress and cost of maintaining natural flowers: daily watering, trimming, 
+and the inevitable ageing or fading of plants. This is why Farmgate Nigeria proudly introduces a 
+stunning collection of premium artificial flowers, imported from the USA, Brazil, and China.
+<h3 class="aboutHead"></h3>Our artificial flowers are:
+<ul>
+    <li>Vivid and bright all year round — they do not fade.</li>
+    <li>Maintenance-free — no watering or trimming required.</li>
+    <li>Perfectly structured — they retain their original shape, size, and colour.</li>
+    <li>Ideal for homes, offices, events, and long-term decorations.</li>
+</ul>
+
+<h3 class="aboutHead">Natural Flowers: Grown, Nurtured, and Maintained by Experts</h3>
+For lovers of natural beauty, we also cultivate and supply high-quality live plants.
+We plant, nurture, and maintain natural flowers to meet your exact preference.
+<h3 class="aboutHead">Our specialties include:</h3>
+<ul>
+    <li>Edge flowers: e.g. west-indian foreman and variegated ficus</li>
+    <li>Lower-edge flowers: eg. begonia and rose periwinkle</li>
+    <li>Spot flowers: eg. masqurede tree and christmass tree</li>
+    <li>Aromatic flowers: eg. Queen of the night</li>
+</ul>
+Simply tell us your desired style or floral arrangement, and our team will deliver a refreshing, 
+professionally designed transformation.
+<h3 class="aboutHead">Years of Expertise in Landscaping & Floriculture</h3>
+
+With extensive experience in floriculture and flower landscaping, Farmgate Nigeria offers unmatched 
+value in plant propagation, garden design, and long-term flower maintenance. We maintain a rich selection
+of natural flowers, including: West-Indian Foreman, Variegated Ficus and Plumbago Flower.
+And in the rare case that your preferred flower runs out of stock, we will propagate and restock the 
+exact quantity you need so you never miss your target.<br>
+We also offer fumigation services to combat pests that commonly attack lawns and flower beds such as:
+<ul>
+    <li>Termites on gardens and carpet grass</li>
+<li>Termites on cyca palm</li>
+<li>Soldier ants on flower plots</li>
+<li>Soldier ants around poultry areas</li>
+<li>Other garden-related pest concerns</li>
+</ul>
+<h3 class="aboutHead">Frequently Asked Questions</h3>
+<h4>What do we specialise in doing?</h4>
+<ul>
+    <li>Planting and propagation of flowers</li>
+    <li>Maintenance and landscaping of flower gardens</li>
+    <li>Sales of natural and artificial flowers</li>
+    <li>Fumigation and pest-control services</li>
+</ul>
+<h4>How quick do you handle delivery?</h4>
+<p>
+    all deliveries within South-west region(lagos, oyo, osun, ogun, ondo and ekiti) occur within 
+    1 to 3 days
+</p>
+<h4>will i need to pay for flowers before delivery?</h4>
+<p>
+    No! you don't to make payment for delivery before your flowers reaches you but you may be required to 
+    pay the maximum of 2000 naira for delivery logistics service to your door step
+</p>
+
+
+Your flowers and environment deserve the best protection — and we ensure they get it.
+<h3 class="aboutHead">Available Flowers for Sale — Premium Quality at Affordable Prices</h3>
+Below are the varieties currently available at highly competitive prices.
+You are guaranteed value, durability, and beauty with every purchase.
+
+    </div>
+
+    <div class="add-new">
+        <button><a href="/flowers/addnew">Click to add new</a></button>
+        <p>List of the available agrocommodities for sales</p>
+    </div>
+    <div class="general-content">
+        <%if(seedlings.length === 0){%>
+            <div class="no-products">
+                <p>No product at the moment, please check back later</p>
+            </div>
+        <%}else{%>
+            <%seedlings.forEach(function(crops){%>
+                <div class="content">
+                    <a href="/flowers/<%=crops._id%>">
+                        <img height="auto" width="100%" src="<%= crops.image[0].url%>" alt="buy beautiful <%=crops.name%> flowers"/>
+                        <div class="content-desc">
+                            <h3><%=crops.name%></h3>
+                            <p><%=crops.description%></p>
+                            <p>currency: Naira</p>
+                            <p>price: =N=<%=crops.price%></p>
+                        </div>
+                        <button class="frontBtn">See more</button>
+                    </a>
+                </div>
+            <%})%>
+        <%}%>
+    
+</div>
+
+            <div class="pagination">
+                <% if (currentPage > 1) { %>
+                    <a href="/flowers?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+                <% } %>
+
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <a href="/flowers?page=<%= i %>" 
+                        class="page-number <%= i === currentPage ? 'active' : '' %>">
+                        <%= i %>
+                    </a>
+                <% } %>
+
+                <% if (currentPage < totalPages) { %>
+                    <a href="/flowers?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+                <% } %>
+          </div>
+</div>
+<%- include("../partials/footer") %>

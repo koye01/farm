@@ -1,0 +1,189 @@
+<%- include("../partials/header")%>
+<head>
+    <!-- Primary Meta Tags -->
+    <meta charset="utf-8">
+    <title>Fresh Vegetables for Sale | Farmgate Nigeria Marketplace</title>
+    <meta name="title" content="Fresh Vegetables for Sale | Farmgate Nigeria Marketplace">
+    <meta name="description" content="Discover and buy fresh vegetables directly from Nigerian farmers. Farmgate Nigeria connects buyers with leafy and fruity vegetables at farm-gate prices.">
+    <meta name="keywords" content="fresh vegetables for sale, Nigerian vegetables, farm-gate prices, leafy vegetables, fruity vegetables, spinach, tomatoes, peppers, cucumbers, Farmgate Nigeria">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmgate.com.ng/vegetables">
+    <meta property="og:title" content="Fresh Vegetables for Sale | Farmgate Nigeria Marketplace">
+    <meta property="og:description" content="Buy fresh vegetables directly from Nigerian farmers. Leafy and fruity vegetables available at competitive farm-gate prices.">
+    <meta property="og:image" content="<%= image %>">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://farmgate.com.ng/vegetables">
+    <meta name="twitter:title" content="Fresh Vegetables for Sale | Farmgate Nigeria Marketplace">
+    <meta name="twitter:description" content="Buy fresh vegetables directly from Nigerian farmers. Leafy and fruity vegetables available at competitive farm-gate prices.">
+    <meta name="twitter:image" content="<%= image %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Farmgate Nigeria",
+      "url": "https://farmgate.com.ng",
+      "logo": "https://farmgate.com.ng/pics/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/Koyegarden",
+        "https://www.instagram.com/farmgatengr"
+      ]
+    }
+    </script>
+
+    <!-- ItemList Schema for Vegetables -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Fresh Vegetables for Sale",
+      "description": "List of fresh leafy and fruity vegetables available at Farmgate Nigeria at farm-gate prices.",
+      "itemListElement": [
+        <% veggies.forEach(function(veg, index){ %>
+        {
+          "@type": "Product",
+          "position": <%= index + 1 %>,
+          "name": "<%= veg.name %>",
+          "image": "<%= veg.image[0].url %>",
+          "description": "<%= veg.description %>",
+          "offers": {
+            "@type": "Offer",
+            "url": "https://farmgate.com.ng/<%= veg._id %>",
+            "availability": "https://schema.org/InStock",
+            "priceCurrency": "NGN",
+            "price": "<%= veg.price %>"
+          }
+        }<% if(index < veggies.length - 1) { %>,<% } %>
+        <% }) %>
+      ]
+    }
+    </script>
+</head>
+
+
+<div class="category">
+            <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+                <div class="veg"></div>
+            <p>
+                We are open for business all across the nation, 
+                if you have any farm product to display for sales, 
+                kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
+            </p>
+        <div class="category">
+
+            <h1 class="aboutHead">Vegetable Category – Farmgate Nigeria</h1>
+            <p>
+            Vegetables remain one of nature’s richest sources of essential nutrients and antioxidants. 
+            They play a vital role in supporting overall wellness by contributing to improved immunity, 
+            healthy aging, enhanced vitality, and general body nourishment. Numerous studies have shown 
+            that individuals who include adequate amounts of fresh vegetables in their daily meals tend 
+            to enjoy better long-term health and improved resistance to common ailments.
+            Farmgate Nigeria is proud to pioneer a fully integrated digital marketplace that connects 
+            vegetable farmers directly with consumers, retailers, wholesalers, and event planners across 
+            the country. Our platform is the first of its kind in Nigeria—designed specifically to empower
+         vegetable growers and provide buyers with easy, unrestricted access to fresh, locally grown 
+         produce.
+        </p>
+        <h3 class="aboutHead">For Vegetable Farmers</h3>
+        <p>
+        This is a call to all vegetable farmers nationwide: Farmgate Nigeria offers you a ready-made 
+        online marketplace where you can showcase your produce to thousands of buyers who are actively 
+        searching for fresh leafy and fruity vegetables. Whether you grow in small, medium, or large 
+        quantities, our platform ensures your products reach the right customers at the right time.
+      </p>
+        <h3 class="aboutHead">For Buyers & Event Planners</h3>
+        <p>
+
+        
+        Planning a large event or stocking up for commercial food preparation? Farmgate Nigeria gives you 
+        direct access to trusted vegetable sellers and farmers in every region of Nigeria. You can 
+        conveniently order bulk quantities of leafy vegetables such as:<br>
+        </p>
+        <ul>
+          <li>Jute mallow (Ewedu)</li>
+          <li>Spinach</li>
+          <li>Celosia</li>
+          <li>Amaranthus</li>
+          <li>Waterleaf</li>
+          <li>Fluted pumpkin (Ugu)
+        </ul>
+        Perfect for preparing soups like Ewedu, Efo-Riro, and other traditional delicacies.
+        We also offer seamless access to bulk orders of fruity vegetables including:<br>
+        <ul>
+          <li>Tomatoes</li>
+          <li>Peppers</li>
+          <li>Cucumbers</li>
+          <li>Garden eggs</li>
+          <li>Eggplants</li>
+          <li>Onions</li>
+        </ul>
+        Ideal for salads, stews, sauces, catering services, and party menus.
+        <h3 class="aboutHead">Our Commitment</h3>
+        At Farmgate Nigeria, our priority is to ensure that consumers enjoy fresh, unadulterated farm 
+        produce sourced directly from farmers—without preservatives, middlemen, or foreign additives. 
+        We aim to make high-quality vegetables affordable and accessible to households, restaurants, 
+        markets, and event planners across the country, all at true farm-gate prices.
+        Farmgate Nigeria is your trusted link to reliable vegetable farmers and quality produce—fresh 
+        from the farm to your doorstep.
+        </div>
+
+            <div class="add-new">
+                <button><a href="/vegetables/addnew">Add to vegetables</a></button>
+                <p>List of the available agrocommodities for sales</p>
+            </div>
+            <div class="general-content">
+              <%if(veggies.length === 0){%>
+            <div class="no-products">
+                <p>No product at the moment, please check back later</p>
+            </div>
+        <%}else{%>
+            <%veggies.forEach(function(veg){%>
+                <div class="content">
+                    <a href="/vegetables/<%=veg._id%>">
+                        <img height="auto" width="100%" src="<%= veg.image[0].url%>" alt="a batch of farm fresh <%=veg.name%> for sell"/>
+                        <div class="content-desc">
+                            <h3><%=veg.name%></h3>
+                            <p><%=veg.description%></p>
+                            <p>currency: Naira</p>
+                          <p>price: =N=<%=veg.price%></p>
+                        </div>
+                        <button class="frontBtn">See more</button>
+                    </a>
+                    
+                </div>
+            <%})%>
+            <%}%>
+        </div>
+        
+                <div class="pagination">
+                  <% if (currentPage > 1) { %>
+                      <a href="/vegetables?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+                  <% } %>
+
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                      <a href="/vegetables?page=<%= i %>" 
+                        class="page-number <%= i === currentPage ? 'active' : '' %>">
+                          <%= i %>
+                      </a>
+                  <% } %>
+
+                  <% if (currentPage < totalPages) { %>
+                      <a href="/vegetables?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+                  <% } %>
+              </div>
+</div>
+<%- include("../partials/footer")%>
+    

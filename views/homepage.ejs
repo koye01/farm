@@ -1,0 +1,27 @@
+<%-include("./partials/header") %>
+    <div>
+        We are open for business all across the nation, 
+        if you have any farm product to display for sales, 
+        kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
+    </div>
+    <div class="add-new">
+        <button><a href="/addnew">Upload a new commodity</a></button>
+        <p>List of the available agrocommodities for sales</p>
+    </div>
+    <div class="general-content">
+    <%product.slice().reverse().forEach(function(prod){%>
+        <div class="content">
+            <a href="/<%=prod._id%>">
+                <img height="auto" width="100%" src="<%= prod.image[0].url%>" alt="<%=prod.image[0].name%>"/>
+                <div class="content-desc">
+                    <h1><%=prod.name%></h1>
+                    <p><%=prod.description%></p>
+                </div>
+                <button class="frontBtn">See more</button>
+            </a>
+            
+        </div>
+        
+    <%})%>
+</div>
+<%- include("./partials/footer") %>

@@ -1,0 +1,11 @@
+ <%- include("./partials/header") %>
+<h3>Following</h3>
+<ol>
+    <% listfollowing.forEach(function(follow){%>
+        <li>
+        <a href="/user/<%=follow.id%>"><%=follow.username%> </a>
+        </li>
+        
+    <%})%>
+</ol>
+ <%- include("./partials/footer") %>

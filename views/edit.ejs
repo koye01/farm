@@ -1,0 +1,28 @@
+<%- include("./partials/header") %>
+<h2>Edit <%= edit.name%></h2>
+<form action="/<%= edit.category %>/<%= edit.id%>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <div class="form-style">
+        <label>Name</label>
+        <input type="text" name="update[name]" value="<%= edit.name%>" required>
+        <%if(edit.category !== "Agricultural talk"){%>
+            <div id="priceWrapper">
+                <label>Price</label>
+                <input type="text" name="update[price]" value="<%= edit.price%>">
+            </div>
+        <%}%>
+        
+        <div class="clusterImage">
+            <label>Image preview</label>
+            <img src="<%=edit.image[0].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+            <img src="<%=edit.image[1].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+            <img src="<%=edit.image[2].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
+        </div>
+        <label>Existing Image URLs</label>
+        <label>Image</label>
+        <input type="file" name="image" required multiple accept="image/*">
+        <label>product's description</label> 
+        <textarea name="update[description]" rows="4" style="resize: vertical; width: 100%;"><%- edit.description%></textarea> 
+        <button>Update</button>
+    </div>
+</form>
+<%- include("./partials/footer") %>

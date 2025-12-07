@@ -1,0 +1,37 @@
+<%- include("../partials/header")%>
+
+<p>
+    We are open for business all across the nation, 
+    if you have any farm product to display for sales, 
+    kindly click the "add to store" button below for your product's display and expect a call to action in some moment later
+</p>
+ <% if(currentUser && currentUser.isAdmin){%>
+        <div class="add-new">
+            <button><a href="/addnew">Available admin posts</a></button>
+            <p>List of the available agrocommodities for sales</p>
+        </div>
+        <div class="general-content">
+        <%post.forEach(function(adminpost){%>
+            <div class="content">
+                    <img height="auto" width="100%" src="<%= adminpost.image[0].url%>" alt="<%=adminpost.name%>"/>
+                    <div class="content-desc">
+                        <h1><%=adminpost.name%></h1>
+                        <p><%=adminpost.price%> naira</p>
+                        <p>submitted by <a href="/user/<%=adminpost.author.id%>"><%=adminpost.author.username%></a></p>
+                        <p><%=adminpost.category%></p>
+                    </div>
+                    <a href="/<%=adminpost._id%>"><button class="frontBtn">See more</button></a>
+                
+                <div>
+                    <form action="/adminpost/<%=adminpost.id%>" method="post">
+                    <button id="delete">delete</button>
+                </form>
+                    <button id="approve"><a href="/approvepost/<%=adminpost._id%>">approve</a></button>
+                </div>
+            </div>
+        <%})%>
+        </div>
+  <%}else{%>
+        <h2>You are not authorized to view this post</h2>
+  <%}%>
+  <%- include("../partials/footer") %>

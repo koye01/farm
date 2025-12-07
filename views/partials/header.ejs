@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3065HDSTE3"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-3065HDSTE3');
+        </script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- SEO Title -->
+    <title><%= title %> | Farmgate Nigeria</title>
+        <!-- noindex setup -->
+    <% if (typeof noindex !== "undefined" && noindex) { %>
+        <meta name="robots" content="noindex, nofollow">
+    <% } %>
+    <!-- Primary SEO Meta Tags -->
+    <meta name="description" content="<%= description %>">
+    <meta name="keywords" content="<%= keywords %>, farm products, agriculture, buy farm produce online, farmgate market, Nigeria agriculture marketplace">
+    <meta name="author" content="Farmgate Market Nigeria">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL (helps SEO & prevents duplicate content issues) -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+
+    <!-- Open Graph Meta Tags (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="<%= title %> | Farmgate Nigeria">
+    <meta property="og:description" content="<%= description %>">
+    <meta property="og:image" content="<%= image[0].url %>">
+    <meta property="og:url" content="<%= canonicalUrl %>">
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="Farmgate Market Nigeria">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= title %> | Farmgate Nigeria">
+    <meta name="twitter:description" content="<%= description %>">
+    <meta name="twitter:image" content="<%= image[0].url %>">
+    <!-- <meta name="twitter:site" content="@farmgate"> 
+    <meta name="twitter:creator" content="@farmgate">  -->
+
+     <!-- Favicon -->
+     <link rel="icon" href="https://farmgate.com.ng/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="https://farmgate.com.ng/pics/logo.png">
+    <link rel="icon" type="image/png" href="/pics/logo.png">
+
+    <link rel="stylesheet" href="/stylesheet/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+      
+          
+</head>
+    
+<body>
+<div class="container">
+    <div class="nav1">
+            <div class="homepage">
+                <h2 class="navbar"><a href="/">Home</a></h2>
+            </div>
+            <input type="checkbox" id="check">
+            <label for="check" class="check-btn">
+                <i class="fa-solid fa-bars"></i>
+            </label>
+            <div class="para">
+                        <p class="navbar right"><a href="/about">About</a></p>
+                    <p class="navbar right"><a href="/contact">Contact us</a></p>
+
+                    <% if(!currentUser){%>
+                        <p class="navbar right"><a href="/register">sign up</a></p>
+                        <p class="navbar right"><a href="/login">login</a></p>
+                    <% }else if(currentUser){ %>
+                        <div class="navbar right dropdown">
+                            <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Notification <span><%=notifications.length%></span>
+                            </a>
+                            <div class="dropdown-content">
+                            <ul>
+                                <li>
+                                    <a href="/notifications">View past notifications</a>
+                                </li>
+                                
+                                <%notifications.forEach(function(notif){%>
+                                    <%if(notif.post.username){%>
+                                        <li>
+                                            <a href="/<%=notif.post.productId%>"><%=notif.post.username%> Uploaded new items</a>
+                                        </li> 
+                                    <% }%>
+                                <%})%>
+                                <!-- comment notifications -->
+                                <%notifications.forEach(function(notif){%>
+                                    <%if(notif.comment.username){%>
+                                        <li>
+                                            <a href="/<%=notif.comment.productId%>"><%=notif.comment.username%> commented on your post</a>
+                                        </li>
+                                    <% }%>
+                                    
+                                <%})%>
+                                <!-- Replies notifications -->
+                                <%notifications.forEach(function(notif){%>
+                                    <%if(notif.reply.username){%>
+                                        <li>
+                                            <a href="/<%=notif.reply.productId%>"><%=notif.reply.username%> replied to your post</a>
+                                        </li>
+                                    <% }%>
+                                    
+                                <%})%>
+
+                                <!-- chat notifications -->
+                                 <%notifications.forEach(function(notif){%>
+                                    <%if(notif.chat.username){%>
+                                        <li>
+                                            <a href="/chat/<%=notif.chat.userID%>"><%=notif.chat.username%> messaged you</a>
+                                        </li>
+                                    <%}%>
+                                 <%})%>
+                            </ul>    
+                                
+                                
+                            </div>
+                        </div>
+                        <!-- <p class="navbar right"><a href="">Notification</a><span>10</span></p> -->
+                        <p class="navbar right"><a href="/user/<%=currentUser.id%>"><%=currentUser.username%>'s profile</a> </p>
+                            <p class="navbar right"><a href="/logout">logout</a></p>
+                    <% }%>
+            </div>
+            
+        </div>
+        
+        <div class="header-page">
+                <li></li>
+                <div class="logo">
+                    <a href="/"><img src="/pics/logo.png" alt="farmgate company logo" width="120px" height="120px"/></a>
+                </div>
+            <div class="front-page">
+                    <h2>Welcome to Farmgate Nigeria</h2>
+                    <p>Your non-stop access to all sort of farm gadgets at farmgate prices</p>
+            </div>
+            
+        </div>
+        <% if(success && success.length > 0){ %>
+            <div class="success">
+                <%=success%>
+            </div>
+        <% }else if(error && error.length > 0){%>
+            <div class="error">
+            <%=error%> 
+            </div>
+            
+        <%}%>
+</div>
+        
+    
+    <script type="text/javascript" src="/js/myjs.js"></script>

@@ -1,0 +1,161 @@
+<%- include("../partials/header")%>
+<head>
+    <meta charset="utf-8">
+    <title>Agricultural Talk – Engage, Learn & Connect | Farmgate Nigeria</title>
+    <meta name="description" content="Join Nigeria’s leading farm discussion hub for livestock management, animal health, feeding formulation, and disease control insights. Share your experiences and connect with other farmers.">
+    <meta name="keywords" content="Agricultural Talk, Farmgate Nigeria, livestock management, animal health, pet care Nigeria, feeding formulation, livestock diseases, farm discussion, agricultural forum Nigeria, animal behavior, livestock solutions">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Agricultural Talk – Connect With Farmers & Share Insights">
+    <meta property="og:description" content="Discuss livestock care, feeding tips, disease control, and farm best practices with farmers across Nigeria.">
+    <meta property="og:image" content="<%= image %>">
+    <meta property="og:url" content="https://farmgate.com.ng/talk">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agricultural Talk – Livestock Advice & Farm Insights">
+    <meta name="twitter:description" content="Discuss animal health, feeding, disease solutions, and livestock best practices with farmers across Nigeria.">
+    <meta name="twitter:image" content="<%= image %>">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= canonicalUrl %>">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Agricultural Talk",
+      "description": "A discussion hub for Nigerian farmers to share insights on livestock care, feeding, and animal health.",
+      "url": "https://farmgate.com.ng/talk",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Farmgate Nigeria",
+        "url": "https://farmgate.com.ng",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://farmgate.com.ng/pics/logo.png"
+        }
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+          <% Agricultural_talk.forEach(function(talk, index){ %>
+          {
+            "@type": "ListItem",
+            "position": <%= index + 1 %>,
+            "url": "https://farmgate.com.ng/<%= talk._id %>"
+          }<% if (index !== Agricultural_talk.length - 1) { %>,<% } %>
+          <% }); %>
+        ]
+      }
+    }
+    </script>
+</head>
+
+
+<!-- <div class="categorycontainer"> -->
+<div class="category">
+    <h3 class="aboutHead">CONNECTING FARMERS TO GLOBAL MARKETS - Your Digital Marketing Solution</h3>
+        
+        <h1 class="aboutHead">Agricultural Talk</h1>
+        <div class="category">
+        <p>
+          Welcome to the Agricultural Talk section of Farmgate Nigeria, your go-to platform for insights, 
+          knowledge-sharing, and lively discussion on all things agriculture. Whether you are a farmer, 
+          agripreneur, horticulturist, beekeeper, or <a href="/livestocks">livestock manager,</a>  you’ll find value here.
+        </p>
+    <h3>What Is Agricultural Talk?</h3>
+    <p>
+      Agricultural Talk is more than just a forum: it's a community-driven space integrated into Farmgate’s 
+      marketplace. Here, users openly discuss current trends, challenges, and innovations across the 
+      agricultural value chain. You can:
+    </p>
+  <ul>
+    <li>Ask questions or share your experiences</li>
+    <li>Post up to three images to illustrate your scenario</li>
+    <li>Connect with other farmers, experts, and buyers in the comments</li>
+  </ul>
+  <h3>Branches of Agriculture You Can Engage In</h3>
+  Here are some of the key areas you can explore or contribute to in Agricultural Talk:
+  <b>Crop Science & Agronomy:</b> (Best crop varieties for Nigerian soil), (Soil fertility, fertilization, 
+  and nutrient management), (Pest, weed, and disease control), (Climate-smart and sustainable farming 
+  techniques), (<a href="/flowers">Floriculture</a> & Horticulture), <a href="/flowers">(Growing ornamentals, flowers,</a>
+    and nursery plants), (Landscape design, greenhouse management, and propagation), 
+    (Urban gardening, vertical farming, and hydroponics),
+  <b>Apiculture (Beekeeping):</b>, Beehive set‑up & management, Honey production and harvesting best practices,
+  (Bee health, pollination, and environmental factors), <b>Livestock & Animal Husbandry:</b> 
+  (Poultry, cattle, goats, and other farm animals), (Animal nutrition, breeding, and welfare), 
+  Disease prevention and veterinary care, <b>Aquaculture & Fisheries:</b> Fish farming systems(ponds, tanks, cages),
+  (Water quality, feed management, and fish health), Harvesting strategies and market access, 
+  <b>Soil Science & Agroecology:</b> Soil conservation and erosion control, Organic farming and regenerative 
+  agriculture, Agroforestry and sustainable land use <b>Farm Business & Market Trends:</b>Farm-to-market economics,
+  (Farmgate pricing, supply chain, and logistics), Policy, technology, and innovation in 
+  Nigerian agriculture.
+
+  <h3 class="aboutHead">How to Participate</h3>
+  <ul>
+    <li>Log in to your Farmgate Nigeria account (or sign up if you don’t have one).</li>
+    <li>Navigate to Agricultural Talk from the main menu.</li>
+    <li>click the "contribute button"</li>
+    <li>Upload up to three images to better explain your scenario.</li>
+    <li>Write a clear, detailed description of your question, situation, or insight.</li>
+    <li>Submit your post: other community members will respond with advice, suggestions, or feedback.</li>
+  </ul>
+  <h3 class="aboutHead">Why Join Agricultural Talk?</h3>
+  <ul>
+    <li>Learn from real farmers & experts: Tap into collective wisdom from across Nigeria.</li>
+    <li>Stay updated with trends: Be the first to hear about new agricultural technologies, market 
+      opportunities, and policy updates.</li>
+    <li>Grow your network: Build relationships with other farmers, buyers, and agribusinesses.</li>
+    <li>Make smarter decisions: Use the insights from discussions to improve your farm operations, 
+      whether in crops, livestock, or floriculture.</li>
+  </ul>
+
+  </div>
+            
+
+    <div class="add-new">
+        <button><a href="/agricultural_talk/addnew">Click to contribute</a></button>
+        <p>Matters arising in the field of Agricultural Sciences</p>
+    </div>
+            
+    </p>
+
+    <div class="general-content">
+    <%Agricultural_talk.forEach(function(talk){%>
+        <div class="content">
+            <a href="/agricultural_talk/<%=talk._id%>">
+                <img height="auto" width="100%" src="<%= talk.image[0].url%>" alt="lively discussion about <%=talk.name%>"/>
+                <div class="content-desc">
+                    <h3 class="profile">matters arising on <%=talk.name%></h3>
+                    <p><%=talk.description%></p>
+                </div>
+                <button class="frontBtn">See more</button>
+            </a>
+            
+        </div>
+        
+    <%})%>
+</div>
+<div class="pagination">
+            <% if (currentPage > 1) { %>
+                <a href="/talk?page=<%= currentPage - 1 %>" class="page-btn">Previous</a>
+            <% } %>
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/talk?page=<%= i %>" 
+                  class="page-number <%= i === currentPage ? 'active' : '' %>">
+                    <%= i %>
+                </a>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+                <a href="/talk?page=<%= currentPage + 1 %>" class="page-btn">Next</a>
+            <% } %>
+        </div>
+</div>
+<%- include("../partials/footer") %>

@@ -1,0 +1,21 @@
+<%- include("./partials/header") %>
+
+        <%if(product.length > 0){%>
+            <% product.forEach(function(search){%>
+                <a href="/<%=search.category%>/<%=search.id%>">
+                    <div class="profile">
+                    <img height="auto" width="auto" src="<%= search.image[0].url%>" alt="<%=search.name%>"/>
+                    <div class="descLink">
+                        <h3><%=search.name%></h3>
+                        <p><%=search.description%></p>
+                    </div>
+                    <button class="frontBtn"><a href="/<%=search.category%>/<%=search.id%>">See more</a></button>
+                </div>
+                </a>
+                
+
+            <%})%>
+        <%} else{%>
+            <h1>product not found</h1>
+        <%}%>
+
