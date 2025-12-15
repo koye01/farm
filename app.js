@@ -15,6 +15,8 @@ var express = require("express"),
     passportLocalMongoose = require("passport-local-mongoose"),
     expressSession = require("express-session");
     const bcrypt = require("bcryptjs");
+    require('dotenv').config();
+
 
 
 var coverRoute   = require("./routes/cover");

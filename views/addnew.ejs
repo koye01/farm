@@ -18,11 +18,11 @@
                 <option value="Others">Others</option>
             </select>
             <label>Name</label>
-            <input type="number" name="name" placeholder="Product's name">
+            <input type="text" name="name" placeholder="Product's name">
             <%if(!product || product.category !== 'Agricultural talk'){%>
                 <div id="priceWrapper">
                     <label>Price</label>
-                    <input type="text" name="price" placeholder="Product's price">
+                    <input type="number" name="price" placeholder="Product's price">
                 </div>
            <% }%>
             

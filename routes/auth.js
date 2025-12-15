@@ -149,7 +149,7 @@ router.post("/forgot", async function(req, res, next) {
             service: "Gmail",
             auth: {
                 user: "koyegarden@gmail.com",
-                pass: process.env.password
+                pass: process.env.EMAIL_PASS
             }
         });
 
@@ -164,8 +164,7 @@ router.post("/forgot", async function(req, res, next) {
         };
 
         await smtpTransport.sendMail(mailOptions);
-
-        console.log("Mail sent");
+        
         req.flash("success", `An e-mail has been sent to ${user.email} with further instructions.`);
 
         res.redirect("/forgot");
@@ -240,7 +239,7 @@ router.post("/reset/:token", async function(req, res) {
             service: "Gmail",
             auth: {
                 user: "koyegarden@gmail.com",
-                pass: process.env.password
+                pass: process.env.EMAIL_PASS
             }
         });
 
