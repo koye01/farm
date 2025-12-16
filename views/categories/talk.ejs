@@ -132,7 +132,7 @@
                 <img height="auto" width="100%" src="<%= talk.image[0].url%>" alt="lively discussion about <%=talk.name%>"/>
                 <div class="content-desc">
                     <h3 class="profile">matters arising on <%=talk.name%></h3>
-                    <p><%=talk.description%></p>
+                    <p><%=talk.description.substring(0, 600)+ "..."%></p>
                 </div>
                 <button class="frontBtn">See more</button>
             </a>
