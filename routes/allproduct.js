@@ -101,7 +101,7 @@ async function uploadImages(req, res) {
     const images = await Promise.all(uploadPromises);
 
     // Now safely save to MongoDB
-    const { category, name, price, description } = req.body;
+    const { category, name, price, description, location } = req.body;
     const author = {
       id: req.user._id,
       username: req.user.username,
@@ -114,6 +114,7 @@ async function uploadImages(req, res) {
       name,
       price,
       description,
+      location,
       author,
       image: images
     });
@@ -364,9 +365,10 @@ router.put("/:category/:id", middleware.isOwner, multiUpload.array('image', 10),
         }
 
         // Update other fields
-        const { name, price, description } = req.body.update || {};
+        const { name, location, price, description } = req.body.update || {};
         
         if (name) existingProduct.name = name;
+        if(location) existingProduct.location = location;
         if (price !== undefined) existingProduct.price = price;
         if (description) existingProduct.description = description;
         

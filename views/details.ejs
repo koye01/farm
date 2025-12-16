@@ -17,7 +17,7 @@
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="<%= detailed.category != 'Agricultural talk' ? 'product' : 'article' %>">
-    <meta property="og:url" content="https://farmgate.com.ng/<%= detailed._id %>">
+    <meta property="og:url" content="https://farmgate.com.ng/<%= detailed.category %>/<%= detailed._id %>">
     <meta property="og:title" content="<%= detailed.name %> | Farmgate Nigeria">
     <meta property="og:description" content="<%= detailed.description %>">
     <meta property="og:image" content="<%= detailed.image[0].url %>">
@@ -25,7 +25,7 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://farmgate.com.ng/<%= detailed._id %>">
+    <meta name="twitter:url" content="https://farmgate.com.ng/<%= detailed.category %>/<%= detailed._id %>">
     <meta name="twitter:title" content="<%= detailed.name %> | Farmgate Nigeria">
     <meta name="twitter:description" content="<%= detailed.description %>">
     <meta name="twitter:image" content="<%= detailed.image[0].url %>">
@@ -34,35 +34,42 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://farmgate.com.ng/<%= detailed._id %>">
+    <link rel="canonical" href="https://farmgate.com.ng/<%= detailed.category %>/<%= detailed._id %>">
 
     <!-- JSON-LD Structured Data -->
     <% if(detailed.category != 'Agricultural talk'){ %>
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": "<%= detailed.name %>",
-      "image": [
-        "<%= detailed.image[0].url %>",
-        "<%= detailed.image[1] ? detailed.image[1].url : detailed.image[0].url %>",
-        "<%= detailed.image[2] ? detailed.image[2].url : detailed.image[0].url %>"
-      ],
-      "description": "<%= detailed.description %>",
-      "url": "https://farmgate.com.ng/<%= detailed._id %>",
-      "offers": {
-        "@type": "Offer",
-        "price": "<%= detailed.price || 0 %>",
-        "priceCurrency": "NGN",
-        "availability": "https://schema.org/InStock",
-        "url": "https://farmgate.com.ng/<%= detailed._id %>"
-      },
-      "seller": {
-        "@type": "Person",
-        "name": "<%= detailed.author.username %>"
-      }
-    }
-    </script>
+        {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "<%= detailed.name %>",
+        "image": [
+            "<%= detailed.image?.[0]?.url || '' %>",
+            "<%= detailed.image?.[1]?.url || detailed.image?.[0]?.url || '' %>",
+            "<%= detailed.image?.[2]?.url || detailed.image?.[0]?.url || '' %>"
+        ],
+        "description": "<%= detailed.description %>",
+        "url": "https://farmgate.com.ng/<%= detailed.category %>/<%= detailed._id %>",
+        "offers": {
+            "@type": "Offer",
+            "price": "<%= detailed.price || 0 %>",
+            "priceCurrency": "NGN",
+            "availability": "https://schema.org/InStock",
+            "url": "https://farmgate.com.ng/<%= detailed.category %>/<%= detailed._id %>"
+        },
+        "seller": {
+            "@type": "Person",
+            "name": "<%= detailed.author?.username || 'Farmgate Seller' %>"
+        }
+        <% if (detailed.location) { %>,
+        "areaServed": {
+            "@type": "Place",
+            "name": "<%= detailed.location %>"
+        }
+        <% } %>
+        }
+        </script>
+
     <% } else { %>
     <script type="application/ld+json">
     {
@@ -74,7 +81,7 @@
         "@type": "Person",
         "name": "<%= detailed.author.username %>"
       },
-      "url": "https://farmgate.com.ng/<%= detailed._id %>"
+      "url": "https://farmgate.com.ng/<%= detailed.category %>/<%= detailed._id %>"
       
     }
     </script>
@@ -103,7 +110,11 @@
         </div>
             
         <div class="descp">
-                <p><%= detailed.description %></p>
+            <p><%= detailed.description %></p>
+                <% if (detailed.location) { %>
+                    <p><%= detailed.location %></p>
+                <% } %>
+
                 <% if(detailed.category !== "Agricultural talk"){%>
                     <p>Price: =N=<%= detailed.price %></p>
                 <%}%>

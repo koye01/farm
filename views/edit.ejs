@@ -10,7 +10,11 @@
                 <input type="text" name="update[price]" value="<%= edit.price%>">
             </div>
         <%}%>
-        
+
+        <%if(edit.location){%>
+            <label>Name</label>
+            <input type="text" name="update[location]" value="<%= edit.location%>" required>
+        <%}%>
         <div class="clusterImage">
             <label>Image preview</label>
             <img src="<%=edit.image[0].url%>" name="image" alt="<%=edit.name%>" height="200px" width="auto">
