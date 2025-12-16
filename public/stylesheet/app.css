@@ -543,18 +543,20 @@ a {
     text-align: center;
 }
 .success{
+    background-color: green;
     margin: 2px auto;
-    height: 30px;
+    /* height: 30px; */
+    padding: 2px 2px;
     width: 100%;
     color: black;
     border: white;
-    background-color: green;
 }
 .error{
     margin: 2px auto;
     height: 30px;
     width: 100%;
     background-color: red;
+    padding: 2px 2px;
     color: white;
     border: white;
 }
@@ -804,7 +806,7 @@ background-color: rgb(209, 132, 132);;
 }
 .my-message {
     background-color: #d1e7dd; /* light green */
-    height: 40px;
+    /* height: 40px; */
     width: 90%;
     padding: 10px;
     border-radius: 8px;
@@ -815,7 +817,7 @@ background-color: rgb(209, 132, 132);;
 
   .their-message {
     background-color: #f8d7da; /* light red */
-    height: 40px;
+    /* height: 40px; */
     width: 90%;
     padding: 10px;
     border-radius: 8px;

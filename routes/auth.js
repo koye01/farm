@@ -191,6 +191,8 @@ router.get("/reset/:token", async function(req, res){
     });
 });
 
+
+//forgot password
 router.post("/reset/:token", async function(req, res) {
     try {
         // Step 1: Find user by reset token and check token expiration
