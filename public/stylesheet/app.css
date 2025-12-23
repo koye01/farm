@@ -6,7 +6,7 @@ body{
     /* color: blue; */
     text-align: center;
     max-width: 840px;
-    margin: 0px auto 50px auto;
+    margin: 0px auto 0px auto;
     /* margin-bottom: 50px; */
 }
 /* .container{
@@ -1054,6 +1054,7 @@ background-color: rgb(209, 132, 132);;
     /* position: fixed;
     padding: 5px;
     bottom: 0; */
+    margin-bottom: 0px;
     background-color: #cfcece;
     /* margin: 0px 0px; */
     /* align-content: center; */
@@ -1098,7 +1099,8 @@ background-color: rgb(209, 132, 132);;
 
 @media(max-width: 600px){
    .footerInfo{
-    width: 100%;
+    width: 90%;
+    margin: 0px auto;
     text-align: center;
     /* margin: 0px 20px 0px 20px; */
    }
