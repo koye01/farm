@@ -101,7 +101,7 @@ router.get("/:category/:id/comment/:comment_id/reply", middleware.isLoggedIn, as
         res.render("comment_sub/new", {category, product, parentComment, title: product.name,
             description: parentComment.post, 
             keywords: product.name,
-            image: product.image, canonicalUrl, noindex: true}); // Render the reply form
+            image: product.image, canonicalUrl}); // Render the reply form
     } catch (err) {
         res.redirect("back");
         req.flash("error", err.message);

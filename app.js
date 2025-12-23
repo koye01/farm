@@ -120,21 +120,89 @@ app.use(
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
-        "https://www.googletagmanager.com", // Allow external GA script
-        "'unsafe-inline'", // Optional: Use this ONLY if needed; better to use nonce or hash
+        "https://www.googletagmanager.com",
+        "https://connect.facebook.net",
+        "https://www.googleadservices.com",
+        "https://googleads.g.doubleclick.net",
+        "'unsafe-inline'",
+        "'unsafe-eval'",
+      ],
+      styleSrc: [
+        "'self'",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/",
+        "'unsafe-inline'",
       ],
       imgSrc: [
         "'self'",
+        "https://farmgate.com.ng", // Allows images from your production domain
         "https://res.cloudinary.com",
+        "https://*.cloudinary.com",
         "https://www.facebook.com",
+        "https://*.facebook.com",
+        "https://*.fbcdn.net",
         "https://platform.twitter.com",
         "https://www.linkedin.com",
+        "https://www.google.com",
+        "https://www.google.com.ng", // Explicitly allow the Nigerian domain
+        "https://www.google-analytics.com",
+        "https://googleads.g.doubleclick.net",
+        "https://*.googleusercontent.com",
+        "data:",
+        "blob:",
+      ],
+      connectSrc: [
+        "'self'",
+        "https://www.google-analytics.com",
+        "https://*.facebook.com",
+        "https://graph.facebook.com",
+        "https://www.google.com",
+        "https://*.cloudinary.com",
+        "wss://*.facebook.com",
+      ],
+      frameSrc: [
+        "https://www.googletagmanager.com",
+        "https://www.facebook.com",
+        "https://*.facebook.com",
+      ],
+      childSrc: [
+        "https://www.facebook.com",
+        "https://*.facebook.com",
+      ],
+      fontSrc: [
+        "'self'",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/",
+        "https://fonts.gstatic.com",
         "data:",
       ],
-      connectSrc: ["'self'", "https://www.google-analytics.com"], // For GA tracking requests
+      mediaSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      formAction: ["'self'"],
     },
+    reportOnly: false,
   })
 );
+
+  // FIXED: Configure helmet WITHOUT crossOriginEmbedderPolicy for now
+  // Or use unsafe-none if you need it
+  app.use(helmet({
+    // Don't set crossOriginEmbedderPolicy at all for compatibility
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
+    crossOriginResourcePolicy: false,
+    contentSecurityPolicy: false, // Already configured above
+  }));
+
+  // Add other security headers individually
+  app.use(helmet.dnsPrefetchControl());
+  app.use(helmet.frameguard({ action: 'deny' }));
+  app.use(helmet.hidePoweredBy());
+  app.use(helmet.hsts({ maxAge: 31536000 }));
+  app.use(helmet.ieNoOpen());
+  app.use(helmet.noSniff());
+  app.use(helmet.referrerPolicy({ policy: 'strict-origin-when-cross-origin' }));
+  app.use(helmet.xssFilter());
+
 // Serve robots.txt
 app.get("/robots.txt", function (req, res) {
   res.type("text/plain");
@@ -146,6 +214,7 @@ Disallow: /api/
 Allow: /`
   );
 });
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
