@@ -1,51 +1,47 @@
-<%- include("./partials/header") %>
+<%
+  const totalReviews = user.reviews.length;
+  const avgRating = totalReviews > 0
+    ? (user.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1)
+    : null;
 
-<head>
-    <!-- Seller Profile JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: user.fullname || user.username,
+    url: `https://farmgate.com.ng/user/${user._id}`,
+    image: user.image?.[0]?.url || "/default-profile.jpg",
+    description: user.description || "Farmgate Nigeria seller profile",
+    email: user.email,
+    telephone: user.phone
+  };
 
-      "name": "<%= user.fullname || user.username %>",
-      "url": "https://farmgate.com.ng/user/<%= user._id %>",
-      "image": "<%= user.image && user.image[0] ? user.image[0].url : '/default-profile.jpg' %>",
-      "description": "<%= user.description || 'Farmgate Nigeria seller profile' %>",
-      "email": "<%= user.email %>",
-      "telephone": "<%= user.phone %>",
+  if (totalReviews > 0) {
+    schema.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: avgRating,
+      reviewCount: totalReviews
+    };
 
-      <% let totalReviews = user.reviews.length; %>
-      <% let avgRating = totalReviews > 0 ? (user.reviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1) : 0; %>
-
-      <% if (totalReviews > 0) { %>
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "<%= avgRating %>",
-        "reviewCount": "<%= totalReviews %>"
+    schema.review = user.reviews.map(review => ({
+      "@type": "Review",
+      author: {
+        "@type": "Person",
+        name: review.author.username
       },
-      "review": [
-        <% user.reviews.forEach(function(review, index) { %>
-        {
-          "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "<%= review.author.username %>"
-          },
-          "reviewBody": "<%= review.message %>",
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "<%= review.rating %>",
-            "bestRating": "5",
-            "worstRating": "1"
-          }
-        }<%= index < totalReviews - 1 ? "," : "" %>
-        <% }) %>
-      ]
-      <% } %>
+      reviewBody: review.message,
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: review.rating,
+        bestRating: "5",
+        worstRating: "1"
+      }
+    }));
+  }
+%>
 
-    }
-    </script>
-</head>
+<%- include("./partials/header", { schema }) %>
+
+
 
     <div class="profile-body">
         <h1>Welcome to <%= user.username %>'s page </h1>

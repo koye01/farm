@@ -1,59 +1,58 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3065HDSTE3"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3065HDSTE3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-3065HDSTE3');
+    </script>
 
-            gtag('config', 'G-3065HDSTE3');
-        </script>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- SEO Title -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title><%= title %> | Farmgate Nigeria</title>
-        <!-- noindex setup -->
+
     <% if (typeof noindex !== "undefined" && noindex) { %>
         <meta name="robots" content="noindex, nofollow">
+    <% } else { %>
+        <meta name="robots" content="index, follow">
     <% } %>
-    <!-- Primary SEO Meta Tags -->
+
     <meta name="description" content="<%= description %>">
     <meta name="keywords" content="<%= keywords %>, farm products, agriculture, buy farm produce online, farmgate market, Nigeria agriculture marketplace">
     <meta name="author" content="Farmgate Market Nigeria">
-    <meta name="robots" content="index, follow">
 
-    <!-- Canonical URL (helps SEO & prevents duplicate content issues) -->
     <link rel="canonical" href="<%= canonicalUrl %>">
 
-    <!-- Open Graph Meta Tags (Facebook, WhatsApp, LinkedIn) -->
+    <!-- Open Graph -->
     <meta property="og:title" content="<%= title %> | Farmgate Nigeria">
     <meta property="og:description" content="<%= description %>">
-    <meta property="og:image" content="<%= image[0].url %>">
+    <meta property="og:image" content="<%= image && image[0] ? image[0].url : '/default-image.png' %>">
     <meta property="og:url" content="<%= canonicalUrl %>">
     <meta property="og:type" content="product">
     <meta property="og:site_name" content="Farmgate Market Nigeria">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
-    <!-- Twitter Card Meta Tags -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<%= title %> | Farmgate Nigeria">
     <meta name="twitter:description" content="<%= description %>">
-    <meta name="twitter:image" content="<%= image[0].url %>">
-    <!-- <meta name="twitter:site" content="@farmgate"> 
-    <meta name="twitter:creator" content="@farmgate">  -->
+    <meta name="twitter:image" content="<%= image && image[0] ? image[0].url : '/default-image.png' %>">
 
-     <!-- Favicon -->
-     <link rel="icon" href="https://farmgate.com.ng/favicon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" href="https://farmgate.com.ng/pics/logo.png">
-    <link rel="icon" type="image/png" href="/pics/logo.png">
-
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/stylesheet/app.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-      
-          
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <% if (typeof schema !== "undefined") { %>
+        <script type="application/ld+json">
+            <%- JSON.stringify(schema) %>
+        </script>
+    <% } %>
 </head>
+
     
 <body>
 <div class="container">
