@@ -306,10 +306,10 @@ router.get("/user/:id", async function(req, res) {
             avgRating = (total / user.reviews.length).toFixed(1);
         }
         // Create a comma-separated list of product names
-        const keywords = product.map(pro => pro.name).join(", ");
+        // const keywords = product.map(pro => pro.name).join(", ");
         
         // Include 'user.username' in the keywords
-        const allKeywords = `${keywords}, ${user.username}`;
+        const allKeywords = ` ${user.username}`;
         const canonicalUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
         res.render('profile', {
             user, product, avgRating, unique, title: user.username + ' profile',
