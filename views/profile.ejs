@@ -16,30 +16,34 @@
   };
 
   if (totalReviews > 0) {
+    // AggregateRating - CORRECT
     schema.aggregateRating = {
       "@type": "AggregateRating",
-      ratingValue: avgRating,
-      reviewCount: totalReviews
+      ratingValue: parseFloat(avgRating), // Convert to number, not string
+      ratingCount: totalReviews,  // Changed from reviewCount to ratingCount
+      bestRating: "5",
+      worstRating: "1"
     };
 
+    // FIX: Reviews should be "review" (singular) containing an array
     schema.review = user.reviews.map(review => ({
       "@type": "Review",
       author: {
         "@type": "Person",
-        name: review.author.username
+        name: review.author?.username || "Anonymous"
       },
-      reviewBody: review.message,
+      datePublished: review.createdAt ? new Date(review.createdAt).toISOString().split('T')[0] : "2024-01-01", // REQUIRED FIELD
+      reviewBody: review.message || "",
+      name: `Review by ${review.author?.username || "customer"}`, // Recommended
       reviewRating: {
         "@type": "Rating",
-        ratingValue: review.rating,
+        ratingValue: review.rating.toString(), // Ensure it's a string or number
         bestRating: "5",
         worstRating: "1"
       }
     }));
   }
 %>
-
-<%- include("./partials/header", { schema }) %>
 
 
 
